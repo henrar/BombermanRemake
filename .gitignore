@@ -6,3 +6,12 @@ export_presets.cfg
 
 # Mono-specific ignores
 .mono/
+
+#MacOS specic
+.DS_Store
+
+# System/tool-specific ignores
+.directory
+
+#VS Code specific
+.vscode/
