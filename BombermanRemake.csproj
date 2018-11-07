@@ -49,9 +49,12 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Scenes\Player.cs" />
     <Compile Include="Scripts\LevelTimer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scripts\Player.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Scenes\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
