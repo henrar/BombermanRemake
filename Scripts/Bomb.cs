@@ -49,6 +49,11 @@ public class Bomb : StaticBody2D {
                 for (int y = (int)explosionPosition.y - range; y <= range + (int)explosionPosition.y; ++y) {
                     if(x == explosionPosition.x || y == explosionPosition.y) {
                         //TODO: check whether tile is destructible or not
+                        int idx = map.GetCell(x, y);
+                        Console.WriteLine("IDX: " + idx);
+                        if (idx == 1) {// == "mur"                          
+                            map.SetCell(x, y, 0);
+                        }
                     } 
                 }
             }
