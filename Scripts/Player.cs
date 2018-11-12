@@ -2,6 +2,8 @@ using Godot;
 using System;
 
 public class Player : KinematicBody2D {
+    private readonly int moveModifier = 100;
+
     private bool bombDropped;
 
     public override void _Ready() {
@@ -12,13 +14,13 @@ public class Player : KinematicBody2D {
         Vector2 motion = new Vector2(0.0f, 0.0f);
 
         if (Input.IsActionPressed("move_left")) {
-            motion.x = -100;
+            motion.x = -moveModifier;
         } else if (Input.IsActionPressed("move_right")) {
-            motion.x = 100;
+            motion.x = moveModifier;
         } else if (Input.IsActionPressed("move_up")) {
-            motion.y = -100;
+            motion.y = -moveModifier;
         } else if (Input.IsActionPressed("move_down")) {
-            motion.y = 100;
+            motion.y = moveModifier;
         }
 
         MoveAndSlide(motion);
@@ -26,7 +28,8 @@ public class Player : KinematicBody2D {
         if (Input.IsActionPressed("ui_accept") && !bombDropped) {
             Vector2 pos = this.GetPosition();
             Bomb bomb = new Bomb();
-            bomb.SetPosition(pos);
+            bomb.SetPosition(pos); //so it spawn where player is
+            bomb.position = this.GetGlobalPosition();
             Node world = GetTree().GetRoot();
             bomb.SetName("Bomb");
             world.AddChild(bomb);
