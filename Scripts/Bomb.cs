@@ -4,6 +4,8 @@ using System;
 public class Bomb : StaticBody2D {
     private Timer timer;
     private Sprite bombSprite;
+    public Vector2 position;
+
     private int range = 1;
 
     public Bomb() {
@@ -16,7 +18,7 @@ public class Bomb : StaticBody2D {
         bombTex.Load("res://Assets/bomb.png");
         bombSprite.SetTexture(bombTex);
         bombSprite.SetPosition(GetPosition());
-
+        
         AddChild(bombSprite);
 
         timer = new Timer();
@@ -31,9 +33,6 @@ public class Bomb : StaticBody2D {
     }
 
     public override void _Process(float delta) {
-        if(timer.GetTimeLeft() > 0.0f) {
-            Console.WriteLine("Tick... {0}", timer.GetTimeLeft());
-        }
         if (timer.GetTimeLeft() <= 0.0f) {
             Explode();
         }
@@ -41,7 +40,21 @@ public class Bomb : StaticBody2D {
 
     private void Explode() {
         Console.WriteLine("BOOM!");
-        //GetParent().RemoveChild(this);
+        Node root = GetTree().GetRoot();
+        TileMap map = root.GetNode("World/TileMap") as TileMap;
+        if (map != null) {
+            Vector2 explosionPosition = map.WorldToMap(this.position);
+            Console.WriteLine("Explosion at: " + explosionPosition);
+            for(int x = (int)explosionPosition.x - range; x <= range + (int)explosionPosition.x; ++x) {
+                for (int y = (int)explosionPosition.y - range; y <= range + (int)explosionPosition.y; ++y) {
+                    if(x == explosionPosition.x || y == explosionPosition.y) {
+                        //TODO: check whether tile is destructible or not
+                    } 
+                }
+            }
+        } else {
+            Console.WriteLine("TileMap not found!");
+        }
         QueueFree();
     }
 }
