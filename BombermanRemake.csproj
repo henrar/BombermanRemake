@@ -50,9 +50,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Scripts\Bomb.cs" />
+    <Compile Include="Scripts\Enemy.cs" />
     <Compile Include="Scripts\LevelTimer.cs" />
+    <Compile Include="Scripts\MapTile.cs" />
     <Compile Include="Scripts\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scripts\Powerup.cs" />
+    <Compile Include="Scripts\World.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scenes\" />
