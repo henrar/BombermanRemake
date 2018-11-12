@@ -41,6 +41,10 @@ public class Bomb : StaticBody2D {
     private void Explode() {
         Console.WriteLine("BOOM!");
         Node root = GetTree().GetRoot();
+
+        AudioStreamPlayer2D soundPlayer = root.GetNode("World/ExplosionSound") as AudioStreamPlayer2D;
+        soundPlayer.Play();
+
         TileMap map = root.GetNode("World/TileMap") as TileMap;
         if (map != null) {
             Vector2 explosionPosition = map.WorldToMap(this.position);

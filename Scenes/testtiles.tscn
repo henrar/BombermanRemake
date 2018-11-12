@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Assets/testy/testtileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://Scripts/Player.cs" type="Script" id=2]
 [ext_resource path="res://Assets/icon.png" type="Texture" id=3]
+[ext_resource path="res://Assets/sound/Explosion.wav" type="AudioStream" id=4]
 
 [node name="World" type="Node2D" index="0"]
 
@@ -47,5 +48,16 @@ texture = ExtResource( 3 )
 
 build_mode = 0
 polygon = PoolVector2Array( -27.8478, -19.1136, -19.2984, -27.6328, 14.9006, -27.6326, 23.4503, -19.1136, 23.4503, 14.9621, 14.9006, 23.4811, -19.2981, 23.4811, -27.8478, 14.9621 )
+
+[node name="ExplosionSound" type="AudioStreamPlayer2D" parent="." index="2"]
+
+stream = ExtResource( 4 )
+volume_db = 0.0
+pitch_scale = 1.0
+autoplay = false
+max_distance = 2000.0
+attenuation = 1.0
+bus = "Master"
+area_mask = 1
 
 
