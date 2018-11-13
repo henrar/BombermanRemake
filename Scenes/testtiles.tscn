@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Assets/testy/testtileset1.tres" type="TileSet" id=1]
 [ext_resource path="res://Scripts/Player.cs" type="Script" id=2]
 [ext_resource path="res://Assets/icon.png" type="Texture" id=3]
 [ext_resource path="res://Assets/sound/Explosion.wav" type="AudioStream" id=4]
+[ext_resource path="res://Scripts/LevelTimer.cs" type="Script" id=5]
 
 [node name="World" type="Node2D" index="0"]
 
@@ -30,6 +31,7 @@ _sections_unfolded = [ "Cell" ]
 
 [node name="Player" type="KinematicBody2D" parent="." index="1"]
 
+editor/display_folded = true
 position = Vector2( 122.572, 122.437 )
 scale = Vector2( 1.16963, 1.17386 )
 input_pickable = false
@@ -59,5 +61,14 @@ max_distance = 2000.0
 attenuation = 1.0
 bus = "Master"
 area_mask = 1
+
+[node name="LevelTimer" type="Timer" parent="." index="3"]
+
+process_mode = 1
+wait_time = 200.0
+one_shot = true
+autostart = true
+script = ExtResource( 5 )
+_sections_unfolded = [ "Pause" ]
 
 

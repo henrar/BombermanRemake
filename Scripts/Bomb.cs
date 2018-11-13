@@ -6,7 +6,7 @@ public class Bomb : StaticBody2D {
     private Sprite bombSprite;
     public Vector2 position;
 
-    private int range = 1;
+    public int range = 1;
 
     public Bomb() {
 
@@ -18,7 +18,7 @@ public class Bomb : StaticBody2D {
         bombTex.Load("res://Assets/bomb.png");
         bombSprite.SetTexture(bombTex);
         bombSprite.SetPosition(GetPosition());
-        
+
         AddChild(bombSprite);
 
         timer = new Timer();
@@ -45,20 +45,38 @@ public class Bomb : StaticBody2D {
         AudioStreamPlayer2D soundPlayer = root.GetNode("World/ExplosionSound") as AudioStreamPlayer2D;
         soundPlayer.Play();
 
+        Player player = root.GetNode("World/Player") as Player;
+        if(player == null) {
+            Console.WriteLine("Something went terribly wrong");
+        }
+
+        Vector2 playerPosition = player.GetPositionOnTileMap();
+
+        bool playerExploded = false;
+
         TileMap map = root.GetNode("World/TileMap") as TileMap;
         if (map != null) {
             Vector2 explosionPosition = map.WorldToMap(this.position);
             Console.WriteLine("Explosion at: " + explosionPosition);
-            for(int x = (int)explosionPosition.x - range; x <= range + (int)explosionPosition.x; ++x) {
+            for (int x = (int)explosionPosition.x - range; x <= range + (int)explosionPosition.x; ++x) {
+                if (playerExploded == true) {
+                    break;
+                }
                 for (int y = (int)explosionPosition.y - range; y <= range + (int)explosionPosition.y; ++y) {
-                    if(x == explosionPosition.x || y == explosionPosition.y) {
-                        //TODO: check whether tile is destructible or not
-                        int idx = map.GetCell(x, y);
-                        Console.WriteLine("IDX: " + idx);
-                        if (idx == 1) {// == "mur"                          
+                    if(playerExploded == true) {
+                        break;
+                    }
+                    if ((x == explosionPosition.x || y == explosionPosition.y) && (x >= 0 && y >= 0)) {
+                        if (map.GetCell(x, y) == 1) {// == "mur"                          
                             map.SetCell(x, y, 0);
                         }
-                    } 
+
+                        if(playerPosition == new Vector2(x, y)) {
+                            Console.WriteLine("Player exploded!");
+                            player.Die();
+                            playerExploded = true;
+                        }
+                    }
                 }
             }
         } else {

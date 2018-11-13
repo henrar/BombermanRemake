@@ -8,7 +8,11 @@ public class LevelTimer : Timer {
     public override void _Process(float delta) {
         if (this.GetTimeLeft() <= 0.0f) {
             Console.WriteLine("LOST");
-            GetTree().SetPause(true);
+            Player player = GetTree().GetRoot().GetNode("World/Player") as Player;
+            if (player == null) {
+                Console.WriteLine("Something went terribly wrong");
+            }
+            player.Die();
         }
     }
 }
