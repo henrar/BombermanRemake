@@ -27,6 +27,14 @@ public class Player : KinematicBody2D {
 
         MoveAndSlide(motion);
 
+        int slideCount = GetSlideCount();
+        for(int i = 0; i < slideCount; ++i) {
+            KinematicCollision2D collision = GetSlideCollision(i);
+            if (collision.GetCollider().GetType() == typeof(Enemy)) {
+                Die();
+            }
+        }
+
         if (Input.IsActionPressed("ui_accept") && !this.bombDropped) {
             Vector2 pos = this.GetPosition();
             Bomb bomb = new Bomb();
@@ -44,6 +52,7 @@ public class Player : KinematicBody2D {
     }
 
     public void Die() {
+        Console.WriteLine("YOU DIED!");
         if (this.numberOfLives > 0) {
             this.numberOfLives -= 1;
             (GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables).savedNumberOfLives -= 1;

@@ -52,7 +52,7 @@ scale = Vector2( 0.49271, 0.482585 )
 texture = ExtResource( 3 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Player" index="1"]
+[node name="PlayerCollisionPolygon" type="CollisionPolygon2D" parent="Player" index="1"]
 
 build_mode = 0
 polygon = PoolVector2Array( -27.8478, -19.1136, -19.2984, -27.6328, 14.9006, -27.6326, 23.4503, -19.1136, 23.4503, 14.9621, 14.9006, 23.4811, -19.2981, 23.4811, -27.8478, 14.9621 )
@@ -119,7 +119,7 @@ scale = Vector2( 0.5, 0.484375 )
 texture = ExtResource( 3 )
 _sections_unfolded = [ "Transform" ]
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Enemy" index="1"]
+[node name="EnemyCollisionPolygon" type="CollisionPolygon2D" parent="Enemy" index="1"]
 
 position = Vector2( 4.3869e-005, 1.90735e-005 )
 scale = Vector2( 0.833334, 1.25 )
