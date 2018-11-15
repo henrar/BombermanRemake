@@ -54,7 +54,7 @@ public class Bomb : StaticBody2D {
 
         bool playerExploded = false;
 
-        TileMap map = root.GetNode("World/TileMap") as TileMap;
+        TileMap map = root.GetNode("World/Nav/TileMap") as TileMap;
         if (map != null) {
             Vector2 explosionPosition = map.WorldToMap(this.position);
             Console.WriteLine("Explosion at: " + explosionPosition);
@@ -67,7 +67,7 @@ public class Bomb : StaticBody2D {
                         break;
                     }
                     if ((x == explosionPosition.x || y == explosionPosition.y) && (x >= 0 && y >= 0)) {
-                        if (map.GetCell(x, y) == 1) {// == "mur"                          
+                        if (map.GetCell(x, y) == 2) {// == "mur"                          
                             map.SetCell(x, y, 0);
                         }
 

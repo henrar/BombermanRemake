@@ -56,7 +56,7 @@ public class Player : KinematicBody2D {
     }
 
     public Vector2 GetPositionOnTileMap() {
-        TileMap map = GetTree().GetRoot().GetNode("World/TileMap") as TileMap;
+        TileMap map = GetTree().GetRoot().GetNode("World/Nav/TileMap") as TileMap;
         return map.WorldToMap(this.GetPosition());
     }
 }
