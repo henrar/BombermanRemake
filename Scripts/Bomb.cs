@@ -76,6 +76,11 @@ public class Bomb : StaticBody2D {
                             player.Die();
                             playerExploded = true;
                         }
+                        Enemy enemy = map.findEnemyOnCell(new Vector2(x, y));
+                        if (enemy != null) {
+                            map.removeEnemyEntry(enemy);
+                            enemy.kill();
+                        }
                     }
                 }
             }

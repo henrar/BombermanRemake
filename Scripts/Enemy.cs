@@ -9,6 +9,16 @@ public class Enemy : KinematicBody2D {
     }
 
     public override void _Process(float delta) {
+        updatePositionOnTileMap();
+    }
 
+    public void kill() {
+        this.QueueFree();
+    }
+   
+    private void updatePositionOnTileMap() {
+        TileMap map = GetTree().GetRoot().GetNode("World/Nav/TileMap") as TileMap;
+        Vector2 position = map.WorldToMap(this.GetPosition());
+        map.enemyOnCell[this] = position;
     }
 }
