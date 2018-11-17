@@ -32,7 +32,7 @@ public class Bomb : StaticBody2D {
         SetPosition(pos);
     }
 
-    public override void _Process(float delta) {
+    public override void _PhysicsProcess(float delta) {
         if (timer.GetTimeLeft() <= 0.0f) {
             Explode();
         }
@@ -79,7 +79,7 @@ public class Bomb : StaticBody2D {
                         Enemy enemy = map.findEnemyOnCell(new Vector2(x, y));
                         if (enemy != null) {
                             map.removeEnemyEntry(enemy);
-                            enemy.kill();
+                            enemy.Die();
                         }
                     }
                 }

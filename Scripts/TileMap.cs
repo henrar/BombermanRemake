@@ -15,7 +15,7 @@ public class TileMap : Godot.TileMap {
         this.enemyOnCell = new Dictionary<Enemy, Vector2>();
     }
 
-    public override void _Process(float delta) {
+    public override void _PhysicsProcess(float delta) {
     }
 
     public Enemy findEnemyOnCell(Vector2 pos) {

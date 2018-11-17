@@ -3,7 +3,7 @@ using System;
 
 public class Player : KinematicBody2D {
     public int numberOfLives = 3;
-    private readonly int moveModifier = 200;
+    private readonly int moveModifier = 10;
 
     private bool bombDropped;
 
@@ -12,7 +12,20 @@ public class Player : KinematicBody2D {
         this.bombDropped = false;
     }
 
-    public override void _Process(float delta) {
+    public void Die() {
+        Console.WriteLine("YOU DIED!");
+        if (this.numberOfLives > 0) {
+            this.numberOfLives -= 1;
+            (GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables).savedNumberOfLives -= 1;
+            GetTree().ReloadCurrentScene();
+        } else {
+            //TODO: go to menu or sth
+            (GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables).savedNumberOfLives = 3;
+            GetTree().ReloadCurrentScene();
+        }
+    }
+
+    public override void _PhysicsProcess(float delta) {
         Vector2 motion = new Vector2(0.0f, 0.0f);
 
         if (Input.IsActionPressed("move_left")) {
@@ -25,15 +38,10 @@ public class Player : KinematicBody2D {
             motion.y = this.moveModifier;
         }
 
-        MoveAndSlide(motion);
-
-        int slideCount = GetSlideCount();
-        for(int i = 0; i < slideCount; ++i) {
-            KinematicCollision2D collision = GetSlideCollision(i);
-            if (collision.GetCollider().GetType() == typeof(Enemy)) {
-                Die();
-                return;
-            }
+        KinematicCollision2D collision = MoveAndCollide(motion);
+        if (collision != null && collision.GetCollider().GetType() == typeof(Enemy)) {
+            Die();
+            return;
         }
 
         if (Input.IsActionPressed("ui_accept") && !this.bombDropped) {
@@ -49,19 +57,6 @@ public class Player : KinematicBody2D {
 
         if (!GetTree().GetRoot().HasNode("Bomb") && this.bombDropped) {
             this.bombDropped = false;
-        }
-    }
-
-    public void Die() {
-        Console.WriteLine("YOU DIED!");
-        if (this.numberOfLives > 0) {
-            this.numberOfLives -= 1;
-            (GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables).savedNumberOfLives -= 1;
-            GetTree().ReloadCurrentScene();
-        } else {
-            //TODO: go to menu or sth
-            (GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables).savedNumberOfLives = 3;
-            GetTree().ReloadCurrentScene();
         }
     }
 

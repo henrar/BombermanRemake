@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Enemy : KinematicBody2D {
     public Vector2 currentPositionOnTileMap;
-    private readonly int moveModifier = 200;
+    private readonly int moveModifier = 10;
     private Vector2 currentDestination;
     private bool reachedDestination;
     private TileMap tileMap;
@@ -19,7 +19,7 @@ public class Enemy : KinematicBody2D {
         updatePositionOnTileMap();
     }
 
-    public override void _Process(float delta) {
+    public override void _PhysicsProcess(float delta) {
         if (this.reachedDestination) {
             this.currentDestination = this.tileMap.getRandomGrassCell();
             Console.WriteLine("Setting destination at " + this.currentDestination);
@@ -32,7 +32,13 @@ public class Enemy : KinematicBody2D {
         if (this.path != null && this.path.Count > 1) {
             float distance = GetPosition().DistanceTo(this.path[0]);
             if (distance > 2) {
-                SetPosition(GetPosition().LinearInterpolate(this.path[0], (this.moveModifier * delta) / distance));
+                Vector2 motion = this.path[0] - GetPosition();
+                motion = motion / distance;
+                KinematicCollision2D collision = MoveAndCollide(motion * this.moveModifier);
+                if (collision != null && collision.GetCollider().GetType() == typeof(Player)) {
+                    (collision.GetCollider() as Player).Die();
+                    return;
+                }
             } else {
                 this.path.RemoveAt(0);
             }
@@ -50,7 +56,7 @@ public class Enemy : KinematicBody2D {
         this.path = new List<Vector2>(path);
     }
 
-    public void kill() {
+    public void Die() {
         this.QueueFree();
     }
 
