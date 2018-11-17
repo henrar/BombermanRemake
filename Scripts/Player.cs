@@ -32,6 +32,7 @@ public class Player : KinematicBody2D {
             KinematicCollision2D collision = GetSlideCollision(i);
             if (collision.GetCollider().GetType() == typeof(Enemy)) {
                 Die();
+                return;
             }
         }
 

@@ -67,8 +67,8 @@ public class Bomb : StaticBody2D {
                         break;
                     }
                     if ((x == explosionPosition.x || y == explosionPosition.y) && (x >= 0 && y >= 0)) {
-                        if (map.GetCell(x, y) == 2) {// == "mur"                          
-                            map.SetCell(x, y, 0);
+                        if (map.GetCell(x, y) == (int)TileTypes.TileType_Bricks) {// == "mur"                          
+                            map.SetCell(x, y, (int)TileTypes.TileType_Grass);
                         }
 
                         if(playerPosition == new Vector2(x, y)) {
