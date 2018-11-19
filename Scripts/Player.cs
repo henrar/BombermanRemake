@@ -26,6 +26,20 @@ public class Player : KinematicBody2D {
     }
 
     public override void _PhysicsProcess(float delta) {
+        Vector2 motion = Move();
+
+        CheckCollision(motion);
+
+        if (Input.IsActionPressed("ui_accept") && !this.bombDropped) {
+            DropBomb();
+        }
+
+        if (!GetTree().GetRoot().HasNode("Bomb") && this.bombDropped) {
+            this.bombDropped = false;
+        }
+    }
+
+    private Vector2 Move() {
         Vector2 motion = new Vector2(0.0f, 0.0f);
 
         if (Input.IsActionPressed("move_left")) {
@@ -38,32 +52,31 @@ public class Player : KinematicBody2D {
             motion.y = this.moveModifier;
         }
 
+        return motion;
+    }
+
+    private void CheckCollision(Vector2 motion) {
         KinematicCollision2D collision = MoveAndCollide(motion);
         if (collision != null && collision.GetCollider().GetType() == typeof(Enemy)) {
             Die();
             return;
         }
+    }
 
-        if (Input.IsActionPressed("ui_accept") && !this.bombDropped) {
-            //Vector2 pos = this.GetPosition();
-            Bomb bomb = new Bomb();
+    private void DropBomb() {
+        Bomb bomb = new Bomb();
 
-            Vector2 tile = GetPositionOnTileMap();
-            TileMap map = GetTree().GetRoot().GetNode("World/Nav/TileMap") as TileMap;   
-            Vector2 pos = map.MapToWorld(tile);
-            pos = pos + map.GetCellSize() / 2.0f;
+        Vector2 tile = GetPositionOnTileMap();
+        TileMap map = GetTree().GetRoot().GetNode("World/Nav/TileMap") as TileMap;
+        Vector2 pos = map.MapToWorld(tile);
+        pos = pos + map.GetCellSize() / 2.0f;
 
-            bomb.SetGlobalPosition(pos);
+        bomb.SetPosition(pos);
 
-            Node world = GetTree().GetRoot();
-            bomb.SetName("Bomb");
-            world.AddChild(bomb);
-            this.bombDropped = true;
-        }
-
-        if (!GetTree().GetRoot().HasNode("Bomb") && this.bombDropped) {
-            this.bombDropped = false;
-        }
+        Node world = GetTree().GetRoot();
+        bomb.SetName("Bomb");
+        world.AddChild(bomb);
+        this.bombDropped = true;
     }
 
     public Vector2 GetPositionOnTileMap() {
