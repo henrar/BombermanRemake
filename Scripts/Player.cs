@@ -45,10 +45,16 @@ public class Player : KinematicBody2D {
         }
 
         if (Input.IsActionPressed("ui_accept") && !this.bombDropped) {
-            Vector2 pos = this.GetPosition();
+            //Vector2 pos = this.GetPosition();
             Bomb bomb = new Bomb();
-            bomb.SetPosition(pos); //so it spawn where player is
-            bomb.position = this.GetGlobalPosition();
+
+            Vector2 tile = GetPositionOnTileMap();
+            TileMap map = GetTree().GetRoot().GetNode("World/Nav/TileMap") as TileMap;   
+            Vector2 pos = map.MapToWorld(tile);
+            pos = pos + map.GetCellSize() / 2.0f;
+
+            bomb.SetGlobalPosition(pos);
+
             Node world = GetTree().GetRoot();
             bomb.SetName("Bomb");
             world.AddChild(bomb);

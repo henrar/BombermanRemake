@@ -18,7 +18,7 @@ public class TileMap : Godot.TileMap {
     public override void _PhysicsProcess(float delta) {
     }
 
-    public Enemy findEnemyOnCell(Vector2 pos) {
+    public Enemy FindEnemyOnCell(Vector2 pos) {
         foreach (var entry in this.enemyOnCell) {
             if (entry.Value == pos) {
                 return entry.Key;
@@ -27,11 +27,11 @@ public class TileMap : Godot.TileMap {
         return null;
     }
 
-    public void removeEnemyEntry(Enemy enemy) {
+    public void RemoveEnemyEntry(Enemy enemy) {
         this.enemyOnCell.Remove(enemy);
     }
 
-    public Vector2 getTileMapDimensions() {
+    public Vector2 GetTileMapDimensions() {
         Vector2 dim = new Vector2(0, 0);
 
         Godot.Array usedCells = this.GetUsedCells();
@@ -69,14 +69,24 @@ public class TileMap : Godot.TileMap {
         return dim;
     }
 
-    public Godot.Array getGrassTilesPosition() {
+    private Godot.Array GetGrassTilesPosition() {
         return this.GetUsedCellsById((int)TileTypes.TileType_Grass);
     }
 
-    public Vector2 getRandomGrassCell() {
-        Godot.Array grassCells = getGrassTilesPosition();
+    private Godot.Array GetBrickCellPosition() {
+        return this.GetUsedCellsById((int)TileTypes.TileType_Bricks);
+    }
+
+    public Vector2 GetRandomGrassCell() {
+        Godot.Array grassCells = GetGrassTilesPosition();
         int index = this.random.Next(0, grassCells.Count);
         return (Vector2)grassCells[index];
+    }
+
+    public Vector2 GetRandomBrickCell() {
+        Godot.Array brickCells = GetBrickCellPosition();
+        int index = this.random.Next(0, brickCells.Count);
+        return (Vector2)brickCells[index];
     }
 }
 

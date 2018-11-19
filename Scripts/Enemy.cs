@@ -16,18 +16,18 @@ public class Enemy : KinematicBody2D {
         this.reachedDestination = true;
         this.tileMap = GetTree().GetRoot().GetNode("World/Nav/TileMap") as TileMap;
         this.navigation = GetTree().GetRoot().GetNode("World/Nav") as Navigation2D;
-        updatePositionOnTileMap();
+        UpdatePositionOnTileMap();
     }
 
     public override void _PhysicsProcess(float delta) {
         if (this.reachedDestination) {
-            this.currentDestination = this.tileMap.getRandomGrassCell();
+            this.currentDestination = this.tileMap.GetRandomGrassCell();
             Console.WriteLine("Setting destination at " + this.currentDestination);
-            updatePath();
+            UpdatePath();
             this.reachedDestination = false;
         }
 
-        updatePositionOnTileMap();
+        UpdatePositionOnTileMap();
 
         if (this.path != null && this.path.Count > 1) {
             float distance = GetPosition().DistanceTo(this.path[0]);
@@ -51,7 +51,7 @@ public class Enemy : KinematicBody2D {
         }
     }
 
-    private void updatePath() {
+    private void UpdatePath() {
         Vector2[] path = this.navigation.GetSimplePath(this.GetPosition(), this.tileMap.MapToWorld(this.currentDestination), false);
         this.path = new List<Vector2>(path);
     }
@@ -60,7 +60,7 @@ public class Enemy : KinematicBody2D {
         this.QueueFree();
     }
 
-    private void updatePositionOnTileMap() {
+    private void UpdatePositionOnTileMap() {
         this.currentPositionOnTileMap = this.tileMap.WorldToMap(this.GetPosition());
         this.tileMap.enemyOnCell[this] = this.currentPositionOnTileMap;
     }
