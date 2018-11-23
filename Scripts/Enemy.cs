@@ -61,7 +61,7 @@ public class Enemy : KinematicBody2D {
     }
 
     private void UpdatePositionOnTileMap() {
-        this.currentPositionOnTileMap = this.tileMap.WorldToMap(this.GetPosition());
+        this.currentPositionOnTileMap = this.tileMap.WorldToMap(this.GetGlobalPosition());
         this.tileMap.enemyOnCell[this] = this.currentPositionOnTileMap;
     }
 }
