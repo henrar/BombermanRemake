@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Enemy : KinematicBody2D {
     public Vector2 currentPositionOnTileMap;
-    private readonly int moveModifier = 10;
+    private readonly int moveModifier = 200;
     private Vector2 currentDestination;
     private bool reachedDestination;
     private TileMap tileMap;
@@ -33,8 +33,9 @@ public class Enemy : KinematicBody2D {
             float distance = GetPosition().DistanceTo(this.path[0]);
             if (distance > 2) {
                 Vector2 motion = this.path[0] - GetPosition();
-                motion = motion / distance;
-                KinematicCollision2D collision = MoveAndCollide(motion * this.moveModifier);
+                motion = motion / distance;        
+                
+                KinematicCollision2D collision = MoveAndCollide(motion * this.moveModifier * delta);
                 if (collision != null && collision.GetCollider().GetType() == typeof(Player)) {
                     (collision.GetCollider() as Player).Die();
                     return;
@@ -46,7 +47,7 @@ public class Enemy : KinematicBody2D {
             this.reachedDestination = true;
         }
 
-        if (this.path == null || this.path.Count == 0 || this.currentDestination == this.tileMap.WorldToMap(this.GetPosition())) {
+        if (this.path == null || this.path.Count == 0 || this.currentDestination == this.tileMap.WorldToMap(this.GetGlobalPosition())) {
             this.reachedDestination = true;
         }
     }

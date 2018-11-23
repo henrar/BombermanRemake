@@ -5,6 +5,7 @@ public class Bomb : StaticBody2D {
     private Timer timer;
     private Sprite bombSprite;
     public Vector2 position;
+    private CollisionShape2D collision;
 
     public int range = 1;
 
@@ -30,6 +31,17 @@ public class Bomb : StaticBody2D {
 
         Vector2 pos = new Vector2(0, 0);
         SetPosition(pos);
+
+        this.collision = new CollisionShape2D();
+
+        CircleShape2D shape = new CircleShape2D();
+        shape.SetRadius(40.0f);
+        this.collision.SetShape(shape);
+
+        Vector2 collPosition = new Vector2(0, 0);
+        this.collision.SetPosition(position);
+
+       // AddChild(this.collision);
     }
 
     public override void _PhysicsProcess(float delta) {
@@ -89,4 +101,11 @@ public class Bomb : StaticBody2D {
         }
         QueueFree();
     }
+
+    public void AddCollision() {
+        if(this.collision != null) {
+            AddChild(this.collision);
+        }
+    }
 }
+
