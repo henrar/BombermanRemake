@@ -1,0 +1,8 @@
+[gd_resource type="StreamTexture" format=2]
+
+[resource]
+
+flags = 4
+load_path = "res://.import/mapa_ver1.png-468f448690edadb6caa97cfda8444b04.stex"
+_sections_unfolded = [ "Resource" ]
+
