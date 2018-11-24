@@ -21,7 +21,7 @@ public class Enemy : KinematicBody2D {
 
     public override void _PhysicsProcess(float delta) {
         if (this.reachedDestination) {
-            this.currentDestination = this.tileMap.GetRandomGrassCell();
+            this.currentDestination = this.tileMap.GetRandomCell(TileType.TileType_Grass);
             Console.WriteLine("Setting destination at " + this.currentDestination);
             UpdatePath();
             this.reachedDestination = false;

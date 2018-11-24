@@ -1,18 +1,21 @@
 using Godot;
 using System;
 
-enum TileTypes {
+public enum TileType {
     TileType_Grass = 0,
     TileType_Wall = 1,
     TileType_Bricks = 2
 }
 
 public class TileMap : Godot.TileMap {
+    public float maxRandomCellsPercentage;
     public Dictionary<Enemy, Vector2> enemyOnCell;
     private Random random = new Random();
 
     public override void _Ready() {
         this.enemyOnCell = new Dictionary<Enemy, Vector2>();
+        this.maxRandomCellsPercentage = 0.4f;
+        GenerateBricks();
     }
 
     public override void _PhysicsProcess(float delta) {
@@ -34,7 +37,7 @@ public class TileMap : Godot.TileMap {
     public Vector2 GetTileMapDimensions() {
         Vector2 dim = new Vector2(0, 0);
 
-        Godot.Array usedCells = this.GetUsedCells();
+        Godot.Array usedCells = GetUsedCells();
 
         if (usedCells.Count == 0) {
             return dim;
@@ -69,24 +72,38 @@ public class TileMap : Godot.TileMap {
         return dim;
     }
 
-    private Godot.Array GetGrassTilesPosition() {
-        return this.GetUsedCellsById((int)TileTypes.TileType_Grass);
+    private Godot.Array GetCells(TileType type) {
+        return GetUsedCellsById((int)type);
     }
 
-    private Godot.Array GetBrickCellPosition() {
-        return this.GetUsedCellsById((int)TileTypes.TileType_Bricks);
+    private int GetTileCount(TileType type) {
+        Godot.Array cells = GetCells(type);
+        return cells.Count;
     }
 
-    public Vector2 GetRandomGrassCell() {
-        Godot.Array grassCells = GetGrassTilesPosition();
-        int index = this.random.Next(0, grassCells.Count);
-        return (Vector2)grassCells[index];
+    public Vector2 GetRandomCell(TileType type) {
+        Godot.Array cells = GetCells(type);
+        int index = this.random.Next(0, cells.Count);
+        return (Vector2)cells[index];
     }
 
-    public Vector2 GetRandomBrickCell() {
-        Godot.Array brickCells = GetBrickCellPosition();
-        int index = this.random.Next(0, brickCells.Count);
-        return (Vector2)brickCells[index];
+    private bool isNotAllowedCell(Vector2 cell) {
+        return (cell.x == 1 && cell.y == 1) || (cell.x == 1 && cell.y == 2) || (cell.x == 2 && cell.y == 1);
+    }
+
+    private void GenerateBricks() {
+        int grassTileCount = GetTileCount(TileType.TileType_Grass);
+        int maxGeneratedBricks = Convert.ToInt32(grassTileCount * this.maxRandomCellsPercentage);
+        int generatedTiles = 0;
+        while(generatedTiles < maxGeneratedBricks) {
+            Vector2 cell = GetRandomCell(TileType.TileType_Grass);
+            if(isNotAllowedCell(cell)) {
+                continue;
+            }
+
+            SetCellv(cell, (int)TileType.TileType_Bricks);
+            generatedTiles++;
+        }
     }
 }
 
