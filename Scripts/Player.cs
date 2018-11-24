@@ -3,7 +3,7 @@ using System;
 
 public class Player : KinematicBody2D {
     public int numberOfLives = 3;
-    private readonly int moveModifier = 200;
+    private readonly int moveModifier = 180;
     private TileMap map;
 
     private bool bombDropped;

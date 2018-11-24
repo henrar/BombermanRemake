@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Enemy : KinematicBody2D {
     public Vector2 currentPositionOnTileMap;
-    private readonly int moveModifier = 200;
+    private readonly int moveModifier = 180;
     private Vector2 currentDestination;
     private bool reachedDestination;
     private TileMap tileMap;
