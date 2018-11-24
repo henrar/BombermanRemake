@@ -6,6 +6,7 @@ public class Bomb : StaticBody2D {
     private Sprite bombSprite;
     public Vector2 position;
     private CollisionShape2D collision;
+    private TileMap map;
 
     public int range = 1;
 
@@ -14,20 +15,22 @@ public class Bomb : StaticBody2D {
     }
 
     public override void _Ready() {
-        bombSprite = new Sprite();
+        this.map = GetTree().GetRoot().GetNode("World/Nav/TileMap") as TileMap;
+
+        this.bombSprite = new Sprite();
         ImageTexture bombTex = new ImageTexture();
         bombTex.Load("res://Assets/bomb.png");
-        bombSprite.SetTexture(bombTex);
-        bombSprite.SetPosition(GetPosition());
+        this.bombSprite.SetTexture(bombTex);
+        this.bombSprite.SetPosition(GetPosition());
 
-        AddChild(bombSprite);
+        AddChild(this.bombSprite);
 
-        timer = new Timer();
-        timer.SetWaitTime(2.0f);
-        timer.SetOneShot(true);
-        timer.SetAutostart(false);
-        timer.Start();
-        AddChild(timer);
+        this.timer = new Timer();
+        this.timer.SetWaitTime(2.0f);
+        this.timer.SetOneShot(true);
+        this.timer.SetAutostart(false);
+        this.timer.Start();
+        AddChild(this.timer);
 
         Vector2 pos = new Vector2(0, 0);
         SetPosition(pos);
@@ -48,55 +51,77 @@ public class Bomb : StaticBody2D {
         }
     }
 
-    private void Explode() {
-        Console.WriteLine("BOOM!");
-        Node root = GetTree().GetRoot();
-
-        AudioStreamPlayer2D soundPlayer = root.GetNode("World/ExplosionSound") as AudioStreamPlayer2D;
-        soundPlayer.Play();
-
-        Player player = root.GetNode("World/Player") as Player;
-        if(player == null) {
+    private void ExplodePlayer(Vector2 tile) {
+        Player player = GetTree().GetRoot().GetNode("World/Player") as Player;
+        if (player == null) {
             Console.WriteLine("Something went terribly wrong");
         }
 
         Vector2 playerPosition = player.GetPositionOnTileMap();
-
-        bool playerExploded = false;
-
-        TileMap map = root.GetNode("World/Nav/TileMap") as TileMap;
-        if (map != null) {
-            Vector2 explosionPosition = map.WorldToMap(this.position);
-            Console.WriteLine("Explosion at: " + explosionPosition);
-            for (int x = (int)explosionPosition.x - range; x <= range + (int)explosionPosition.x; ++x) {
-                if (playerExploded == true) {
-                    break;
-                }
-                for (int y = (int)explosionPosition.y - range; y <= range + (int)explosionPosition.y; ++y) {
-                    if(playerExploded == true) {
-                        break;
-                    }
-                    if ((x == explosionPosition.x || y == explosionPosition.y) && (x >= 0 && y >= 0)) {
-                        if (map.GetCell(x, y) == (int)TileType.TileType_Bricks) {// == "mur"                          
-                            map.SetCell(x, y, (int)TileType.TileType_Grass);
-                        }
-
-                        if(playerPosition == new Vector2(x, y)) {
-                            Console.WriteLine("Player exploded!");
-                            player.Die();
-                            playerExploded = true;
-                        }
-                        Enemy enemy = map.FindEnemyOnCell(new Vector2(x, y));
-                        if (enemy != null) {
-                            map.RemoveEnemyEntry(enemy);
-                            enemy.Die();
-                        }
-                    }
-                }
-            }
-        } else {
-            Console.WriteLine("TileMap not found!");
+        if (playerPosition == tile) {
+            Console.WriteLine("Player exploded!");
+            player.Die();
         }
+    }
+
+    private void ExplodeEnemy(Vector2 tile) {
+        Enemy enemy = this.map.FindEnemyOnCell(tile);
+        if (enemy != null) {
+            this.map.RemoveEnemyEntry(enemy);
+            enemy.Die();
+        }
+    }
+
+    private bool ExecuteExplosionAtTile(Vector2 tile) {
+        if (this.map.GetCellv(tile) == (int)TileType.TileType_Wall) {
+            return false;
+        }
+        ExplodePlayer(tile);
+        ExplodeEnemy(tile);
+
+        if (map.GetCellv(tile) == (int)TileType.TileType_Bricks) {
+            map.SetCellv(tile, (int)TileType.TileType_Grass);
+        }
+        return true;
+    }
+
+    private void Explode() {
+        Console.WriteLine("BOOM!");
+
+        AudioStreamPlayer2D soundPlayer = GetTree().GetRoot().GetNode("World/ExplosionSound") as AudioStreamPlayer2D;
+        soundPlayer.Play();
+
+        Vector2 explosionPosition = map.WorldToMap(this.position);
+        Console.WriteLine("Explosion at: " + explosionPosition);
+
+        for(int x = (int)explosionPosition.x; x <= (int)explosionPosition.x + range; ++x) {
+            Vector2 tile = new Vector2(x, explosionPosition.y);
+            if(!ExecuteExplosionAtTile(tile)) {
+                break;
+            }
+        }
+
+        for(int x = (int)explosionPosition.x; x >= (int)explosionPosition.x - range; --x) {
+            Vector2 tile = new Vector2(x, explosionPosition.y);
+            if (!ExecuteExplosionAtTile(tile)) {
+                break;
+            }
+        }
+
+        for (int y = (int)explosionPosition.y; y <= (int)explosionPosition.y + range; ++y) {
+            Vector2 tile = new Vector2(explosionPosition.x, y);
+            if (!ExecuteExplosionAtTile(tile)) {
+                break;
+            }
+        }
+
+        for (int y = (int)explosionPosition.y; y >= (int)explosionPosition.y - range; --y) {
+            Vector2 tile = new Vector2(explosionPosition.x, y);
+            if (!ExecuteExplosionAtTile(tile)) {
+                break;
+            }
+        }
+
         QueueFree();
     }
 
