@@ -100,20 +100,16 @@ public class Enemy : KinematicBody2D {
         Vector2 direction = this.previousDirection;
         while (!directionFound) {
             if (direction != Directions.noDirection) {
-                Console.WriteLine("previous direction: " + direction);
                 if (isAllowedToStep(direction)) {
                     directionFound = true;
                 } else if(direction == Directions.noDirection) {
                     direction = Directions.GetRandomDirection();
-                    Console.WriteLine("Direction chosen: " + direction);
                     directionFound = false;
                 } else {
                     direction = Directions.GetRandomDirection();
-                    Console.WriteLine("Random direction: " + direction);
                 }
             } else {
                 direction = Directions.GetRandomDirection();
-                Console.WriteLine("Random direction: " + direction);
                 directionFound = true;
             }
         }
