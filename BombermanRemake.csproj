@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Scripts\Bomb.cs" />
+    <Compile Include="Scripts\Directions.cs" />
     <Compile Include="Scripts\Enemy.cs" />
     <Compile Include="Scripts\LevelTimer.cs" />
     <Compile Include="Scripts\Player.cs" />

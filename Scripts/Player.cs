@@ -112,13 +112,13 @@ public class Player : KinematicBody2D {
         Vector2 motion = new Vector2(0.0f, 0.0f);
 
         if (Input.IsActionPressed("move_left")) {
-            motion.x = -this.moveModifier;
+            motion = this.moveModifier * Directions.directionLeft;
         } else if (Input.IsActionPressed("move_right")) {
-            motion.x = this.moveModifier;
+            motion = this.moveModifier * Directions.directionRight;
         } else if (Input.IsActionPressed("move_up")) {
-            motion.y = -this.moveModifier;
+            motion = this.moveModifier * Directions.directionUp;
         } else if (Input.IsActionPressed("move_down")) {
-            motion.y = this.moveModifier;
+            motion = this.moveModifier * Directions.directionDown;
         }
 
         return motion;
