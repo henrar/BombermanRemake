@@ -18,6 +18,7 @@ public class Player : KinematicBody2D {
 
     public void Die() {
         Console.WriteLine("YOU DIED!");
+        this.bombDropped = false;
         if (this.numberOfLives > 0) {
             this.numberOfLives -= 1;
             (GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables).savedNumberOfLives -= 1;
@@ -37,10 +38,6 @@ public class Player : KinematicBody2D {
 
         if (Input.IsActionPressed("ui_accept") && !this.bombDropped) {
             DropBomb();
-        }
-
-        if(this.currentDroppedBomb != null && this.bombDropped && GetPositionOnTileMap() != this.droppedBombPositionOnTileMap) { //when we leave the tile that contains bomb, we should turn on collision as in the original
-            this.currentDroppedBomb.AddCollision();
         }
 
         if (!GetTree().GetRoot().HasNode("Bomb") && this.bombDropped) {

@@ -43,9 +43,16 @@ public class Bomb : StaticBody2D {
 
         Vector2 collPosition = new Vector2(0, 0);
         this.collision.SetPosition(position);
+
+        this.collision.SetName("BombCollision");
     }
 
     public override void _PhysicsProcess(float delta) {
+        Player player = GetTree().GetRoot().GetNode("World/Player") as Player;
+        if (player.GetPositionOnTileMap() != this.map.WorldToMap(this.position) && this.position.DistanceTo(player.GetGlobalPosition()) > 80.0f) { //when we leave the tile that contains bomb, we should turn on collision as in the original
+            AddCollision();
+        }
+
         if (timer.GetTimeLeft() <= 0.0f) {
             Explode();
         }
@@ -126,7 +133,7 @@ public class Bomb : StaticBody2D {
     }
 
     public void AddCollision() {
-        if(this.collision != null) {
+        if(this.collision != null && this.GetNode("BombCollision") == null) {
             AddChild(this.collision);
         }
     }

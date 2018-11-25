@@ -32,27 +32,27 @@ public class Enemy : KinematicBody2D {
 
     private bool isAllowedToStep(Vector2 direction) {
         if (direction == Directions.directionUp) {
-            Vector2 tile = this.currentPositionOnTileMap;
-            tile.y -= 1;
-            if (this.tileMap.GetCellv(tile) == (int)TileType.TileType_Grass) {
+            Vector2 currentTile = this.currentPositionOnTileMap;
+            Vector2 nextTile = currentTile + Directions.directionUp;
+            if (this.tileMap.GetCellv(nextTile) == (int)TileType.TileType_Grass && this.tileMap.GetPositionOfTileCenter(currentTile).DistanceTo(nextTile) > 80.0f) {
                 return true;
             }
         } else if (direction == Directions.directionDown) {
-            Vector2 tile = this.currentPositionOnTileMap;
-            tile.y += 1;
-            if (this.tileMap.GetCellv(tile) == (int)TileType.TileType_Grass) {
+            Vector2 currentTile = this.currentPositionOnTileMap;
+            Vector2 nextTile = currentTile + Directions.directionDown;
+            if (this.tileMap.GetCellv(nextTile) == (int)TileType.TileType_Grass && this.tileMap.GetPositionOfTileCenter(currentTile).DistanceTo(nextTile) > 80.0f) {
                 return true;
             }
         } else if (direction == Directions.directionLeft) {
-            Vector2 tile = this.currentPositionOnTileMap;
-            tile.x -= 1;
-            if (this.tileMap.GetCellv(tile) == (int)TileType.TileType_Grass) {
+            Vector2 currentTile = this.currentPositionOnTileMap;
+            Vector2 nextTile = currentTile + Directions.directionLeft;
+            if (this.tileMap.GetCellv(nextTile) == (int)TileType.TileType_Grass && this.tileMap.GetPositionOfTileCenter(currentTile).DistanceTo(nextTile) > 80.0f) {
                 return true;
             }
         } else if (direction == Directions.directionRight) {
-            Vector2 tile = this.currentPositionOnTileMap;
-            tile.x += 1;
-            if (this.tileMap.GetCellv(tile) == (int)TileType.TileType_Grass) {
+            Vector2 currentTile = this.currentPositionOnTileMap;
+            Vector2 nextTile = currentTile + Directions.directionRight;
+            if (this.tileMap.GetCellv(nextTile) == (int)TileType.TileType_Grass && this.tileMap.GetPositionOfTileCenter(currentTile).DistanceTo(nextTile) > 80.0f) {
                 return true;
             }
         }
