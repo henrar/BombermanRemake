@@ -21,6 +21,8 @@ public class Enemy : KinematicBody2D {
         UpdatePositionOnTileMap();
 
         Vector2 direction = GetRandomDirection();
+        direction = ModifyMoveBasedOnSurrounding(direction, delta);
+
         KinematicCollision2D collision = MoveAndCollide(direction * this.moveModifier * delta);
         if (collision != null && collision.GetCollider().GetType() == typeof(Player)) {
             (collision.GetCollider() as Player).Die();
@@ -83,6 +85,51 @@ public class Enemy : KinematicBody2D {
 
     public void Die() {
         this.QueueFree();
+    }
+
+    private Vector2 ModifyMoveBasedOnSurrounding(Vector2 originalMotion, float delta) {
+        Vector2 newMotion = originalMotion;
+        Vector2 currentTilePosition = this.currentPositionOnTileMap;
+        Vector2 potentialTile = currentTilePosition + newMotion;
+        Vector2 playerPosition = GetGlobalPosition();
+
+        if (newMotion.x != 0
+            && this.tileMap.GetCellv(currentTilePosition + Directions.directionLeft) != (int)TileType.TileType_Grass
+            && this.tileMap.GetCellv(currentTilePosition + Directions.directionRight) != (int)TileType.TileType_Grass) {
+            newMotion = Directions.noDirection;
+        }
+
+        if (newMotion.y != 0
+            && this.tileMap.GetCellv(currentTilePosition + Directions.directionUp) != (int)TileType.TileType_Grass
+            && this.tileMap.GetCellv(currentTilePosition + Directions.directionDown) != (int)TileType.TileType_Grass) {
+            newMotion = Directions.noDirection;
+        }
+
+        if (newMotion == Directions.directionLeft) {
+            Vector2 newPos = this.tileMap.GetPositionOfTileCenter(potentialTile);
+            newPos.x = playerPosition.x;
+            SetGlobalPosition(playerPosition.LinearInterpolate(newPos, delta * 10));
+        }
+
+        if (newMotion == Directions.directionRight) {
+            Vector2 newPos = this.tileMap.GetPositionOfTileCenter(potentialTile);
+            newPos.x = playerPosition.x;
+            SetGlobalPosition(playerPosition.LinearInterpolate(newPos, delta * 10));
+        }
+
+        if (newMotion == Directions.directionUp) {
+            Vector2 newPos = this.tileMap.GetPositionOfTileCenter(potentialTile);
+            newPos.y = playerPosition.y;
+            SetGlobalPosition(playerPosition.LinearInterpolate(newPos, delta * 10));
+        }
+
+        if (newMotion == Directions.directionDown) {
+            Vector2 newPos = this.tileMap.GetPositionOfTileCenter(potentialTile);
+            newPos.y = playerPosition.y;
+            SetGlobalPosition(playerPosition.LinearInterpolate(newPos, delta * 10));
+        }
+
+        return newMotion;
     }
 
     private void UpdatePositionOnTileMap() {

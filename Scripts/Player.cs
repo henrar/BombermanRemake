@@ -49,62 +49,47 @@ public class Player : KinematicBody2D {
     }
 
     private Vector2 ModifyMoveBasedOnSurrounding(Vector2 originalMotion, float delta) {
-        Vector2 newMotion = originalMotion;   
-       /* Vector2 currentTile = GetPositionOnTileMap();
-        Vector2 potentialTile = new Vector2(-1, -1);
-        Vector2 addVec;
-
-        Vector2 currentTilePosition = this.map.MapToWorld(currentTile);
-        currentTilePosition = currentTilePosition + this.map.GetCellSize() / 2;
-
+        Vector2 newMotion = originalMotion;
+        Vector2 currentTilePosition = GetPositionOnTileMap();
+        Vector2 potentialTile = currentTilePosition + newMotion;
         Vector2 playerPosition = GetGlobalPosition();
 
-        if (newMotion.x > 0) {
-            addVec = new Vector2(1, 0);
-            potentialTile = currentTile + addVec;
-
-            Vector2 range = new Vector2(80, 0);
-            if (this.map.GetCellv(potentialTile) != (int)TileTypes.TileType_Grass) {
-                Console.WriteLine("ding");
-                newMotion = new Vector2(0, 0);
-            }
-        } else if (newMotion.x < 0) {
-            addVec = new Vector2(-1, 0);
-            potentialTile = currentTile + addVec;
-
-            if (this.map.GetCellv(potentialTile) != (int)TileTypes.TileType_Grass) {
-                newMotion = new Vector2(0, 0);
-            }
-        } else if (newMotion.y > 0) {
-            addVec = new Vector2(0, 1);
-            potentialTile = currentTile + addVec;
-
-            if (this.map.GetCellv(potentialTile) != (int)TileTypes.TileType_Grass) {
-                newMotion = new Vector2(0, 0);
-            }
-        } else if (newMotion.y < 0) {
-            addVec = new Vector2(0, -1);
-            potentialTile = currentTile + addVec;
-
-            if (this.map.GetCellv(potentialTile) != (int)TileTypes.TileType_Grass) {
-                newMotion = new Vector2(0, 0);
-            }
+        if(newMotion.x != 0 
+            && this.map.GetCellv(currentTilePosition + Directions.directionLeft) != (int)TileType.TileType_Grass 
+            && this.map.GetCellv(currentTilePosition + Directions.directionRight) != (int)TileType.TileType_Grass) {
+            newMotion = Directions.noDirection;
         }
 
-        if (newMotion.y != 0.0f && playerPosition.y != currentTilePosition.y) {
-            Vector2 interpolatedPosition = playerPosition; // new Vector2();
-            interpolatedPosition.x = currentTilePosition.x;//currentTilePosition.LinearInterpolate(playerPosition, moveModifier * delta).x;
-            interpolatedPosition.y = playerPosition.y;
-            SetGlobalPosition(playerPosition.LinearInterpolate(interpolatedPosition, delta));
+        if (newMotion.y != 0
+            && this.map.GetCellv(currentTilePosition + Directions.directionUp) != (int)TileType.TileType_Grass
+            && this.map.GetCellv(currentTilePosition + Directions.directionDown) != (int)TileType.TileType_Grass) {
+            newMotion = Directions.noDirection;
         }
 
-        if (newMotion.x != 0.0f && playerPosition.x != currentTilePosition.x) {
-            Vector2 interpolatedPosition = playerPosition; // new Vector2();
-            interpolatedPosition.y = currentTilePosition.y;//currentTilePosition.LinearInterpolate(playerPosition, moveModifier * delta).x;
-            interpolatedPosition.x = playerPosition.x;
-            SetGlobalPosition(playerPosition.LinearInterpolate(interpolatedPosition, delta));
+        if (newMotion == Directions.directionLeft) {
+            Vector2 newPos = this.map.GetPositionOfTileCenter(potentialTile);
+            newPos.x = playerPosition.x;
+            SetGlobalPosition(playerPosition.LinearInterpolate(newPos, delta * 10));
         }
-        */
+
+        if (newMotion == Directions.directionRight) {
+            Vector2 newPos = this.map.GetPositionOfTileCenter(potentialTile);
+            newPos.x = playerPosition.x;
+            SetGlobalPosition(playerPosition.LinearInterpolate(newPos, delta * 10));
+        }
+
+        if (newMotion == Directions.directionUp) { 
+            Vector2 newPos = this.map.GetPositionOfTileCenter(potentialTile);
+            newPos.y = playerPosition.y;
+            SetGlobalPosition(playerPosition.LinearInterpolate(newPos, delta * 10));
+        }
+
+        if (newMotion == Directions.directionDown) {
+            Vector2 newPos = this.map.GetPositionOfTileCenter(potentialTile);
+            newPos.y = playerPosition.y;
+            SetGlobalPosition(playerPosition.LinearInterpolate(newPos, delta * 10));
+        }
+
         return newMotion;
     }
 
@@ -112,20 +97,20 @@ public class Player : KinematicBody2D {
         Vector2 motion = new Vector2(0.0f, 0.0f);
 
         if (Input.IsActionPressed("move_left")) {
-            motion = this.moveModifier * Directions.directionLeft;
+            motion = Directions.directionLeft;
         } else if (Input.IsActionPressed("move_right")) {
-            motion = this.moveModifier * Directions.directionRight;
+            motion = Directions.directionRight;
         } else if (Input.IsActionPressed("move_up")) {
-            motion = this.moveModifier * Directions.directionUp;
+            motion = Directions.directionUp;
         } else if (Input.IsActionPressed("move_down")) {
-            motion = this.moveModifier * Directions.directionDown;
+            motion = Directions.directionDown;
         }
 
         return motion;
     }
 
     private void ExecuteMovement(Vector2 motion, float delta) {
-        KinematicCollision2D collision = MoveAndCollide(motion * delta);
+        KinematicCollision2D collision = MoveAndCollide(motion * delta * this.moveModifier);
         if (collision != null && collision.GetCollider().GetType() == typeof(Enemy)) {
             Die();
             return;
@@ -135,9 +120,7 @@ public class Player : KinematicBody2D {
     private void DropBomb() {
         this.currentDroppedBomb = new Bomb();
 
-        Vector2 tile = GetPositionOnTileMap();     
-        Vector2 pos = this.map.MapToWorld(tile);
-        pos = pos + this.map.GetCellSize() / 2.0f;
+        Vector2 pos = this.map.GetPositionOfTileCenter(GetPositionOnTileMap());
 
         this.currentDroppedBomb.position = pos;
         this.currentDroppedBomb.SetPosition(pos);

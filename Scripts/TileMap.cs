@@ -105,5 +105,11 @@ public class TileMap : Godot.TileMap {
             generatedTiles++;
         }
     }
+
+    public Vector2 GetPositionOfTileCenter(Vector2 tile) {
+        Vector2 pos = MapToWorld(tile);
+        pos = pos + GetCellSize() / 2.0f;
+        return pos;
+    }
 }
 
