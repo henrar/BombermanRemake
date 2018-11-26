@@ -10,10 +10,6 @@ public class Bomb : StaticBody2D {
 
     public int range = 1;
 
-    public Bomb() {
-
-    }
-
     public override void _Ready() {
         this.map = GetTree().GetRoot().GetNode("World/Nav/TileMap") as TileMap;
 
@@ -72,7 +68,7 @@ public class Bomb : StaticBody2D {
     }
 
     private void ExplodeEnemy(Vector2 tile) {
-        Enemy enemy = this.map.FindEnemyOnCell(tile);
+        Enemy enemy = this.map.FindEnemyOnTile(tile);
         if (enemy != null) {
             this.map.RemoveEnemyEntry(enemy);
             enemy.Die();

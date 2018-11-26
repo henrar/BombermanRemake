@@ -29,12 +29,11 @@ public class TileMap : Godot.TileMap {
     public override void _PhysicsProcess(float delta) {
         if(!this.generatedEnemies) {
             GenerateEnemies();
-            SpawnEnemies();
             this.generatedEnemies = true;
         }
     }
 
-    public Enemy FindEnemyOnCell(Vector2 pos) {
+    public Enemy FindEnemyOnTile(Vector2 pos) {
         foreach (var entry in this.enemyOnCell) {
             if (entry.Value == pos) {
                 return entry.Key;
@@ -127,21 +126,20 @@ public class TileMap : Godot.TileMap {
 
         while (generatedEnemiesCount < (GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables).numberOfEnemies) {
             Vector2 tile = GetRandomCell(TileType.TileType_Grass);
-            if (IsNotAllowedCell(tile) && GetCellv(tile) != (int)TileType.TileType_Grass) {
+
+            if (IsNotAllowedCell(tile) && GetCellv(tile) != (int)TileType.TileType_Grass && FindEnemyOnTile(tile) != null) {
                 continue;
             }
 
             Enemy enemy = new Enemy();
-            enemy.SetGlobalPosition(GetPositionOfTileCenter(tile));
+            enemy.currentPositionOnTileMap = tile;
             this.enemies.Add(enemy);
-            generatedEnemiesCount++;
-        }
-    }
+            this.enemyOnCell[enemy] = tile;
 
-    private void SpawnEnemies() {
-        var world = GetTree().GetRoot().GetNode("World");
-        foreach(Enemy enemy in this.enemies) {
+            enemy.SetGlobalPosition(GetPositionOfTileCenter(this.enemyOnCell[enemy]));
             world.AddChild(enemy);
+
+            generatedEnemiesCount++;
         }
     }
 

@@ -11,7 +11,7 @@ public class Enemy : KinematicBody2D {
     private Vector2 previousDirection;
     private Sprite sprite;
     private CollisionPolygon2D collision;
-
+    
     public override void _Ready() {
         this.tileMap = GetTree().GetRoot().GetNode("World/Nav/TileMap") as TileMap;
         this.navigation = GetTree().GetRoot().GetNode("World/Nav") as Navigation2D;
@@ -54,7 +54,7 @@ public class Enemy : KinematicBody2D {
     private bool ShouldStepOnTile(Vector2 currentTile, Vector2 nextTile) {
         return this.tileMap.GetCellv(nextTile) == (int)TileType.TileType_Grass 
             && this.tileMap.GetPositionOfTileCenter(currentTile).DistanceTo(this.tileMap.GetPositionOfTileCenter(nextTile)) > 40.0f
-            && this.tileMap.FindEnemyOnCell(nextTile) == null
+            && this.tileMap.FindEnemyOnTile(nextTile) == null
             && this.tileMap.droppedBombPosition != nextTile;
     }
 
