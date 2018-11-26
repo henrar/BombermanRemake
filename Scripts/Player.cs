@@ -7,7 +7,6 @@ public class Player : KinematicBody2D {
     private TileMap map;
 
     private bool bombDropped;
-    private Vector2 droppedBombPositionOnTileMap;
     private Bomb currentDroppedBomb;
 
     public override void _Ready() {
@@ -127,7 +126,7 @@ public class Player : KinematicBody2D {
         world.AddChild(this.currentDroppedBomb);
         this.bombDropped = true;
 
-        this.droppedBombPositionOnTileMap = this.map.WorldToMap(this.currentDroppedBomb.position);
+        this.map.droppedBombPosition = this.map.WorldToMap(this.currentDroppedBomb.position);
     }
 
     public Vector2 GetPositionOnTileMap() {

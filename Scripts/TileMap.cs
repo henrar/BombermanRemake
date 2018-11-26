@@ -7,18 +7,31 @@ public enum TileType {
     TileType_Bricks = 2
 }
 
+
 public class TileMap : Godot.TileMap {
     public float maxRandomCellsPercentage;
     public Dictionary<Enemy, Vector2> enemyOnCell;
     private Random random = new Random();
+    private bool generatedEnemies;
+    private Godot.Array<Enemy> enemies;
+    public Vector2 droppedBombPosition;
+    public Vector2 invalidTile = new Vector2(-1, -1);
 
     public override void _Ready() {
         this.enemyOnCell = new Dictionary<Enemy, Vector2>();
         this.maxRandomCellsPercentage = 0.4f;
         GenerateBricks();
+        this.generatedEnemies = false;
+        this.enemies = new Godot.Array<Enemy>();
+        this.droppedBombPosition = invalidTile;
     }
 
     public override void _PhysicsProcess(float delta) {
+        if(!this.generatedEnemies) {
+            GenerateEnemies();
+            SpawnEnemies();
+            this.generatedEnemies = true;
+        }
     }
 
     public Enemy FindEnemyOnCell(Vector2 pos) {
@@ -87,22 +100,48 @@ public class TileMap : Godot.TileMap {
         return (Vector2)cells[index];
     }
 
-    private bool isNotAllowedCell(Vector2 cell) {
+    private bool IsNotAllowedCell(Vector2 cell) {
         return (cell.x == 1 && cell.y == 1) || (cell.x == 1 && cell.y == 2) || (cell.x == 2 && cell.y == 1);
     }
 
     private void GenerateBricks() {
         int grassTileCount = GetTileCount(TileType.TileType_Grass);
         int maxGeneratedBricks = Convert.ToInt32(grassTileCount * this.maxRandomCellsPercentage);
-        int generatedTiles = 0;
-        while(generatedTiles < maxGeneratedBricks) {
-            Vector2 cell = GetRandomCell(TileType.TileType_Grass);
-            if(isNotAllowedCell(cell)) {
+        int generatedTilesCount = 0;
+        while (generatedTilesCount < maxGeneratedBricks) {
+            Vector2 tile = GetRandomCell(TileType.TileType_Grass);
+            if (IsNotAllowedCell(tile)) {
                 continue;
             }
 
-            SetCellv(cell, (int)TileType.TileType_Bricks);
-            generatedTiles++;
+            SetCellv(tile, (int)TileType.TileType_Bricks);
+            generatedTilesCount++;
+        }
+    }
+
+    public void GenerateEnemies() {
+        var world = GetTree().GetRoot().GetNode("World");
+
+        int grassTileCount = GetTileCount(TileType.TileType_Grass);
+        int generatedEnemiesCount = 0;
+
+        while (generatedEnemiesCount < (GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables).numberOfEnemies) {
+            Vector2 tile = GetRandomCell(TileType.TileType_Grass);
+            if (IsNotAllowedCell(tile) && GetCellv(tile) != (int)TileType.TileType_Grass) {
+                continue;
+            }
+
+            Enemy enemy = new Enemy();
+            enemy.SetGlobalPosition(GetPositionOfTileCenter(tile));
+            this.enemies.Add(enemy);
+            generatedEnemiesCount++;
+        }
+    }
+
+    private void SpawnEnemies() {
+        var world = GetTree().GetRoot().GetNode("World");
+        foreach(Enemy enemy in this.enemies) {
+            world.AddChild(enemy);
         }
     }
 

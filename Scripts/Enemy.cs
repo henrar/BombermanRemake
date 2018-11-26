@@ -9,11 +9,32 @@ public class Enemy : KinematicBody2D {
     private List<Vector2> path;
     private Navigation2D navigation;
     private Vector2 previousDirection;
+    private Sprite sprite;
+    private CollisionPolygon2D collision;
 
     public override void _Ready() {
         this.tileMap = GetTree().GetRoot().GetNode("World/Nav/TileMap") as TileMap;
         this.navigation = GetTree().GetRoot().GetNode("World/Nav") as Navigation2D;
         this.previousDirection = new Vector2(0, 0);
+
+        this.sprite = new Sprite();
+        ImageTexture tex = new ImageTexture();
+        tex.Load("res://Assets/icon.png");
+        this.sprite.SetTexture(tex);
+        this.sprite.SetScale(new Vector2(0.5f, 0.5f));
+        AddChild(this.sprite);
+
+        Vector2[] indices = {
+            new Vector2(-30, -30),
+            new Vector2(-30, 30),
+            new Vector2(30, 30),
+            new Vector2(30,-30)
+        };
+
+        this.collision = new CollisionPolygon2D();
+        this.collision.SetPolygon(indices);
+        AddChild(this.collision);
+
         UpdatePositionOnTileMap();
     }
 
@@ -30,29 +51,34 @@ public class Enemy : KinematicBody2D {
         }
     }
 
-    private bool isAllowedToStep(Vector2 direction) {
+    private bool ShouldStepOnTile(Vector2 currentTile, Vector2 nextTile) {
+        return this.tileMap.GetCellv(nextTile) == (int)TileType.TileType_Grass 
+            && this.tileMap.GetPositionOfTileCenter(currentTile).DistanceTo(this.tileMap.GetPositionOfTileCenter(nextTile)) > 40.0f
+            && this.tileMap.FindEnemyOnCell(nextTile) == null
+            && this.tileMap.droppedBombPosition != nextTile;
+    }
+
+    private bool IsAllowedToStep(Vector2 direction) {
+        Vector2 currentTile = this.currentPositionOnTileMap;
+
         if (direction == Directions.directionUp) {
-            Vector2 currentTile = this.currentPositionOnTileMap;
             Vector2 nextTile = currentTile + Directions.directionUp;
-            if (this.tileMap.GetCellv(nextTile) == (int)TileType.TileType_Grass && this.tileMap.GetPositionOfTileCenter(currentTile).DistanceTo(nextTile) > 80.0f) {
+            if (ShouldStepOnTile(currentTile, nextTile)) {
                 return true;
             }
         } else if (direction == Directions.directionDown) {
-            Vector2 currentTile = this.currentPositionOnTileMap;
             Vector2 nextTile = currentTile + Directions.directionDown;
-            if (this.tileMap.GetCellv(nextTile) == (int)TileType.TileType_Grass && this.tileMap.GetPositionOfTileCenter(currentTile).DistanceTo(nextTile) > 80.0f) {
+            if (ShouldStepOnTile(currentTile, nextTile)) {
                 return true;
             }
         } else if (direction == Directions.directionLeft) {
-            Vector2 currentTile = this.currentPositionOnTileMap;
             Vector2 nextTile = currentTile + Directions.directionLeft;
-            if (this.tileMap.GetCellv(nextTile) == (int)TileType.TileType_Grass && this.tileMap.GetPositionOfTileCenter(currentTile).DistanceTo(nextTile) > 80.0f) {
+            if (ShouldStepOnTile(currentTile, nextTile)) {
                 return true;
             }
         } else if (direction == Directions.directionRight) {
-            Vector2 currentTile = this.currentPositionOnTileMap;
             Vector2 nextTile = currentTile + Directions.directionRight;
-            if (this.tileMap.GetCellv(nextTile) == (int)TileType.TileType_Grass && this.tileMap.GetPositionOfTileCenter(currentTile).DistanceTo(nextTile) > 80.0f) {
+            if (ShouldStepOnTile(currentTile, nextTile)) {
                 return true;
             }
         }
@@ -62,9 +88,15 @@ public class Enemy : KinematicBody2D {
     private Vector2 GetRandomDirection() {
         bool directionFound = false;
         Vector2 direction = this.previousDirection;
+        if (!IsAllowedToStep(Directions.directionLeft)
+            && !IsAllowedToStep(Directions.directionRight)
+            && !IsAllowedToStep(Directions.directionUp)
+            && !IsAllowedToStep(Directions.directionDown)) {
+            return Directions.noDirection;
+        }
         while (!directionFound) {
             if (direction != Directions.noDirection) {
-                if (isAllowedToStep(direction)) {
+                if (IsAllowedToStep(direction)) {
                     directionFound = true;
                 } else if(direction == Directions.noDirection) {
                     direction = Directions.GetRandomDirection();

@@ -129,6 +129,8 @@ public class Bomb : StaticBody2D {
             }
         }
 
+        this.map.droppedBombPosition = this.map.invalidTile;
+
         QueueFree();
     }
 
