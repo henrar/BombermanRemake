@@ -15,7 +15,7 @@ public class TileMap : Godot.TileMap {
     private bool generatedEnemies;
     private Godot.Array<Enemy> enemies;
     public Vector2 droppedBombPosition;
-    public Vector2 invalidTile = new Vector2(-1, -1);
+    public static Vector2 invalidTile = new Vector2(-1, -1);
 
     public override void _Ready() {
         this.enemyOnCell = new Dictionary<Enemy, Vector2>();
@@ -121,7 +121,6 @@ public class TileMap : Godot.TileMap {
     public void GenerateEnemies() {
         var world = GetTree().GetRoot().GetNode("World");
 
-        int grassTileCount = GetTileCount(TileType.TileType_Grass);
         int generatedEnemiesCount = 0;
 
         while (generatedEnemiesCount < (GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables).numberOfEnemies) {
@@ -135,8 +134,9 @@ public class TileMap : Godot.TileMap {
             enemy.currentPositionOnTileMap = tile;
             this.enemies.Add(enemy);
             this.enemyOnCell[enemy] = tile;
+            enemy.currentPositionOnTileMap = this.enemyOnCell[enemy];
 
-            enemy.SetGlobalPosition(GetPositionOfTileCenter(this.enemyOnCell[enemy]));
+            enemy.SetName("Enemy" + generatedEnemiesCount);
             world.AddChild(enemy);
 
             generatedEnemiesCount++;

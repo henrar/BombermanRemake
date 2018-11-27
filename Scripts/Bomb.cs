@@ -45,7 +45,11 @@ public class Bomb : StaticBody2D {
 
     public override void _PhysicsProcess(float delta) {
         Player player = GetTree().GetRoot().GetNode("World/Player") as Player;
-        if (player.GetPositionOnTileMap() != this.map.WorldToMap(this.position) && this.position.DistanceTo(player.GetGlobalPosition()) > 80.0f) { //when we leave the tile that contains bomb, we should turn on collision as in the original
+        if(player == null) {
+            return;
+        }
+
+        if (this.position != null && player.GetPositionOnTileMap() != this.map.WorldToMap(this.position) && this.position.DistanceTo(player.GetGlobalPosition()) > 80.0f) { //when we leave the tile that contains bomb, we should turn on collision as in the original
             AddCollision();
         }
 
@@ -125,7 +129,7 @@ public class Bomb : StaticBody2D {
             }
         }
 
-        this.map.droppedBombPosition = this.map.invalidTile;
+        this.map.droppedBombPosition = TileMap.invalidTile;
 
         QueueFree();
     }

@@ -17,6 +17,8 @@ public class Enemy : KinematicBody2D {
         this.navigation = GetTree().GetRoot().GetNode("World/Nav") as Navigation2D;
         this.previousDirection = new Vector2(0, 0);
 
+        SetGlobalPosition(this.tileMap.GetPositionOfTileCenter(this.currentPositionOnTileMap));
+
         this.sprite = new Sprite();
         ImageTexture tex = new ImageTexture();
         tex.Load("res://Assets/icon.png");
@@ -52,8 +54,12 @@ public class Enemy : KinematicBody2D {
     }
 
     private bool ShouldStepOnTile(Vector2 currentTile, Vector2 nextTile) {
-        return this.tileMap.GetCellv(nextTile) == (int)TileType.TileType_Grass 
-            && this.tileMap.GetPositionOfTileCenter(currentTile).DistanceTo(this.tileMap.GetPositionOfTileCenter(nextTile)) > 40.0f
+        if(this.tileMap.GetCellv(nextTile) != (int)TileType.TileType_Grass && GetGlobalPosition().DistanceTo(this.tileMap.GetPositionOfTileCenter(nextTile)) < 90.0f) {
+            return false;
+        }
+
+        return ((this.tileMap.GetCellv(nextTile) == (int)TileType.TileType_Grass) 
+            || (this.tileMap.GetCellv(nextTile) != (int)TileType.TileType_Grass && GetGlobalPosition().DistanceTo(this.tileMap.GetPositionOfTileCenter(nextTile)) >= 90.0f))
             && this.tileMap.FindEnemyOnTile(nextTile) == null
             && this.tileMap.droppedBombPosition != nextTile;
     }
