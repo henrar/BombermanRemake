@@ -15,7 +15,7 @@ public class Bomb : StaticBody2D {
 
         this.bombSprite = new Sprite();
         ImageTexture bombTex = new ImageTexture();
-        bombTex.Load("res://Assets/bomb.png");
+        bombTex.Load("res://Assets/assetyver2/bomba1.png");
         this.bombSprite.SetTexture(bombTex);
         this.bombSprite.SetPosition(GetPosition());
 
