@@ -4,23 +4,19 @@
 [ext_resource path="res://Scripts/TileMap.cs" type="Script" id=2]
 [ext_resource path="res://Scripts/Player.cs" type="Script" id=3]
 [ext_resource path="res://Assets/icon.png" type="Texture" id=4]
-[ext_resource path="res://Assets/sound/Explosion.wav" type="AudioStream" id=5]
-[ext_resource path="res://Scripts/LevelTimer.cs" type="Script" id=6]
-[ext_resource path="res://Assets/testy/mapa_ver1.png-468f448690edadb6caa97cfda8444b04.tres" type="Texture" id=7]
-[ext_resource path="res://Assets/testy/mur.png" type="Texture" id=8]
-[ext_resource path="res://Assets/testy/murd.png" type="Texture" id=9]
+[ext_resource path="res://Assets/testy/mur.png" type="Texture" id=5]
+[ext_resource path="res://Assets/testy/murd.png" type="Texture" id=6]
+[ext_resource path="res://Assets/sound/Explosion.wav" type="AudioStream" id=7]
+[ext_resource path="res://Scripts/LevelTimer.cs" type="Script" id=8]
+[ext_resource path="res://Assets/testy/mapa_ver1.png-468f448690edadb6caa97cfda8444b04.tres" type="Texture" id=9]
 
 [node name="World" type="Node2D" index="0"]
 
-position = Vector2( 480, 10 )
+position = Vector2( 1000, 250 )
 
-[node name="Nav" type="Navigation2D" parent="." index="0"]
+[node name="TileMap" type="TileMap" parent="." index="0"]
 
-_sections_unfolded = [ "Pause" ]
-
-[node name="TileMap" type="TileMap" parent="Nav" index="0"]
-
-position = Vector2( -476.142, -11.3843 )
+position = Vector2( -486.142, -21.3843 )
 mode = 0
 tile_set = ExtResource( 1 )
 cell_size = Vector2( 80, 80 )
@@ -91,9 +87,159 @@ editor_draw_limits = false
 editor_draw_drag_margin = false
 _sections_unfolded = [ "Drag Margin" ]
 
+[node name="HUD" type="CanvasLayer" parent="Player/PlayerCamera" index="0"]
+
+layer = 1
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+
+[node name="interface" type="Control" parent="Player/PlayerCamera/HUD" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 1280.0
+margin_bottom = 720.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+
+[node name="back" type="Sprite" parent="Player/PlayerCamera/HUD/interface" index="0"]
+
+modulate = Color( 0.746094, 0.387255, 0.171951, 1 )
+position = Vector2( 640, 45 )
+scale = Vector2( 16, 1.125 )
+texture = ExtResource( 5 )
+_sections_unfolded = [ "Material", "Offset", "Region", "Visibility" ]
+
+[node name="scoresprite" type="Sprite" parent="Player/PlayerCamera/HUD/interface" index="1"]
+
+position = Vector2( 165, 50 )
+scale = Vector2( 2.625, 0.75 )
+texture = ExtResource( 6 )
+
+[node name="lifesprite" type="Sprite" parent="Player/PlayerCamera/HUD/interface" index="2"]
+
+position = Vector2( 980, 50 )
+scale = Vector2( 1.75, 0.5 )
+texture = ExtResource( 6 )
+
+[node name="timesprite" type="Sprite" parent="Player/PlayerCamera/HUD/interface" index="3"]
+
+position = Vector2( 575, 50 )
+scale = Vector2( 2.625, 0.75 )
+texture = ExtResource( 6 )
+
+[node name="MenuButton" type="Button" parent="Player/PlayerCamera/HUD/interface" index="4"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 1100.0
+margin_top = 10.0
+margin_right = 1210.0
+margin_bottom = 80.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "Menu"
+flat = false
+align = 1
+
+[node name="ScoreLabel" type="Label" parent="Player/PlayerCamera/HUD/interface" index="5"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 60.0
+margin_top = 20.0
+margin_right = 270.0
+margin_bottom = 80.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "Score: "
+align = 1
+valign = 1
+uppercase = true
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Material", "Visibility" ]
+
+[node name="LifeLabel" type="Label" parent="Player/PlayerCamera/HUD/interface" index="6"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 910.0
+margin_top = 30.0
+margin_right = 1050.0
+margin_bottom = 74.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "Left:"
+align = 1
+valign = 1
+uppercase = true
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Visibility" ]
+
+[node name="TimeLabel" type="Label" parent="Player/PlayerCamera/HUD/interface" index="7"]
+
+self_modulate = Color( 0.851563, 0.851563, 0.851563, 1 )
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 470.0
+margin_top = 20.0
+margin_right = 680.0
+margin_bottom = 80.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "Time_Left:"
+align = 1
+valign = 1
+uppercase = true
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Visibility" ]
+
 [node name="ExplosionSound" type="AudioStreamPlayer2D" parent="." index="2"]
 
-stream = ExtResource( 5 )
+stream = ExtResource( 7 )
 volume_db = 0.0
 pitch_scale = 1.0
 autoplay = false
@@ -108,7 +254,7 @@ process_mode = 1
 wait_time = 200.0
 one_shot = true
 autostart = true
-script = ExtResource( 6 )
+script = ExtResource( 8 )
 _sections_unfolded = [ "Pause" ]
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="." index="4"]
@@ -134,144 +280,9 @@ motion_mirroring = Vector2( 0, 0 )
 [node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer" index="0"]
 
 show_behind_parent = true
-position = Vector2( 1255, 485 )
+position = Vector2( 1780, 730 )
 scale = Vector2( 1.13782, 1.13281 )
-texture = ExtResource( 7 )
+texture = ExtResource( 9 )
 _sections_unfolded = [ "Offset", "Visibility" ]
-
-[node name="HUD" type="CanvasLayer" parent="." index="5"]
-
-layer = 2
-offset = Vector2( 0, 0 )
-rotation = 0.0
-scale = Vector2( 1, 1 )
-transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-
-[node name="back" type="Sprite" parent="HUD" index="0"]
-
-modulate = Color( 0.746094, 0.387255, 0.171951, 1 )
-position = Vector2( 120, -195 )
-scale = Vector2( 16, 1.125 )
-texture = ExtResource( 8 )
-_sections_unfolded = [ "Material", "Offset", "Region", "Visibility" ]
-
-[node name="scoresprite" type="Sprite" parent="HUD" index="1"]
-
-position = Vector2( -355, -190 )
-scale = Vector2( 2.625, 0.75 )
-texture = ExtResource( 9 )
-
-[node name="lifesprite" type="Sprite" parent="HUD" index="2"]
-
-position = Vector2( 460, -190 )
-scale = Vector2( 1.75, 0.5 )
-texture = ExtResource( 9 )
-
-[node name="timesprite" type="Sprite" parent="HUD" index="3"]
-
-position = Vector2( 55, -190 )
-scale = Vector2( 2.625, 0.75 )
-texture = ExtResource( 9 )
-
-[node name="MenuButton" type="Button" parent="HUD" index="4"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 580.0
-margin_top = -230.0
-margin_right = 690.0
-margin_bottom = -160.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-toggle_mode = false
-enabled_focus_mode = 2
-shortcut = null
-group = null
-text = "Menu"
-flat = false
-align = 1
-
-[node name="ScoreLabel" type="Label" parent="HUD" index="5"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = -460.0
-margin_top = -220.0
-margin_right = -250.0
-margin_bottom = -160.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
-text = "Score: "
-align = 1
-valign = 1
-uppercase = true
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "Material", "Visibility" ]
-
-[node name="LifeLabel" type="Label" parent="HUD" index="6"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 390.0
-margin_top = -210.0
-margin_right = 530.0
-margin_bottom = -166.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
-text = "Left:"
-align = 1
-valign = 1
-uppercase = true
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "Visibility" ]
-
-[node name="TimeLabel" type="Label" parent="HUD" index="7"]
-
-self_modulate = Color( 0.851563, 0.851563, 0.851563, 1 )
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = -50.0
-margin_top = -220.0
-margin_right = 160.0
-margin_bottom = -160.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
-text = "Time_Left:"
-align = 1
-valign = 1
-uppercase = true
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "Visibility" ]
 
 
