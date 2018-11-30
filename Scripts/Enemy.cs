@@ -6,18 +6,18 @@ public class Enemy : KinematicBody2D {
     public Vector2 currentPositionOnTileMap;
     private readonly int moveModifier = 180;
     private TileMap tileMap;
-    private List<Vector2> path;
-    private Navigation2D navigation;
     private Vector2 previousDirection;
     private Sprite sprite;
     private CollisionPolygon2D collision;
     
     public override void _Ready() {
-        this.tileMap = GetTree().GetRoot().GetNode("World/Nav/TileMap") as TileMap;
-        this.navigation = GetTree().GetRoot().GetNode("World/Nav") as Navigation2D;
+        this.tileMap = GetTree().GetRoot().GetNode("World/TileMap") as TileMap;
         this.previousDirection = new Vector2(0, 0);
 
-        SetGlobalPosition(this.tileMap.GetPositionOfTileCenter(this.currentPositionOnTileMap));
+        SetPosition(new Vector2(0, 0));
+
+        Transform2D mapTransfrom = this.tileMap.GetGlobalTransform();
+        SetGlobalPosition(this.tileMap.GetPositionOfTileCenter(this.currentPositionOnTileMap) + mapTransfrom.Origin);
 
         this.sprite = new Sprite();
         ImageTexture tex = new ImageTexture();
@@ -54,12 +54,14 @@ public class Enemy : KinematicBody2D {
     }
 
     private bool ShouldStepOnTile(Vector2 currentTile, Vector2 nextTile) {
-        if(this.tileMap.GetCellv(nextTile) != (int)TileType.TileType_Grass && GetGlobalPosition().DistanceTo(this.tileMap.GetPositionOfTileCenter(nextTile)) < 90.0f) {
+        Transform2D mapTransform = this.tileMap.GetGlobalTransform();
+
+        if (this.tileMap.GetCellv(nextTile) != (int)TileType.TileType_Grass && GetGlobalPosition().DistanceTo(this.tileMap.GetPositionOfTileCenter(nextTile) + mapTransform.Origin) < 90.0f) {
             return false;
         }
 
         return ((this.tileMap.GetCellv(nextTile) == (int)TileType.TileType_Grass) 
-            || (this.tileMap.GetCellv(nextTile) != (int)TileType.TileType_Grass && GetGlobalPosition().DistanceTo(this.tileMap.GetPositionOfTileCenter(nextTile)) >= 90.0f))
+            || (this.tileMap.GetCellv(nextTile) != (int)TileType.TileType_Grass && GetGlobalPosition().DistanceTo(this.tileMap.GetPositionOfTileCenter(nextTile) + mapTransform.Origin) >= 90.0f))
             && this.tileMap.FindEnemyOnTile(nextTile) == null
             && this.tileMap.droppedBombPosition != nextTile;
     }
@@ -129,6 +131,9 @@ public class Enemy : KinematicBody2D {
         Vector2 newMotion = originalMotion;
         Vector2 currentTilePosition = this.currentPositionOnTileMap;
         Vector2 potentialTile = currentTilePosition + newMotion;
+
+        Transform2D mapTransform = this.tileMap.GetGlobalTransform();
+
         Vector2 playerPosition = GetGlobalPosition();
 
         if (newMotion.x != 0
@@ -144,25 +149,25 @@ public class Enemy : KinematicBody2D {
         }
 
         if (newMotion == Directions.directionLeft) {
-            Vector2 newPos = this.tileMap.GetPositionOfTileCenter(potentialTile);
+            Vector2 newPos = this.tileMap.GetPositionOfTileCenter(potentialTile) + mapTransform.Origin;
             newPos.x = playerPosition.x;
             SetGlobalPosition(playerPosition.LinearInterpolate(newPos, delta * 10));
         }
 
         if (newMotion == Directions.directionRight) {
-            Vector2 newPos = this.tileMap.GetPositionOfTileCenter(potentialTile);
+            Vector2 newPos = this.tileMap.GetPositionOfTileCenter(potentialTile) + mapTransform.Origin;
             newPos.x = playerPosition.x;
             SetGlobalPosition(playerPosition.LinearInterpolate(newPos, delta * 10));
         }
 
         if (newMotion == Directions.directionUp) {
-            Vector2 newPos = this.tileMap.GetPositionOfTileCenter(potentialTile);
+            Vector2 newPos = this.tileMap.GetPositionOfTileCenter(potentialTile) + mapTransform.Origin;
             newPos.y = playerPosition.y;
             SetGlobalPosition(playerPosition.LinearInterpolate(newPos, delta * 10));
         }
 
         if (newMotion == Directions.directionDown) {
-            Vector2 newPos = this.tileMap.GetPositionOfTileCenter(potentialTile);
+            Vector2 newPos = this.tileMap.GetPositionOfTileCenter(potentialTile) + mapTransform.Origin;
             newPos.y = playerPosition.y;
             SetGlobalPosition(playerPosition.LinearInterpolate(newPos, delta * 10));
         }
@@ -171,7 +176,8 @@ public class Enemy : KinematicBody2D {
     }
 
     private void UpdatePositionOnTileMap() {
-        this.currentPositionOnTileMap = this.tileMap.WorldToMap(this.GetGlobalPosition());
+        Transform2D mapTransform = this.tileMap.GetGlobalTransform();
+        this.currentPositionOnTileMap = this.tileMap.WorldToMap(this.GetGlobalPosition() - mapTransform.Origin);
         this.tileMap.enemyOnCell[this] = this.currentPositionOnTileMap;
     }
 }

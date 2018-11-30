@@ -11,7 +11,7 @@ public class Bomb : StaticBody2D {
     public int range = 1;
 
     public override void _Ready() {
-        this.map = GetTree().GetRoot().GetNode("World/Nav/TileMap") as TileMap;
+        this.map = GetTree().GetRoot().GetNode("World/TileMap") as TileMap;
 
         this.bombSprite = new Sprite();
         ImageTexture bombTex = new ImageTexture();
@@ -37,8 +37,7 @@ public class Bomb : StaticBody2D {
         shape.SetRadius(40.0f);
         this.collision.SetShape(shape);
 
-        Vector2 collPosition = new Vector2(0, 0);
-        this.collision.SetPosition(position);
+        this.collision.SetPosition(position + this.map.GetGlobalTransform().Origin);
 
         this.collision.SetName("BombCollision");
     }
@@ -49,7 +48,7 @@ public class Bomb : StaticBody2D {
             return;
         }
 
-        if (this.position != null && player.GetPositionOnTileMap() != this.map.WorldToMap(this.position) && this.position.DistanceTo(player.GetGlobalPosition()) > 80.0f) { //when we leave the tile that contains bomb, we should turn on collision as in the original
+        if (this.position != null && player.GetPositionOnTileMap() != this.map.WorldToMap(this.position) && this.position.DistanceTo(player.GetGlobalPosition() - this.map.GetGlobalTransform().Origin) >= 80.0f) { //when we leave the tile that contains bomb, we should turn on collision as in the original
             AddCollision();
         }
 

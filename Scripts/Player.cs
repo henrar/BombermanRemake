@@ -12,7 +12,7 @@ public class Player : KinematicBody2D {
     public override void _Ready() {
         this.numberOfLives = (GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables).savedNumberOfLives;
         this.bombDropped = false;
-        this.map = GetTree().GetRoot().GetNode("World/Nav/TileMap") as TileMap;
+        this.map = GetTree().GetRoot().GetNode("World/TileMap") as TileMap;
     }
 
     public void Die() {
@@ -32,7 +32,6 @@ public class Player : KinematicBody2D {
     public override void _PhysicsProcess(float delta) {
         Vector2 motion = Move();
         motion = ModifyMoveBasedOnSurrounding(motion, delta);
-
         ExecuteMovement(motion, delta);
 
         if (Input.IsActionPressed("ui_accept") && !this.bombDropped) {
@@ -50,6 +49,8 @@ public class Player : KinematicBody2D {
         Vector2 potentialTile = currentTilePosition + newMotion;
         Vector2 playerPosition = GetGlobalPosition();
 
+        Transform2D mapTransform = this.map.GetGlobalTransform();
+
         if(newMotion.x != 0 
             && this.map.GetCellv(currentTilePosition + Directions.directionLeft) != (int)TileType.TileType_Grass 
             && this.map.GetCellv(currentTilePosition + Directions.directionRight) != (int)TileType.TileType_Grass) {
@@ -63,25 +64,25 @@ public class Player : KinematicBody2D {
         }
 
         if (newMotion == Directions.directionLeft) {
-            Vector2 newPos = this.map.GetPositionOfTileCenter(potentialTile);
+            Vector2 newPos = this.map.GetPositionOfTileCenter(potentialTile) + mapTransform.Origin;
             newPos.x = playerPosition.x;
             SetGlobalPosition(playerPosition.LinearInterpolate(newPos, delta * 10));
         }
 
         if (newMotion == Directions.directionRight) {
-            Vector2 newPos = this.map.GetPositionOfTileCenter(potentialTile);
+            Vector2 newPos = this.map.GetPositionOfTileCenter(potentialTile) + mapTransform.Origin;
             newPos.x = playerPosition.x;
             SetGlobalPosition(playerPosition.LinearInterpolate(newPos, delta * 10));
         }
 
         if (newMotion == Directions.directionUp) { 
-            Vector2 newPos = this.map.GetPositionOfTileCenter(potentialTile);
+            Vector2 newPos = this.map.GetPositionOfTileCenter(potentialTile) + mapTransform.Origin;
             newPos.y = playerPosition.y;
             SetGlobalPosition(playerPosition.LinearInterpolate(newPos, delta * 10));
         }
 
         if (newMotion == Directions.directionDown) {
-            Vector2 newPos = this.map.GetPositionOfTileCenter(potentialTile);
+            Vector2 newPos = this.map.GetPositionOfTileCenter(potentialTile) + mapTransform.Origin;
             newPos.y = playerPosition.y;
             SetGlobalPosition(playerPosition.LinearInterpolate(newPos, delta * 10));
         }
@@ -118,8 +119,10 @@ public class Player : KinematicBody2D {
 
         Vector2 pos = this.map.GetPositionOfTileCenter(GetPositionOnTileMap());
 
+        Transform2D mapTransform = this.map.GetGlobalTransform();
+
         this.currentDroppedBomb.position = pos;
-        this.currentDroppedBomb.SetPosition(pos);
+        this.currentDroppedBomb.SetGlobalPosition(pos + mapTransform.Origin);
         this.currentDroppedBomb.SetName("Bomb");
 
         Node world = GetTree().GetRoot();
@@ -130,6 +133,7 @@ public class Player : KinematicBody2D {
     }
 
     public Vector2 GetPositionOnTileMap() {
-        return this.map.WorldToMap(this.GetGlobalPosition());
+        Transform2D mapTransform = this.map.GetGlobalTransform();
+        return this.map.WorldToMap(GetGlobalPosition() - mapTransform.Origin);
     }
 }
