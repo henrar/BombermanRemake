@@ -52,6 +52,7 @@
     <Compile Include="Scripts\Bomb.cs" />
     <Compile Include="Scripts\Directions.cs" />
     <Compile Include="Scripts\Enemy.cs" />
+    <Compile Include="Scripts\HUD.cs" />
     <Compile Include="Scripts\LevelTimer.cs" />
     <Compile Include="Scripts\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
