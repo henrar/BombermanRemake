@@ -10,11 +10,10 @@
 [ext_resource path="res://Assets/assetyver2/corne.png" type="Texture" id=8]
 [ext_resource path="res://Assets/assetyver2/tunelnaroznikver2.png" type="Texture" id=9]
 
-[node name="Node" type="Node"]
+[node name="Node" type="Node" index="0"]
 
 [node name="BricksSprite" type="Sprite" parent="." index="0"]
 
-editor/display_folded = true
 position = Vector2( 40, 40 )
 texture = ExtResource( 1 )
 
@@ -23,6 +22,21 @@ texture = ExtResource( 1 )
 show_behind_parent = true
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Visibility" ]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="BricksSprite" index="1"]
+
+input_pickable = false
+collision_layer = 1
+collision_mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="BricksSprite/StaticBody2D" index="0"]
+
+build_mode = 0
+polygon = PoolVector2Array( -40, -40, 40, -40, 40, 40, -40, 40 )
 
 [node name="WallSprite" type="Sprite" parent="." index="1"]
 
