@@ -64,12 +64,12 @@ public class Enemy : KinematicBody2D {
     private bool ShouldStepOnTile(Vector2 currentTile, Vector2 nextTile) {
         Transform2D mapTransform = this.tileMap.GetGlobalTransform();
 
-        if (this.tileMap.GetCellv(nextTile) != (int)TileType.TileType_Floor && GetGlobalPosition().DistanceTo(this.tileMap.GetPositionOfTileCenter(nextTile) + mapTransform.Origin) < 90.0f) {
+        if (!this.tileMap.isTileValidForMovement(nextTile) && GetGlobalPosition().DistanceTo(this.tileMap.GetPositionOfTileCenter(nextTile) + mapTransform.Origin) < 90.0f) {
             return false;
         }
 
-        return ((this.tileMap.GetCellv(nextTile) == (int)TileType.TileType_Floor)
-            || (this.tileMap.GetCellv(nextTile) != (int)TileType.TileType_Floor && GetGlobalPosition().DistanceTo(this.tileMap.GetPositionOfTileCenter(nextTile) + mapTransform.Origin) >= 90.0f))
+        return ((this.tileMap.isTileValidForMovement(nextTile))
+            || (!this.tileMap.isTileValidForMovement(nextTile) && GetGlobalPosition().DistanceTo(this.tileMap.GetPositionOfTileCenter(nextTile) + mapTransform.Origin) >= 90.0f))
             && this.tileMap.FindEnemyOnTile(nextTile) == null
             && this.tileMap.droppedBombPosition != nextTile;
     }
@@ -145,36 +145,24 @@ public class Enemy : KinematicBody2D {
         Vector2 playerPosition = GetGlobalPosition();
 
         if (newMotion.x != 0.0f
-            && this.tileMap.GetCellv(currentTilePosition + Directions.directionLeft) != (int)TileType.TileType_Floor
-            && this.tileMap.GetCellv(currentTilePosition + Directions.directionRight) != (int)TileType.TileType_Floor) {
+            && !this.tileMap.isTileValidForMovement(currentTilePosition + Directions.directionLeft)
+            && !this.tileMap.isTileValidForMovement(currentTilePosition + Directions.directionRight)) {
             newMotion = Directions.noDirection;
         }
 
         if (newMotion.y != 0.0f
-            && this.tileMap.GetCellv(currentTilePosition + Directions.directionUp) != (int)TileType.TileType_Floor
-            && this.tileMap.GetCellv(currentTilePosition + Directions.directionDown) != (int)TileType.TileType_Floor) {
+            && !this.tileMap.isTileValidForMovement(currentTilePosition + Directions.directionUp)
+            && !this.tileMap.isTileValidForMovement(currentTilePosition + Directions.directionDown)) {
             newMotion = Directions.noDirection;
         }
 
-        if (newMotion == Directions.directionLeft) {
+        if (newMotion == Directions.directionLeft || newMotion == Directions.directionRight) {
             Vector2 newPos = this.tileMap.GetPositionOfTileCenter(potentialTile) + mapTransform.Origin;
             newPos.x = playerPosition.x;
             SetGlobalPosition(playerPosition.LinearInterpolate(newPos, delta * 10));
         }
 
-        if (newMotion == Directions.directionRight) {
-            Vector2 newPos = this.tileMap.GetPositionOfTileCenter(potentialTile) + mapTransform.Origin;
-            newPos.x = playerPosition.x;
-            SetGlobalPosition(playerPosition.LinearInterpolate(newPos, delta * 10));
-        }
-
-        if (newMotion == Directions.directionUp) {
-            Vector2 newPos = this.tileMap.GetPositionOfTileCenter(potentialTile) + mapTransform.Origin;
-            newPos.y = playerPosition.y;
-            SetGlobalPosition(playerPosition.LinearInterpolate(newPos, delta * 10));
-        }
-
-        if (newMotion == Directions.directionDown) {
+        if (newMotion == Directions.directionUp || newMotion == Directions.directionDown) {
             Vector2 newPos = this.tileMap.GetPositionOfTileCenter(potentialTile) + mapTransform.Origin;
             newPos.y = playerPosition.y;
             SetGlobalPosition(playerPosition.LinearInterpolate(newPos, delta * 10));

@@ -18,6 +18,9 @@ public class Player : KinematicBody2D {
     public void Die() {
         Console.WriteLine("YOU DIED!");
         this.bombDropped = false;
+        if (this.currentDroppedBomb != null) {
+            this.currentDroppedBomb.QueueFree();
+        }
         if (this.numberOfLives > 0) {
             this.numberOfLives -= 1;
             (GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables).savedNumberOfLives -= 1;
@@ -52,36 +55,24 @@ public class Player : KinematicBody2D {
         Transform2D mapTransform = this.map.GetGlobalTransform();
 
         if (newMotion.x != 0.0f
-            && this.map.GetCellv(currentTilePosition + Directions.directionLeft) != (int)TileType.TileType_Floor
-            && this.map.GetCellv(currentTilePosition + Directions.directionRight) != (int)TileType.TileType_Floor) {
+            && !this.map.isTileValidForMovement(currentTilePosition + Directions.directionLeft)
+            && !this.map.isTileValidForMovement(currentTilePosition + Directions.directionRight)) {
             newMotion = Directions.noDirection;
         }
 
         if (newMotion.y != 0.0f
-            && this.map.GetCellv(currentTilePosition + Directions.directionUp) != (int)TileType.TileType_Floor
-            && this.map.GetCellv(currentTilePosition + Directions.directionDown) != (int)TileType.TileType_Floor) {
+            && !this.map.isTileValidForMovement(currentTilePosition + Directions.directionUp)
+            && !this.map.isTileValidForMovement(currentTilePosition + Directions.directionDown)) {
             newMotion = Directions.noDirection;
         }
 
-        if (newMotion == Directions.directionLeft) {
+        if (newMotion == Directions.directionLeft || newMotion == Directions.directionRight) {
             Vector2 newPos = this.map.GetPositionOfTileCenter(potentialTile) + mapTransform.Origin;
             newPos.x = playerPosition.x;
             SetGlobalPosition(playerPosition.LinearInterpolate(newPos, delta * 10));
         }
 
-        if (newMotion == Directions.directionRight) {
-            Vector2 newPos = this.map.GetPositionOfTileCenter(potentialTile) + mapTransform.Origin;
-            newPos.x = playerPosition.x;
-            SetGlobalPosition(playerPosition.LinearInterpolate(newPos, delta * 10));
-        }
-
-        if (newMotion == Directions.directionUp) {
-            Vector2 newPos = this.map.GetPositionOfTileCenter(potentialTile) + mapTransform.Origin;
-            newPos.y = playerPosition.y;
-            SetGlobalPosition(playerPosition.LinearInterpolate(newPos, delta * 10));
-        }
-
-        if (newMotion == Directions.directionDown) {
+        if (newMotion == Directions.directionUp || newMotion == Directions.directionDown) {
             Vector2 newPos = this.map.GetPositionOfTileCenter(potentialTile) + mapTransform.Origin;
             newPos.y = playerPosition.y;
             SetGlobalPosition(playerPosition.LinearInterpolate(newPos, delta * 10));

@@ -163,7 +163,15 @@ public class TileMap : Godot.TileMap {
     }
 
     public bool isWall(Vector2 tile) {
-        return GetCellv(tile) == (int)TileType.TileType_Floor && GetCellv(tile) == (int)TileType.TileType_Floor2 && GetCellv(tile) == (int)TileType.TileType_Bricks;
+        return GetCellv(tile) != (int)TileType.TileType_Floor && GetCellv(tile) != (int)TileType.TileType_Floor2 && GetCellv(tile) != (int)TileType.TileType_Bricks;
+    }
+
+    public bool isTileValidForMovement(Vector2 tile) {
+        return GetCellv(tile) == (int)TileType.TileType_Floor || GetCellv(tile) == (int)TileType.TileType_Floor2;
+    }
+
+    public bool isTileNotValidForMovement(Vector2 tile) {
+        return GetCellv(tile) != (int)TileType.TileType_Floor && GetCellv(tile) != (int)TileType.TileType_Floor2;
     }
 
     public Vector2 GetPositionOfTileCenter(Vector2 tile) {

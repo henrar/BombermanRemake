@@ -49,7 +49,7 @@ public class Bomb : StaticBody2D {
             AddCollision();
         }
 
-        if (timer.GetTimeLeft() <= 0.0f) {
+        if (this.timer != null && this.timer.GetTimeLeft() <= 0.0f) {
             Explode();
         }
     }
@@ -76,7 +76,7 @@ public class Bomb : StaticBody2D {
     }
 
     private bool ExecuteExplosionAtTile(Vector2 tile) {
-        if (this.map.GetCellv(tile) == (int)TileType.TileType_Wall) {
+        if (this.map.isWall(tile)) {
             return false;
         }
         ExplodePlayer(tile);
@@ -94,7 +94,7 @@ public class Bomb : StaticBody2D {
         AudioStreamPlayer2D soundPlayer = GetTree().GetRoot().GetNode("World/ExplosionSound") as AudioStreamPlayer2D;
         soundPlayer.Play();
 
-        Vector2 explosionPosition = this.map.WorldToMap(this.position);
+        Vector2 explosionPosition = this.map.droppedBombPosition;
         Console.WriteLine("Explosion at: " + explosionPosition);
 
         for(int x = (int)explosionPosition.x; x <= (int)explosionPosition.x + range; ++x) {
