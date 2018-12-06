@@ -2,9 +2,15 @@ using Godot;
 using System;
 
 public enum TileType {
-    TileType_Grass = 0,
+    TileType_Bricks = 0,
     TileType_Wall = 1,
-    TileType_Bricks = 2
+    TileType_Floor = 2,
+    TileType_Pipe = 3,
+    TileType_Railway = 4,
+    TileTypeCorner = 5,
+    TileType_RDCorner = 6,
+    TileType_LUCorner = 7,
+    TileType_Floor2 = 8,
 }
 
 
@@ -24,10 +30,12 @@ public class TileMap : Godot.TileMap {
         this.generatedEnemies = false;
         this.enemies = new Godot.Array<Enemy>();
         this.droppedBombPosition = invalidTile;
+
+        GeneratePowerups();
     }
 
     public override void _PhysicsProcess(float delta) {
-        if(!this.generatedEnemies) {
+        if (!this.generatedEnemies) {
             GenerateEnemies();
             this.generatedEnemies = true;
         }
@@ -104,11 +112,11 @@ public class TileMap : Godot.TileMap {
     }
 
     private void GenerateBricks() {
-        int grassTileCount = GetTileCount(TileType.TileType_Grass);
+        int grassTileCount = GetTileCount(TileType.TileType_Floor);
         int maxGeneratedBricks = Convert.ToInt32(grassTileCount * this.maxRandomCellsPercentage);
         int generatedTilesCount = 0;
         while (generatedTilesCount < maxGeneratedBricks) {
-            Vector2 tile = GetRandomCell(TileType.TileType_Grass);
+            Vector2 tile = GetRandomCell(TileType.TileType_Floor);
             if (IsNotAllowedCell(tile)) {
                 continue;
             }
@@ -124,9 +132,9 @@ public class TileMap : Godot.TileMap {
         int generatedEnemiesCount = 0;
 
         while (generatedEnemiesCount < (GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables).numberOfEnemies) {
-            Vector2 tile = GetRandomCell(TileType.TileType_Grass);
+            Vector2 tile = GetRandomCell(TileType.TileType_Floor);
 
-            if (IsNotAllowedCell(tile) && GetCellv(tile) != (int)TileType.TileType_Grass && FindEnemyOnTile(tile) != null) {
+            if (IsNotAllowedCell(tile) && GetCellv(tile) != (int)TileType.TileType_Floor && FindEnemyOnTile(tile) != null) {
                 continue;
             }
 
@@ -140,6 +148,17 @@ public class TileMap : Godot.TileMap {
             world.AddChild(enemy);
 
             generatedEnemiesCount++;
+        }
+    }
+
+    public void GeneratePowerups() {
+        int brickTileCount = GetTileCount(TileType.TileType_Bricks);
+
+        int generatedPowerUps = 0;
+
+        while (generatedPowerUps < (GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables).numberOfPowerUps) {
+
+            generatedPowerUps++;
         }
     }
 

@@ -51,15 +51,15 @@ public class Player : KinematicBody2D {
 
         Transform2D mapTransform = this.map.GetGlobalTransform();
 
-        if(newMotion.x != 0 
-            && this.map.GetCellv(currentTilePosition + Directions.directionLeft) != (int)TileType.TileType_Grass 
-            && this.map.GetCellv(currentTilePosition + Directions.directionRight) != (int)TileType.TileType_Grass) {
+        if (newMotion.x != 0.0f
+            && this.map.GetCellv(currentTilePosition + Directions.directionLeft) != (int)TileType.TileType_Floor
+            && this.map.GetCellv(currentTilePosition + Directions.directionRight) != (int)TileType.TileType_Floor) {
             newMotion = Directions.noDirection;
         }
 
-        if (newMotion.y != 0
-            && this.map.GetCellv(currentTilePosition + Directions.directionUp) != (int)TileType.TileType_Grass
-            && this.map.GetCellv(currentTilePosition + Directions.directionDown) != (int)TileType.TileType_Grass) {
+        if (newMotion.y != 0.0f
+            && this.map.GetCellv(currentTilePosition + Directions.directionUp) != (int)TileType.TileType_Floor
+            && this.map.GetCellv(currentTilePosition + Directions.directionDown) != (int)TileType.TileType_Floor) {
             newMotion = Directions.noDirection;
         }
 
@@ -75,7 +75,7 @@ public class Player : KinematicBody2D {
             SetGlobalPosition(playerPosition.LinearInterpolate(newPos, delta * 10));
         }
 
-        if (newMotion == Directions.directionUp) { 
+        if (newMotion == Directions.directionUp) {
             Vector2 newPos = this.map.GetPositionOfTileCenter(potentialTile) + mapTransform.Origin;
             newPos.y = playerPosition.y;
             SetGlobalPosition(playerPosition.LinearInterpolate(newPos, delta * 10));
@@ -133,6 +133,9 @@ public class Player : KinematicBody2D {
     }
 
     public Vector2 GetPositionOnTileMap() {
+        if(this.map == null) {
+            return TileMap.invalidTile;
+        }
         Transform2D mapTransform = this.map.GetGlobalTransform();
         return this.map.WorldToMap(GetGlobalPosition() - mapTransform.Origin);
     }

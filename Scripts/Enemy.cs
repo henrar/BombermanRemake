@@ -2,6 +2,14 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
+public enum EnemyType {
+    EnemyType_Balloon = 0,
+    EnemyType_Mushroom = 1, //+20% speed
+    EnemyType_Barrel = 2, //+33% speed
+    EnemyType_Ghost = 3, // -15% speed, moves through bricks
+    EnemyType_Coin = 4, //+45%, moves through bricks
+}
+
 public class Enemy : KinematicBody2D {
     public Vector2 currentPositionOnTileMap;
     private readonly int moveModifier = 180;
@@ -9,7 +17,7 @@ public class Enemy : KinematicBody2D {
     private Vector2 previousDirection;
     private Sprite sprite;
     private CollisionPolygon2D collision;
-    
+
     public override void _Ready() {
         this.tileMap = GetTree().GetRoot().GetNode("World/TileMap") as TileMap;
         this.previousDirection = new Vector2(0, 0);
@@ -56,12 +64,12 @@ public class Enemy : KinematicBody2D {
     private bool ShouldStepOnTile(Vector2 currentTile, Vector2 nextTile) {
         Transform2D mapTransform = this.tileMap.GetGlobalTransform();
 
-        if (this.tileMap.GetCellv(nextTile) != (int)TileType.TileType_Grass && GetGlobalPosition().DistanceTo(this.tileMap.GetPositionOfTileCenter(nextTile) + mapTransform.Origin) < 90.0f) {
+        if (this.tileMap.GetCellv(nextTile) != (int)TileType.TileType_Floor && GetGlobalPosition().DistanceTo(this.tileMap.GetPositionOfTileCenter(nextTile) + mapTransform.Origin) < 90.0f) {
             return false;
         }
 
-        return ((this.tileMap.GetCellv(nextTile) == (int)TileType.TileType_Grass) 
-            || (this.tileMap.GetCellv(nextTile) != (int)TileType.TileType_Grass && GetGlobalPosition().DistanceTo(this.tileMap.GetPositionOfTileCenter(nextTile) + mapTransform.Origin) >= 90.0f))
+        return ((this.tileMap.GetCellv(nextTile) == (int)TileType.TileType_Floor)
+            || (this.tileMap.GetCellv(nextTile) != (int)TileType.TileType_Floor && GetGlobalPosition().DistanceTo(this.tileMap.GetPositionOfTileCenter(nextTile) + mapTransform.Origin) >= 90.0f))
             && this.tileMap.FindEnemyOnTile(nextTile) == null
             && this.tileMap.droppedBombPosition != nextTile;
     }
@@ -106,7 +114,7 @@ public class Enemy : KinematicBody2D {
             if (direction != Directions.noDirection) {
                 if (IsAllowedToStep(direction)) {
                     directionFound = true;
-                } else if(direction == Directions.noDirection) {
+                } else if (direction == Directions.noDirection) {
                     direction = Directions.GetRandomDirection();
                     directionFound = false;
                 } else {
@@ -136,15 +144,15 @@ public class Enemy : KinematicBody2D {
 
         Vector2 playerPosition = GetGlobalPosition();
 
-        if (newMotion.x != 0
-            && this.tileMap.GetCellv(currentTilePosition + Directions.directionLeft) != (int)TileType.TileType_Grass
-            && this.tileMap.GetCellv(currentTilePosition + Directions.directionRight) != (int)TileType.TileType_Grass) {
+        if (newMotion.x != 0.0f
+            && this.tileMap.GetCellv(currentTilePosition + Directions.directionLeft) != (int)TileType.TileType_Floor
+            && this.tileMap.GetCellv(currentTilePosition + Directions.directionRight) != (int)TileType.TileType_Floor) {
             newMotion = Directions.noDirection;
         }
 
-        if (newMotion.y != 0
-            && this.tileMap.GetCellv(currentTilePosition + Directions.directionUp) != (int)TileType.TileType_Grass
-            && this.tileMap.GetCellv(currentTilePosition + Directions.directionDown) != (int)TileType.TileType_Grass) {
+        if (newMotion.y != 0.0f
+            && this.tileMap.GetCellv(currentTilePosition + Directions.directionUp) != (int)TileType.TileType_Floor
+            && this.tileMap.GetCellv(currentTilePosition + Directions.directionDown) != (int)TileType.TileType_Floor) {
             newMotion = Directions.noDirection;
         }
 

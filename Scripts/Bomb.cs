@@ -30,16 +30,6 @@ public class Bomb : StaticBody2D {
 
         Vector2 pos = new Vector2(0, 0);
         SetPosition(pos);
-
-        this.collision = new CollisionShape2D();
-
-        CircleShape2D shape = new CircleShape2D();
-        shape.SetRadius(40.0f);
-        this.collision.SetShape(shape);
-
-        this.collision.SetPosition(position + this.map.GetGlobalTransform().Origin);
-
-        this.collision.SetName("BombCollision");
     }
 
     public override void _PhysicsProcess(float delta) {
@@ -48,7 +38,14 @@ public class Bomb : StaticBody2D {
             return;
         }
 
-        if (this.position != null && player.GetPositionOnTileMap() != this.map.WorldToMap(this.position) && this.position.DistanceTo(player.GetGlobalPosition() - this.map.GetGlobalTransform().Origin) >= 80.0f) { //when we leave the tile that contains bomb, we should turn on collision as in the original
+        if(this.map == null) {
+            return;
+        }
+
+        if (this.collision == null
+            && player.GetPositionOnTileMap() != TileMap.invalidTile
+            && player.GetPositionOnTileMap() != this.map.droppedBombPosition
+            && this.position.DistanceTo(player.GetGlobalPosition() - this.map.GetGlobalTransform().Origin) >= 80.0f) { //when we leave the tile that contains bomb, we should turn on collision as in the original
             AddCollision();
         }
 
@@ -86,7 +83,7 @@ public class Bomb : StaticBody2D {
         ExplodeEnemy(tile);
 
         if (map.GetCellv(tile) == (int)TileType.TileType_Bricks) {
-            map.SetCellv(tile, (int)TileType.TileType_Grass);
+            map.SetCellv(tile, (int)TileType.TileType_Floor);
         }
         return true;
     }
@@ -97,7 +94,7 @@ public class Bomb : StaticBody2D {
         AudioStreamPlayer2D soundPlayer = GetTree().GetRoot().GetNode("World/ExplosionSound") as AudioStreamPlayer2D;
         soundPlayer.Play();
 
-        Vector2 explosionPosition = map.WorldToMap(this.position);
+        Vector2 explosionPosition = this.map.WorldToMap(this.position);
         Console.WriteLine("Explosion at: " + explosionPosition);
 
         for(int x = (int)explosionPosition.x; x <= (int)explosionPosition.x + range; ++x) {
@@ -134,9 +131,14 @@ public class Bomb : StaticBody2D {
     }
 
     public void AddCollision() {
-        if(this.collision != null && this.GetNode("BombCollision") == null) {
-            AddChild(this.collision);
-        }
+        this.collision = new CollisionShape2D();
+        CircleShape2D shape = new CircleShape2D();
+        shape.SetRadius(40.0f);
+        this.collision.SetShape(shape);
+        this.collision.SetPosition(position + this.map.GetGlobalTransform().Origin);
+        this.collision.SetName("BombCollision");
+        AddChild(this.collision);
+
     }
 }
 
