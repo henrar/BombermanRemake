@@ -7,7 +7,7 @@ public enum TileType {
     TileType_Floor = 2,
     TileType_Pipe = 3,
     TileType_Railway = 4,
-    TileTypeCorner = 5,
+    TileType_Corner = 5,
     TileType_RDCorner = 6,
     TileType_LUCorner = 7,
     TileType_Floor2 = 8,
@@ -160,6 +160,10 @@ public class TileMap : Godot.TileMap {
 
             generatedPowerUps++;
         }
+    }
+
+    public bool isWall(Vector2 tile) {
+        return GetCellv(tile) == (int)TileType.TileType_Floor && GetCellv(tile) == (int)TileType.TileType_Floor2 && GetCellv(tile) == (int)TileType.TileType_Bricks;
     }
 
     public Vector2 GetPositionOfTileCenter(Vector2 tile) {
