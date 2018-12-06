@@ -9,7 +9,7 @@
 [ext_resource path="res://Assets/testy/murd.png" type="Texture" id=7]
 [ext_resource path="res://Assets/sound/Explosion.wav" type="AudioStream" id=8]
 [ext_resource path="res://Scripts/LevelTimer.cs" type="Script" id=9]
-[ext_resource path="res://Assets/testy/mapa_ver1.png-468f448690edadb6caa97cfda8444b04.tres" type="Texture" id=10]
+[ext_resource path="res://Assets/assetyver2/mapbackground.png" type="Texture" id=10]
 
 [node name="World" type="Node2D" index="0"]
 
@@ -17,7 +17,7 @@ position = Vector2( 1000, 250 )
 
 [node name="TileMap" type="TileMap" parent="." index="0"]
 
-position = Vector2( -486.142, -21.3843 )
+position = Vector2( -490, -20 )
 mode = 0
 tile_set = ExtResource( 1 )
 cell_size = Vector2( 80, 80 )

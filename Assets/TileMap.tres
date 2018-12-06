@@ -1,8 +1,8 @@
 [gd_resource type="TileSet" load_steps=7 format=2]
 
-[ext_resource path="res://Assets/testy/trawa.png" type="Texture" id=1]
+[ext_resource path="res://Assets/assetyver2/floor2.png" type="Texture" id=1]
 [ext_resource path="res://Assets/testy/murd.png" type="Texture" id=2]
-[ext_resource path="res://Assets/testy/mur.png" type="Texture" id=3]
+[ext_resource path="res://Assets/assetyver2/box.png" type="Texture" id=3]
 
 [sub_resource type="NavigationPolygon" id=1]
 
@@ -60,5 +60,5 @@ points = PoolVector2Array( -40.207, -40.2775, 39.793, -40.2775, 39.793, 39.7225,
 "shape": SubResource( 3 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 40, 40 )
 } ]
-_sections_unfolded = [ "0", "1", "2", "Resource" ]
+_sections_unfolded = [ "Resource" ]
 
