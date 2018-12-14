@@ -13,25 +13,32 @@ public enum TileType {
     TileType_Floor2 = 8,
 }
 
-
 public class TileMap : Godot.TileMap {
-    public float maxRandomCellsPercentage;
     public Dictionary<Enemy, Vector2> enemyOnCell;
+    public Dictionary<Vector2, Powerup> powerups;
+    public Vector2 exitTile;
+
     private Random random = new Random();
     private bool generatedEnemies;
     private Godot.Array<Enemy> enemies;
-    public Vector2 droppedBombPosition;
+    public Dictionary<Bomb, Vector2> droppedBombPositions;
     public static Vector2 invalidTile = new Vector2(-1, -1);
+
+    private SceneVariables sceneVariables;
 
     public override void _Ready() {
         this.enemyOnCell = new Dictionary<Enemy, Vector2>();
-        this.maxRandomCellsPercentage = 0.4f;
+
+        this.sceneVariables = GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables;
+
         GenerateBricks();
         this.generatedEnemies = false;
         this.enemies = new Godot.Array<Enemy>();
-        this.droppedBombPosition = invalidTile;
+        this.droppedBombPositions = new Dictionary<Bomb, Vector2>();
 
+        this.powerups = new Dictionary<Vector2, Powerup>();
         GeneratePowerups();
+        GenerateExit();
     }
 
     public override void _PhysicsProcess(float delta) {
@@ -39,6 +46,30 @@ public class TileMap : Godot.TileMap {
             GenerateEnemies();
             this.generatedEnemies = true;
         }
+    }
+
+    public void FreeBombs() {
+        foreach (var entry in this.droppedBombPositions) {
+            entry.Key.QueueFree();
+        }
+    }
+
+    public Vector2 FindPowerUpPosition(Powerup powerup) {
+        foreach (var entry in this.powerups) {
+            if (entry.Value == powerup) {
+                return entry.Key;
+            }
+        }
+        return invalidTile;
+    }
+
+    public Bomb FindBombOnTile(Vector2 tile) {
+        foreach (var entry in this.droppedBombPositions) {
+            if (entry.Value == tile) {
+                return entry.Key;
+            }
+        }
+        return null;
     }
 
     public Enemy FindEnemyOnTile(Vector2 pos) {
@@ -113,7 +144,7 @@ public class TileMap : Godot.TileMap {
 
     private void GenerateBricks() {
         int grassTileCount = GetTileCount(TileType.TileType_Floor);
-        int maxGeneratedBricks = Convert.ToInt32(grassTileCount * this.maxRandomCellsPercentage);
+        int maxGeneratedBricks = Convert.ToInt32(grassTileCount * (GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables).maxRandomCellsPercentage);
         int generatedTilesCount = 0;
         while (generatedTilesCount < maxGeneratedBricks) {
             Vector2 tile = GetRandomCell(TileType.TileType_Floor);
@@ -131,7 +162,7 @@ public class TileMap : Godot.TileMap {
 
         int generatedEnemiesCount = 0;
 
-        while (generatedEnemiesCount < (GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables).numberOfEnemies) {
+        while (generatedEnemiesCount < this.sceneVariables.numberOfEnemies) {
             Vector2 tile = GetRandomCell(TileType.TileType_Floor);
 
             if (IsNotAllowedCell(tile) && GetCellv(tile) != (int)TileType.TileType_Floor && FindEnemyOnTile(tile) != null) {
@@ -151,15 +182,60 @@ public class TileMap : Godot.TileMap {
         }
     }
 
+    public void UncoverPowerUp(Vector2 tile) {
+        if (this.powerups.ContainsKey(tile)) {
+            this.powerups[tile].uncovered = true;
+            this.powerups[tile].SetSpriteBasedOnType();
+            Console.WriteLine("Powerup found!");
+        }
+    }
+
+    private void AddPowerUp(Vector2 tile) {
+        Powerup powerup = new Powerup();
+        powerup.SetType((PowerUpType)this.random.Next(0, Enum.GetNames(typeof(PowerUpType)).Length));
+        this.powerups[tile] = powerup;
+        AddChild(powerup);
+    }
+
     public void GeneratePowerups() {
         int brickTileCount = GetTileCount(TileType.TileType_Bricks);
 
         int generatedPowerUps = 0;
 
-        while (generatedPowerUps < (GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables).numberOfPowerUps) {
+        bool powerUp1Generated = false;
+        bool powerUp2Generated = false;
+        bool powerUp3Generated = false;
+
+        while (generatedPowerUps < this.sceneVariables.numberOfPowerUps) {
+            Vector2 tile = GetRandomCell(TileType.TileType_Bricks);
+
+            if (this.powerups.ContainsKey(tile)) {
+                continue;
+            }
+
+            double result = Convert.ToDouble(this.random.Next(0, 100)) / 100.0f;
+
+            if (result < this.sceneVariables.powerup1DropChance && !powerUp1Generated && generatedPowerUps == 0) {
+                AddPowerUp(tile);
+                powerUp1Generated = true;
+            }
+
+            if (result < this.sceneVariables.powerup2DropChance && !powerUp2Generated && generatedPowerUps == 1) {
+                AddPowerUp(tile);
+                powerUp2Generated = true;
+            }
+
+            if (result < this.sceneVariables.powerup3DropChance && !powerUp3Generated && generatedPowerUps == 2) {
+                AddPowerUp(tile);
+                powerUp3Generated = true;
+            }
 
             generatedPowerUps++;
         }
+    }
+
+    public void GenerateExit() {
+
     }
 
     public bool isWall(Vector2 tile) {

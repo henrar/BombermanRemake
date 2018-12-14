@@ -2,32 +2,42 @@ using Godot;
 using System;
 
 public class Player : KinematicBody2D {
-    private readonly int moveModifier = 180;
     private TileMap map;
+    public int numberOfDroppedBombs;
 
-    private bool bombDropped;
-    private Bomb currentDroppedBomb;
+    private SceneVariables sceneVariables;
+
+    private int dropBombCooldown;
 
     public override void _Ready() {
-        this.bombDropped = false;
+        this.numberOfDroppedBombs = 0;
         this.map = GetTree().GetRoot().GetNode("World/TileMap") as TileMap;
+        this.sceneVariables = GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables;
+        this.dropBombCooldown = 20;
     }
 
     public void Die() {
-        SceneVariables sv = GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables;
-
         Console.WriteLine("YOU DIED!");
-        this.bombDropped = false;
-        if (this.currentDroppedBomb != null) {
-            this.currentDroppedBomb.QueueFree();
-        }
-        if (sv.numberOfLives > 0) {
-            sv.numberOfLives -= 1;
+        this.numberOfDroppedBombs = 0;
+        this.map.FreeBombs();
+        if (this.sceneVariables.numberOfLives > 0) {
+            this.sceneVariables.numberOfLives -= 1;
+            this.sceneVariables.ResetPlayerVariablesOnDeath();
             GetTree().ReloadCurrentScene();
         } else {
             //TODO: go to menu or sth
-            sv.ResetPlayerVariables();
+            this.sceneVariables.ResetPlayerVariablesOnFinalDeath();
             GetTree().ReloadCurrentScene();
+        }
+    }
+
+    private void CheckForPowerups() {
+        if (this.map.powerups.ContainsKey(GetPositionOnTileMap())) {
+            Console.WriteLine("Powerup!");
+            Powerup powerup = this.map.powerups[GetPositionOnTileMap()];
+            powerup.ExecuteEffect();
+            this.map.powerups.Remove(GetPositionOnTileMap());
+            powerup.QueueFree();
         }
     }
 
@@ -36,13 +46,14 @@ public class Player : KinematicBody2D {
         motion = ModifyMoveBasedOnSurrounding(motion, delta);
         ExecuteMovement(motion, delta);
 
-        if (Input.IsActionPressed("ui_accept") && !this.bombDropped) {
+        if (Input.IsActionPressed("ui_accept") && this.numberOfDroppedBombs < this.sceneVariables.maxNumberOfDroppedBombs && this.dropBombCooldown > 20) {
             DropBomb();
+            this.dropBombCooldown = 0;
         }
 
-        if (!GetTree().GetRoot().HasNode("Bomb") && this.bombDropped) {
-            this.bombDropped = false;
-        }
+        this.dropBombCooldown += 1;
+
+        CheckForPowerups();
     }
 
     private Vector2 ModifyMoveBasedOnSurrounding(Vector2 originalMotion, float delta) {
@@ -97,7 +108,7 @@ public class Player : KinematicBody2D {
     }
 
     private void ExecuteMovement(Vector2 motion, float delta) {
-        KinematicCollision2D collision = MoveAndCollide(motion * delta * this.moveModifier);
+        KinematicCollision2D collision = MoveAndCollide(motion * delta * this.sceneVariables.playerMoveModifier);
         if (collision != null && collision.GetCollider().GetType() == typeof(Enemy)) {
             Die();
             return;
@@ -105,25 +116,26 @@ public class Player : KinematicBody2D {
     }
 
     private void DropBomb() {
-        this.currentDroppedBomb = new Bomb();
+        Console.WriteLine("Drop bomb");
+        Bomb bomb = new Bomb();
 
         Vector2 pos = this.map.GetPositionOfTileCenter(GetPositionOnTileMap());
 
         Transform2D mapTransform = this.map.GetGlobalTransform();
 
-        this.currentDroppedBomb.position = pos;
-        this.currentDroppedBomb.SetGlobalPosition(pos + mapTransform.Origin);
-        this.currentDroppedBomb.SetName("Bomb");
+        bomb.position = pos;
+        bomb.SetGlobalPosition(pos + mapTransform.Origin);
+        bomb.SetName("Bomb" + this.numberOfDroppedBombs);
 
         Node world = GetTree().GetRoot();
-        world.AddChild(this.currentDroppedBomb);
-        this.bombDropped = true;
+        world.AddChild(bomb);
+        this.numberOfDroppedBombs += 1;
 
-        this.map.droppedBombPosition = this.map.WorldToMap(this.currentDroppedBomb.position);
+        this.map.droppedBombPositions[bomb] = this.map.WorldToMap(bomb.position);
     }
 
     public Vector2 GetPositionOnTileMap() {
-        if(this.map == null) {
+        if (this.map == null) {
             return TileMap.invalidTile;
         }
         Transform2D mapTransform = this.map.GetGlobalTransform();

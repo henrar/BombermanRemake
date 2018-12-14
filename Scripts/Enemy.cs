@@ -73,7 +73,8 @@ public class Enemy : KinematicBody2D {
             return false;
         }
 
-        if (nextTile == this.tileMap.droppedBombPosition && GetGlobalPosition().DistanceTo(this.tileMap.GetPositionOfTileCenter(this.tileMap.droppedBombPosition) + mapTransform.Origin) <= this.tileMap.GetCellSize().x) {
+        Bomb bomb = this.tileMap.FindBombOnTile(nextTile);
+        if (bomb != null && GetGlobalPosition().DistanceTo(this.tileMap.GetPositionOfTileCenter(this.tileMap.droppedBombPositions[bomb]) + mapTransform.Origin) <= this.tileMap.GetCellSize().x) {
             return false;
         }
 
@@ -158,7 +159,7 @@ public class Enemy : KinematicBody2D {
         }
     }
 
-    public void Die() { 
+    public void Die() {
         SetScore();
 
         this.QueueFree();

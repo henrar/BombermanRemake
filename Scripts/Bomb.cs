@@ -32,17 +32,17 @@ public class Bomb : StaticBody2D {
 
     public override void _PhysicsProcess(float delta) {
         Player player = GetTree().GetRoot().GetNode("World/Player") as Player;
-        if(player == null) {
+        if (player == null) {
             return;
         }
 
-        if(this.map == null) {
+        if (this.map == null) {
             return;
         }
 
         if (this.collision == null
             && player.GetPositionOnTileMap() != TileMap.invalidTile
-            && player.GetPositionOnTileMap() != this.map.droppedBombPosition
+            && player.GetPositionOnTileMap() != this.map.droppedBombPositions[this]
             && this.position.DistanceTo(player.GetGlobalPosition() - this.map.GetGlobalTransform().Origin) >= 80.0f) { //when we leave the tile that contains bomb, we should turn on collision as in the original
             AddCollision();
         }
@@ -77,34 +77,43 @@ public class Bomb : StaticBody2D {
         if (this.map.isWall(tile)) {
             return false;
         }
+
         ExplodePlayer(tile);
         ExplodeEnemy(tile);
 
-        if (map.GetCellv(tile) == (int)TileType.TileType_Bricks) {
-            map.SetCellv(tile, (int)TileType.TileType_Floor);
+        if (this.map.GetCellv(tile) == (int)TileType.TileType_Bricks) {
+            this.map.SetCellv(tile, (int)TileType.TileType_Floor);
+            this.map.UncoverPowerUp(tile);
         }
+
         return true;
     }
 
     private void Explode() {
-        SceneVariables sv = GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables;
-
         Console.WriteLine("BOOM!");
+
+        SceneVariables sv = GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables;
 
         AudioStreamPlayer2D soundPlayer = GetTree().GetRoot().GetNode("World/ExplosionSound") as AudioStreamPlayer2D;
         soundPlayer.Play();
 
-        Vector2 explosionPosition = this.map.droppedBombPosition;
+        Vector2 explosionPosition = this.map.WorldToMap(this.position);
         Console.WriteLine("Explosion at: " + explosionPosition);
 
-        for(int x = (int)explosionPosition.x; x <= (int)explosionPosition.x + sv.bombRange; ++x) {
+        Player player = GetTree().GetRoot().GetNode("World/Player") as Player;
+        if (player != null) {
+            player.numberOfDroppedBombs -= 1;
+            Console.WriteLine(player.numberOfDroppedBombs);
+        }
+
+        for (int x = (int)explosionPosition.x; x <= (int)explosionPosition.x + sv.bombRange; ++x) {
             Vector2 tile = new Vector2(x, explosionPosition.y);
-            if(!ExecuteExplosionAtTile(tile)) {
+            if (!ExecuteExplosionAtTile(tile)) {
                 break;
             }
         }
 
-        for(int x = (int)explosionPosition.x; x >= (int)explosionPosition.x - sv.bombRange; --x) {
+        for (int x = (int)explosionPosition.x; x >= (int)explosionPosition.x - sv.bombRange; --x) {
             Vector2 tile = new Vector2(x, explosionPosition.y);
             if (!ExecuteExplosionAtTile(tile)) {
                 break;
@@ -125,8 +134,7 @@ public class Bomb : StaticBody2D {
             }
         }
 
-        this.map.droppedBombPosition = TileMap.invalidTile;
-
+        this.map.droppedBombPositions.Remove(this);
         QueueFree();
     }
 
