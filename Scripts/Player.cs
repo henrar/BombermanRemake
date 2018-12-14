@@ -2,7 +2,6 @@ using Godot;
 using System;
 
 public class Player : KinematicBody2D {
-    public int numberOfLives = 3;
     private readonly int moveModifier = 180;
     private TileMap map;
 
@@ -10,24 +9,24 @@ public class Player : KinematicBody2D {
     private Bomb currentDroppedBomb;
 
     public override void _Ready() {
-        this.numberOfLives = (GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables).savedNumberOfLives;
         this.bombDropped = false;
         this.map = GetTree().GetRoot().GetNode("World/TileMap") as TileMap;
     }
 
     public void Die() {
+        SceneVariables sv = GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables;
+
         Console.WriteLine("YOU DIED!");
         this.bombDropped = false;
         if (this.currentDroppedBomb != null) {
             this.currentDroppedBomb.QueueFree();
         }
-        if (this.numberOfLives > 0) {
-            this.numberOfLives -= 1;
-            (GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables).savedNumberOfLives -= 1;
+        if (sv.numberOfLives > 0) {
+            sv.numberOfLives -= 1;
             GetTree().ReloadCurrentScene();
         } else {
             //TODO: go to menu or sth
-            (GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables).savedNumberOfLives = 3;
+            sv.ResetPlayerVariables();
             GetTree().ReloadCurrentScene();
         }
     }

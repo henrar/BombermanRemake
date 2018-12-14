@@ -90,7 +90,6 @@ _sections_unfolded = [ "Drag Margin" ]
 
 [node name="HUD" type="CanvasLayer" parent="Player/PlayerCamera" index="0"]
 
-editor/display_folded = true
 layer = 1
 offset = Vector2( 0, 0 )
 rotation = 0.0
@@ -189,7 +188,27 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "Material", "Visibility" ]
 
-[node name="LifeLabel" type="Label" parent="Player/PlayerCamera/HUD/interface" index="6"]
+[node name="CurrentScore" type="Label" parent="Player/PlayerCamera/HUD/interface" index="6"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 190.0
+margin_top = 44.0
+margin_right = 230.0
+margin_bottom = 58.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="LifeLabel" type="Label" parent="Player/PlayerCamera/HUD/interface" index="7"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -214,7 +233,7 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "Visibility" ]
 
-[node name="LivesLeft" type="Label" parent="Player/PlayerCamera/HUD/interface" index="7"]
+[node name="LivesLeft" type="Label" parent="Player/PlayerCamera/HUD/interface" index="8"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -234,7 +253,7 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="TimeLabel" type="Label" parent="Player/PlayerCamera/HUD/interface" index="8"]
+[node name="TimeLabel" type="Label" parent="Player/PlayerCamera/HUD/interface" index="9"]
 
 self_modulate = Color( 0.851563, 0.851563, 0.851563, 1 )
 anchor_left = 0.0
@@ -260,7 +279,7 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "Visibility" ]
 
-[node name="TimeLeft" type="Label" parent="Player/PlayerCamera/HUD/interface" index="9"]
+[node name="TimeLeft" type="Label" parent="Player/PlayerCamera/HUD/interface" index="10"]
 
 anchor_left = 0.0
 anchor_top = 0.0

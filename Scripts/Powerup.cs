@@ -10,9 +10,10 @@ public enum PowerUpType {
 
 public class Powerup : Node {
     public PowerUpType type;
+    private SceneVariables sv;
 
     public override void _Ready() {
-
+        this.sv = GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables;
     }
 
     public override void _PhysicsProcess(float delta) {

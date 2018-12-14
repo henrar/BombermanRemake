@@ -8,8 +8,6 @@ public class Bomb : StaticBody2D {
     private CollisionShape2D collision;
     private TileMap map;
 
-    public int range = 1;
-
     public override void _Ready() {
         this.map = GetTree().GetRoot().GetNode("World/TileMap") as TileMap;
 
@@ -89,6 +87,8 @@ public class Bomb : StaticBody2D {
     }
 
     private void Explode() {
+        SceneVariables sv = GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables;
+
         Console.WriteLine("BOOM!");
 
         AudioStreamPlayer2D soundPlayer = GetTree().GetRoot().GetNode("World/ExplosionSound") as AudioStreamPlayer2D;
@@ -97,28 +97,28 @@ public class Bomb : StaticBody2D {
         Vector2 explosionPosition = this.map.droppedBombPosition;
         Console.WriteLine("Explosion at: " + explosionPosition);
 
-        for(int x = (int)explosionPosition.x; x <= (int)explosionPosition.x + range; ++x) {
+        for(int x = (int)explosionPosition.x; x <= (int)explosionPosition.x + sv.bombRange; ++x) {
             Vector2 tile = new Vector2(x, explosionPosition.y);
             if(!ExecuteExplosionAtTile(tile)) {
                 break;
             }
         }
 
-        for(int x = (int)explosionPosition.x; x >= (int)explosionPosition.x - range; --x) {
+        for(int x = (int)explosionPosition.x; x >= (int)explosionPosition.x - sv.bombRange; --x) {
             Vector2 tile = new Vector2(x, explosionPosition.y);
             if (!ExecuteExplosionAtTile(tile)) {
                 break;
             }
         }
 
-        for (int y = (int)explosionPosition.y; y <= (int)explosionPosition.y + range; ++y) {
+        for (int y = (int)explosionPosition.y; y <= (int)explosionPosition.y + sv.bombRange; ++y) {
             Vector2 tile = new Vector2(explosionPosition.x, y);
             if (!ExecuteExplosionAtTile(tile)) {
                 break;
             }
         }
 
-        for (int y = (int)explosionPosition.y; y >= (int)explosionPosition.y - range; --y) {
+        for (int y = (int)explosionPosition.y; y >= (int)explosionPosition.y - sv.bombRange; --y) {
             Vector2 tile = new Vector2(explosionPosition.x, y);
             if (!ExecuteExplosionAtTile(tile)) {
                 break;
