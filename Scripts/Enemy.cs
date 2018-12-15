@@ -30,9 +30,9 @@ public class Enemy : KinematicBody2D {
 
         this.sprite = new Sprite();
         ImageTexture tex = new ImageTexture();
-        tex.Load("res://Assets/icon.png");
+        tex.Load("res://Assets/assetyver2/balonver2.png");
         this.sprite.SetTexture(tex);
-        this.sprite.SetScale(new Vector2(0.5f, 0.5f));
+        this.sprite.SetScale(new Vector2(0.75f, 0.75f));
         AddChild(this.sprite);
 
         Vector2[] indices = {
