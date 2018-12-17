@@ -51,8 +51,9 @@ public class TileMap : Godot.TileMap {
         }
 
         if(this.enemies == null || this.enemies.Count == 0) {
-            Console.WriteLine("ACTIVE");
             this.exitTile.active = true;
+        } else {
+            this.exitTile.active = false;
         }
 
         if (this.exitTile != null && this.exitTile.positionOnTileMap != invalidTile && GetCellv(this.exitTile.positionOnTileMap) == (int)TileType.TileType_Floor && !this.exitTileUncovered) {
