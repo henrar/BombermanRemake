@@ -20,11 +20,4 @@ public class Exit : Node {
 
         AddChild(sprite);
     }
-
-    public void DestroyExit() {
-        this.positionOnTileMap = TileMap.invalidTile;
-        this.map.exitTileUncovered = false;
-        this.QueueFree();
-        this.map.exitTile = null;
-    }
 }
