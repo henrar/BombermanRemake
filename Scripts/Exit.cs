@@ -4,9 +4,11 @@ public class Exit : Node {
     private Sprite sprite;
     private TileMap map;
     public Vector2 positionOnTileMap;
+    public bool active;
 
     public override void _Ready() {
         this.map = GetTree().GetRoot().GetNode("World/TileMap") as TileMap;
+        this.active = false;
     }
 
     public void LoadTexture() {

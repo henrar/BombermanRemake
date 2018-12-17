@@ -2,10 +2,10 @@ using Godot;
 using System;
 
 public enum PowerUpType {
-    Powerup_AddBombRange = 0,
-    Powerup_AddBomb = 1,
-    Powerup_IncreaseSpeed = 2,
-    Powerup_AddLife = 3
+    AddBombRange = 0,
+    AddBomb = 1,
+    IncreaseSpeed = 2,
+    AddLife = 3
 }
 
 public class Powerup : StaticBody2D {
@@ -27,13 +27,13 @@ public class Powerup : StaticBody2D {
         this.sprite = new Sprite();
         ImageTexture tex = new ImageTexture();
 
-        if (this.type == PowerUpType.Powerup_AddBombRange) {
+        if (this.type == PowerUpType.AddBombRange) {
             tex.Load("res://Assets/assetyver2/powerup-power.png");
-        } else if (this.type == PowerUpType.Powerup_AddBomb) {
+        } else if (this.type == PowerUpType.AddBomb) {
             tex.Load("res://Assets/assetyver2/powerup-bomb.png");
-        } else if (this.type == PowerUpType.Powerup_IncreaseSpeed) {
+        } else if (this.type == PowerUpType.IncreaseSpeed) {
             tex.Load("res://Assets/assetyver2/powerup-speed.png");
-        } else if (this.type == PowerUpType.Powerup_AddLife) {
+        } else if (this.type == PowerUpType.AddLife) {
             tex.Load("res://Assets/assetyver2/powerup-life.png");
         }
 
@@ -51,19 +51,19 @@ public class Powerup : StaticBody2D {
     public void ExecuteEffect() {
         this.sv.score += 1000;
 
-        if (this.type == PowerUpType.Powerup_AddBombRange) {
+        if (this.type == PowerUpType.AddBombRange) {
             if (this.sv.bombRange < 6) {
                 this.sv.bombRange += 1;
             }
-        } else if (this.type == PowerUpType.Powerup_AddBomb) {
-            if(this.sv.maxNumberOfDroppedBombs < 5) {
+        } else if (this.type == PowerUpType.AddBomb) {
+            if (this.sv.maxNumberOfDroppedBombs < 5) {
                 this.sv.maxNumberOfDroppedBombs += 1;
             }
-        } else if (this.type == PowerUpType.Powerup_IncreaseSpeed) {
+        } else if (this.type == PowerUpType.IncreaseSpeed) {
             if (this.sv.playerMovementSpeed < 300) {
                 this.sv.playerMovementSpeed += 20;
             }
-        } else if (this.type == PowerUpType.Powerup_AddLife) {
+        } else if (this.type == PowerUpType.AddLife) {
             this.sv.numberOfLives += 1;
         }
     }

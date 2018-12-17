@@ -50,6 +50,11 @@ public class TileMap : Godot.TileMap {
             this.generatedEnemies = true;
         }
 
+        if(this.enemies == null || this.enemies.Count == 0) {
+            Console.WriteLine("ACTIVE");
+            this.exitTile.active = true;
+        }
+
         if (this.exitTile != null && this.exitTile.positionOnTileMap != invalidTile && GetCellv(this.exitTile.positionOnTileMap) == (int)TileType.TileType_Floor && !this.exitTileUncovered) {
             this.exitTile.LoadTexture();
 
@@ -180,12 +185,12 @@ public class TileMap : Godot.TileMap {
 
             Enemy enemy = new Enemy();
             enemy.currentPositionOnTileMap = tile;
-            enemy.SetEnemyType(EnemyType.EnemyType_Balloon);
+            enemy.SetEnemyType(EnemyType.Balloon);
             this.enemies.Add(enemy);
             this.enemyOnCell[enemy] = tile;
             enemy.currentPositionOnTileMap = this.enemyOnCell[enemy];
 
-            enemy.SetName("Enemy" + generatedEnemiesCount);
+            enemy.SetName("Enemy" + enemy.enemyType.ToString() + " " + generatedEnemiesCount);
             world.AddChild(enemy);
 
             generatedEnemiesCount++;

@@ -13,7 +13,7 @@ public class Player : KinematicBody2D {
         this.numberOfDroppedBombs = 0;
         this.map = GetTree().GetRoot().GetNode("World/TileMap") as TileMap;
         this.sceneVariables = GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables;
-        this.dropBombCooldown = 20;
+        this.dropBombCooldown = 10;
     }
 
     public void Die() {
@@ -42,7 +42,7 @@ public class Player : KinematicBody2D {
     }
 
     private void CheckForExit() {
-        if(this.map.exitTile != null && this.map.exitTile.positionOnTileMap != TileMap.invalidTile && GetPositionOnTileMap() == this.map.exitTile.positionOnTileMap) {
+        if(this.map.exitTile != null && this.map.exitTile.positionOnTileMap != TileMap.invalidTile && GetPositionOnTileMap() == this.map.exitTile.positionOnTileMap && this.map.exitTile.active) {
             //TODO: change level, cleanup
         }
     }
@@ -52,7 +52,7 @@ public class Player : KinematicBody2D {
         motion = ModifyMoveBasedOnSurrounding(motion, delta);
         ExecuteMovement(motion, delta);
 
-        if (Input.IsActionPressed("ui_accept") && this.numberOfDroppedBombs < this.sceneVariables.maxNumberOfDroppedBombs && this.dropBombCooldown > 20 && this.map.FindBombOnTile(GetPositionOnTileMap()) == null) {
+        if (Input.IsActionPressed("ui_accept") && this.numberOfDroppedBombs < this.sceneVariables.maxNumberOfDroppedBombs && this.dropBombCooldown > 10 && this.map.FindBombOnTile(GetPositionOnTileMap()) == null) {
             DropBomb();
             this.dropBombCooldown = 0;
         }

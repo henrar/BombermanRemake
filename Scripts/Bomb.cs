@@ -111,7 +111,6 @@ public class Bomb : StaticBody2D {
         Player player = GetTree().GetRoot().GetNode("World/Player") as Player;
         if (player != null) {
             player.numberOfDroppedBombs -= 1;
-            Console.WriteLine(player.numberOfDroppedBombs);
         }
 
         for (int x = (int)explosionPosition.x; x <= (int)explosionPosition.x + sv.bombRange; ++x) {

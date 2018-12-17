@@ -3,11 +3,11 @@ using System;
 using System.Collections.Generic;
 
 public enum EnemyType {
-    EnemyType_Balloon = 0,
-    EnemyType_Mushroom = 1, //+20% speed
-    EnemyType_Barrel = 2, //+33% speed
-    EnemyType_Ghost = 3, // -15% speed, moves through bricks
-    EnemyType_Coin = 4, //+45%, moves through bricks
+    Balloon = 0,
+    Mushroom = 1, //+20% speed
+    Barrel = 2, //+33% speed
+    Ghost = 3, // -15% speed, moves through bricks
+    Coin = 4, //+45%, moves through bricks
 }
 
 public class Enemy : KinematicBody2D {
@@ -36,21 +36,21 @@ public class Enemy : KinematicBody2D {
     }
 
     private void SetMovementSpeed() {
-        if (this.enemyType == EnemyType.EnemyType_Balloon) {
+        if (this.enemyType == EnemyType.Balloon) {
             this.movementSpeed = this.baseMovementSpeed;
-        } else if (this.enemyType == EnemyType.EnemyType_Mushroom) {
+        } else if (this.enemyType == EnemyType.Mushroom) {
             this.movementSpeed = this.baseMovementSpeed * 1.20f;
-        } else if (this.enemyType == EnemyType.EnemyType_Barrel) {
+        } else if (this.enemyType == EnemyType.Barrel) {
             this.movementSpeed = this.baseMovementSpeed * 1.33f;
-        } else if (this.enemyType == EnemyType.EnemyType_Ghost) {
+        } else if (this.enemyType == EnemyType.Ghost) {
             this.movementSpeed = this.baseMovementSpeed * 0.75f;
-        } else if (this.enemyType == EnemyType.EnemyType_Coin) {
+        } else if (this.enemyType == EnemyType.Coin) {
             this.movementSpeed = this.baseMovementSpeed * 1.45f;
         }
     }
 
     private void SetCollision() {
-        if (this.enemyType != EnemyType.EnemyType_Ghost && this.enemyType != EnemyType.EnemyType_Coin) {
+        if (this.enemyType != EnemyType.Ghost && this.enemyType != EnemyType.Coin) {
             Vector2[] indices = {
                 new Vector2(-30, -30),
                 new Vector2(-30, 30),
@@ -67,15 +67,15 @@ public class Enemy : KinematicBody2D {
     private void LoadSprite() {
         this.sprite = new Sprite();
         ImageTexture tex = new ImageTexture();
-        if (this.enemyType == EnemyType.EnemyType_Balloon) {
+        if (this.enemyType == EnemyType.Balloon) {
             tex.Load("res://Assets/assetyver2/balonver2.png");
-        } else if (this.enemyType == EnemyType.EnemyType_Mushroom) {
+        } else if (this.enemyType == EnemyType.Mushroom) {
             tex.Load("res://Assets/assetyver2/grzybek.png");
-        } else if (this.enemyType == EnemyType.EnemyType_Barrel) {
+        } else if (this.enemyType == EnemyType.Barrel) {
             tex.Load("res://Assets/assetyver2/beczkaver2.png");
-        } else if (this.enemyType == EnemyType.EnemyType_Ghost) {
+        } else if (this.enemyType == EnemyType.Ghost) {
             tex.Load("res://Assets/assetyver2/duch2.png");
-        } else if (this.enemyType == EnemyType.EnemyType_Coin) {
+        } else if (this.enemyType == EnemyType.Coin) {
             tex.Load("res://Assets/assetyver2/moneta.png");
         }
         this.sprite.SetTexture(tex);
@@ -84,7 +84,6 @@ public class Enemy : KinematicBody2D {
     }
 
     public void SetEnemyType(EnemyType enemyType) {
-        Console.WriteLine(enemyType.ToString());
         this.enemyType = enemyType;
     }
 
@@ -181,15 +180,15 @@ public class Enemy : KinematicBody2D {
     private void SetScore() {
         SceneVariables sv = GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables;
 
-        if (this.enemyType == EnemyType.EnemyType_Balloon) {
+        if (this.enemyType == EnemyType.Balloon) {
             sv.score += 100;
-        } else if (this.enemyType == EnemyType.EnemyType_Mushroom) {
+        } else if (this.enemyType == EnemyType.Mushroom) {
             sv.score += 200;
-        } else if (this.enemyType == EnemyType.EnemyType_Barrel) {
+        } else if (this.enemyType == EnemyType.Barrel) {
             sv.score += 300;
-        } else if (this.enemyType == EnemyType.EnemyType_Ghost) {
+        } else if (this.enemyType == EnemyType.Ghost) {
             sv.score += 200;
-        } else if (this.enemyType == EnemyType.EnemyType_Coin) {
+        } else if (this.enemyType == EnemyType.Coin) {
             sv.score += 200;
         }
     }
