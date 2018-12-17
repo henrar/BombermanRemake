@@ -4,7 +4,7 @@ using System;
 public class SceneVariables : Node {
     public Node CurrentScene { get; set; }
     public int numberOfLives;
-    public int playerMoveModifier;
+    public int playerMovementSpeed;
 
     public int numberOfEnemies;
     public int numberOfPowerUps;
@@ -30,7 +30,7 @@ public class SceneVariables : Node {
 
         this.maxRandomCellsPercentage = 0.4f;
 
-        this.playerMoveModifier = 180;
+        this.playerMovementSpeed = 180;
 
         this.maxNumberOfDroppedBombs = 1;
         this.bombRange = 1;

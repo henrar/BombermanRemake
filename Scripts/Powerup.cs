@@ -40,7 +40,6 @@ public class Powerup : StaticBody2D {
         this.sprite.SetTexture(tex);
         this.sprite.SetScale(new Vector2(0.5f, 0.5f));
 
-
         TileMap map = GetTree().GetRoot().GetNode("World/TileMap") as TileMap;
         Transform2D mapTransform = map.GetGlobalTransform();
 
@@ -61,8 +60,8 @@ public class Powerup : StaticBody2D {
                 this.sv.maxNumberOfDroppedBombs += 1;
             }
         } else if (this.type == PowerUpType.Powerup_IncreaseSpeed) {
-            if (this.sv.playerMoveModifier < 300) {
-                this.sv.playerMoveModifier += 20;
+            if (this.sv.playerMovementSpeed < 300) {
+                this.sv.playerMovementSpeed += 20;
             }
         } else if (this.type == PowerUpType.Powerup_AddLife) {
             this.sv.numberOfLives += 1;

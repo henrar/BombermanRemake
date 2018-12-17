@@ -12,7 +12,8 @@ public enum EnemyType {
 
 public class Enemy : KinematicBody2D {
     public Vector2 currentPositionOnTileMap;
-    private readonly int moveModifier = 180;
+    private readonly float baseMovementSpeed = 180.0f;
+    private float movementSpeed;
     private TileMap tileMap;
     private Vector2 previousDirection;
     private Sprite sprite;
@@ -28,28 +29,62 @@ public class Enemy : KinematicBody2D {
         Transform2D mapTransfrom = this.tileMap.GetGlobalTransform();
         SetGlobalPosition(this.tileMap.GetPositionOfTileCenter(this.currentPositionOnTileMap) + mapTransfrom.Origin);
 
-        this.sprite = new Sprite();
-        ImageTexture tex = new ImageTexture();
-        tex.Load("res://Assets/assetyver2/balonver2.png");
-        this.sprite.SetTexture(tex);
-        this.sprite.SetScale(new Vector2(0.75f, 0.75f));
-        AddChild(this.sprite);
-
-        Vector2[] indices = {
-            new Vector2(-30, -30),
-            new Vector2(-30, 30),
-            new Vector2(30, 30),
-            new Vector2(30,-30)
-        };
-
-        this.collision = new CollisionPolygon2D();
-        this.collision.SetPolygon(indices);
-        AddChild(this.collision);
-
+        SetMovementSpeed();
+        LoadSprite();
+        SetCollision();
         UpdatePositionOnTileMap();
     }
 
+    private void SetMovementSpeed() {
+        if (this.enemyType == EnemyType.EnemyType_Balloon) {
+            this.movementSpeed = this.baseMovementSpeed;
+        } else if (this.enemyType == EnemyType.EnemyType_Mushroom) {
+            this.movementSpeed = this.baseMovementSpeed * 1.20f;
+        } else if (this.enemyType == EnemyType.EnemyType_Barrel) {
+            this.movementSpeed = this.baseMovementSpeed * 1.33f;
+        } else if (this.enemyType == EnemyType.EnemyType_Ghost) {
+            this.movementSpeed = this.baseMovementSpeed * 0.75f;
+        } else if (this.enemyType == EnemyType.EnemyType_Coin) {
+            this.movementSpeed = this.baseMovementSpeed * 1.45f;
+        }
+    }
+
+    private void SetCollision() {
+        if (this.enemyType != EnemyType.EnemyType_Ghost && this.enemyType != EnemyType.EnemyType_Coin) {
+            Vector2[] indices = {
+                new Vector2(-30, -30),
+                new Vector2(-30, 30),
+                new Vector2(30, 30),
+                new Vector2(30,-30)
+            };
+
+            this.collision = new CollisionPolygon2D();
+            this.collision.SetPolygon(indices);
+            AddChild(this.collision);
+        }
+    }
+
+    private void LoadSprite() {
+        this.sprite = new Sprite();
+        ImageTexture tex = new ImageTexture();
+        if (this.enemyType == EnemyType.EnemyType_Balloon) {
+            tex.Load("res://Assets/assetyver2/balonver2.png");
+        } else if (this.enemyType == EnemyType.EnemyType_Mushroom) {
+            tex.Load("res://Assets/assetyver2/grzybek.png");
+        } else if (this.enemyType == EnemyType.EnemyType_Barrel) {
+            tex.Load("res://Assets/assetyver2/beczkaver2.png");
+        } else if (this.enemyType == EnemyType.EnemyType_Ghost) {
+            tex.Load("res://Assets/assetyver2/duch2.png");
+        } else if (this.enemyType == EnemyType.EnemyType_Coin) {
+            tex.Load("res://Assets/assetyver2/moneta.png");
+        }
+        this.sprite.SetTexture(tex);
+        this.sprite.SetScale(new Vector2(0.75f, 0.75f));
+        AddChild(this.sprite);
+    }
+
     public void SetEnemyType(EnemyType enemyType) {
+        Console.WriteLine(enemyType.ToString());
         this.enemyType = enemyType;
     }
 
@@ -59,7 +94,7 @@ public class Enemy : KinematicBody2D {
         Vector2 direction = GetRandomDirection();
         direction = ModifyMoveBasedOnSurrounding(direction, delta);
 
-        KinematicCollision2D collision = MoveAndCollide(direction * this.moveModifier * delta);
+        KinematicCollision2D collision = MoveAndCollide(direction * this.movementSpeed * delta);
         if (collision != null && collision.GetCollider().GetType() == typeof(Player)) {
             (collision.GetCollider() as Player).Die();
             return;
@@ -69,7 +104,7 @@ public class Enemy : KinematicBody2D {
     private bool ShouldStepOnTile(Vector2 currentTile, Vector2 nextTile) {
         Transform2D mapTransform = this.tileMap.GetGlobalTransform();
 
-        if (!this.tileMap.isTileValidForMovement(nextTile) && GetGlobalPosition().DistanceTo(this.tileMap.GetPositionOfTileCenter(nextTile) + mapTransform.Origin) < (this.tileMap.GetCellSize().x + 10.0f)) {
+        if (!this.tileMap.IsTileValidForMovement(nextTile) && GetGlobalPosition().DistanceTo(this.tileMap.GetPositionOfTileCenter(nextTile) + mapTransform.Origin) < (this.tileMap.GetCellSize().x + 10.0f)) {
             return false;
         }
 
@@ -78,8 +113,8 @@ public class Enemy : KinematicBody2D {
             return false;
         }
 
-        return ((this.tileMap.isTileValidForMovement(nextTile))
-            || (!this.tileMap.isTileValidForMovement(nextTile) && GetGlobalPosition().DistanceTo(this.tileMap.GetPositionOfTileCenter(nextTile) + mapTransform.Origin) >= (this.tileMap.GetCellSize().x + 10.0f)))
+        return ((this.tileMap.IsTileValidForMovement(nextTile))
+            || (!this.tileMap.IsTileValidForMovement(nextTile) && GetGlobalPosition().DistanceTo(this.tileMap.GetPositionOfTileCenter(nextTile) + mapTransform.Origin) >= (this.tileMap.GetCellSize().x + 10.0f)))
             && this.tileMap.FindEnemyOnTile(nextTile) == null;
     }
 
@@ -175,14 +210,14 @@ public class Enemy : KinematicBody2D {
         Vector2 enemyPosition = GetGlobalPosition();
 
         if (newMotion.x != 0.0f
-            && !this.tileMap.isTileValidForMovement(currentTilePosition + Directions.directionLeft)
-            && !this.tileMap.isTileValidForMovement(currentTilePosition + Directions.directionRight)) {
+            && !this.tileMap.IsTileValidForMovement(currentTilePosition + Directions.directionLeft)
+            && !this.tileMap.IsTileValidForMovement(currentTilePosition + Directions.directionRight)) {
             newMotion = Directions.noDirection;
         }
 
         if (newMotion.y != 0.0f
-            && !this.tileMap.isTileValidForMovement(currentTilePosition + Directions.directionUp)
-            && !this.tileMap.isTileValidForMovement(currentTilePosition + Directions.directionDown)) {
+            && !this.tileMap.IsTileValidForMovement(currentTilePosition + Directions.directionUp)
+            && !this.tileMap.IsTileValidForMovement(currentTilePosition + Directions.directionDown)) {
             newMotion = Directions.noDirection;
         }
 

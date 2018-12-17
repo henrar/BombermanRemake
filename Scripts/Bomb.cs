@@ -73,13 +73,21 @@ public class Bomb : StaticBody2D {
         }
     }
 
+    private void ExplodeExitTile(Vector2 tile) {
+        if (this.map.exitTile.positionOnTileMap == tile && this.map.exitTileUncovered) {
+            this.map.SpawnCoins();
+            this.map.exitTile.DestroyExit();
+        }
+    }
+
     private bool ExecuteExplosionAtTile(Vector2 tile) {
-        if (this.map.isWall(tile)) {
+        if (this.map.IsWall(tile)) {
             return false;
         }
 
         ExplodePlayer(tile);
         ExplodeEnemy(tile);
+        ExplodeExitTile(tile);
 
         if (this.map.GetCellv(tile) == (int)TileType.TileType_Bricks) {
             this.map.SetCellv(tile, (int)TileType.TileType_Floor);

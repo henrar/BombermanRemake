@@ -16,7 +16,8 @@ public enum TileType {
 public class TileMap : Godot.TileMap {
     public Dictionary<Enemy, Vector2> enemyOnCell;
     public Dictionary<Vector2, Powerup> powerups;
-    public Vector2 exitTile;
+    public Exit exitTile;
+    public bool exitTileUncovered;
 
     private Random random = new Random();
     private bool generatedEnemies;
@@ -36,6 +37,8 @@ public class TileMap : Godot.TileMap {
         this.enemies = new Godot.Array<Enemy>();
         this.droppedBombPositions = new Dictionary<Bomb, Vector2>();
 
+        this.exitTile = null;
+
         this.powerups = new Dictionary<Vector2, Powerup>();
         GeneratePowerups();
         GenerateExit();
@@ -45,6 +48,12 @@ public class TileMap : Godot.TileMap {
         if (!this.generatedEnemies) {
             GenerateEnemies();
             this.generatedEnemies = true;
+        }
+
+        if (this.exitTile != null && this.exitTile.positionOnTileMap != invalidTile && GetCellv(this.exitTile.positionOnTileMap) == (int)TileType.TileType_Floor && !this.exitTileUncovered) {
+            this.exitTile.LoadTexture();
+
+            this.exitTileUncovered = true;
         }
     }
 
@@ -171,6 +180,7 @@ public class TileMap : Godot.TileMap {
 
             Enemy enemy = new Enemy();
             enemy.currentPositionOnTileMap = tile;
+            enemy.SetEnemyType(EnemyType.EnemyType_Balloon);
             this.enemies.Add(enemy);
             this.enemyOnCell[enemy] = tile;
             enemy.currentPositionOnTileMap = this.enemyOnCell[enemy];
@@ -235,18 +245,30 @@ public class TileMap : Godot.TileMap {
     }
 
     public void GenerateExit() {
+        bool exitGenerated = false;
 
+        while (!exitGenerated) {
+            Vector2 tile = GetRandomCell(TileType.TileType_Bricks);
+
+            if (this.powerups.ContainsKey(tile)) {
+                continue;
+            }
+            this.exitTile = new Exit();
+            this.exitTile.positionOnTileMap = tile;
+            exitGenerated = true;
+            AddChild(this.exitTile);
+        }
     }
 
-    public bool isWall(Vector2 tile) {
+    public bool IsWall(Vector2 tile) {
         return GetCellv(tile) != (int)TileType.TileType_Floor && GetCellv(tile) != (int)TileType.TileType_Floor2 && GetCellv(tile) != (int)TileType.TileType_Bricks;
     }
 
-    public bool isTileValidForMovement(Vector2 tile) {
+    public bool IsTileValidForMovement(Vector2 tile) {
         return GetCellv(tile) == (int)TileType.TileType_Floor || GetCellv(tile) == (int)TileType.TileType_Floor2;
     }
 
-    public bool isTileNotValidForMovement(Vector2 tile) {
+    public bool IsTileNotValidForMovement(Vector2 tile) {
         return GetCellv(tile) != (int)TileType.TileType_Floor && GetCellv(tile) != (int)TileType.TileType_Floor2;
     }
 
@@ -254,6 +276,10 @@ public class TileMap : Godot.TileMap {
         Vector2 pos = MapToWorld(tile);
         pos = pos + GetCellSize() / 2.0f;
         return pos;
+    }
+
+    public void SpawnCoins() {
+
     }
 }
 

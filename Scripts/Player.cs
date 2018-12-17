@@ -41,12 +41,18 @@ public class Player : KinematicBody2D {
         }
     }
 
+    private void CheckForExit() {
+        if(this.map.exitTile != null && this.map.exitTile.positionOnTileMap != TileMap.invalidTile && GetPositionOnTileMap() == this.map.exitTile.positionOnTileMap) {
+            //TODO: change level, cleanup
+        }
+    }
+
     public override void _PhysicsProcess(float delta) {
         Vector2 motion = Move();
         motion = ModifyMoveBasedOnSurrounding(motion, delta);
         ExecuteMovement(motion, delta);
 
-        if (Input.IsActionPressed("ui_accept") && this.numberOfDroppedBombs < this.sceneVariables.maxNumberOfDroppedBombs && this.dropBombCooldown > 20) {
+        if (Input.IsActionPressed("ui_accept") && this.numberOfDroppedBombs < this.sceneVariables.maxNumberOfDroppedBombs && this.dropBombCooldown > 20 && this.map.FindBombOnTile(GetPositionOnTileMap()) == null) {
             DropBomb();
             this.dropBombCooldown = 0;
         }
@@ -54,6 +60,7 @@ public class Player : KinematicBody2D {
         this.dropBombCooldown += 1;
 
         CheckForPowerups();
+        CheckForExit();
     }
 
     private Vector2 ModifyMoveBasedOnSurrounding(Vector2 originalMotion, float delta) {
@@ -65,14 +72,14 @@ public class Player : KinematicBody2D {
         Transform2D mapTransform = this.map.GetGlobalTransform();
 
         if (newMotion.x != 0.0f
-            && !this.map.isTileValidForMovement(currentTilePosition + Directions.directionLeft)
-            && !this.map.isTileValidForMovement(currentTilePosition + Directions.directionRight)) {
+            && !this.map.IsTileValidForMovement(currentTilePosition + Directions.directionLeft)
+            && !this.map.IsTileValidForMovement(currentTilePosition + Directions.directionRight)) {
             newMotion = Directions.noDirection;
         }
 
         if (newMotion.y != 0.0f
-            && !this.map.isTileValidForMovement(currentTilePosition + Directions.directionUp)
-            && !this.map.isTileValidForMovement(currentTilePosition + Directions.directionDown)) {
+            && !this.map.IsTileValidForMovement(currentTilePosition + Directions.directionUp)
+            && !this.map.IsTileValidForMovement(currentTilePosition + Directions.directionDown)) {
             newMotion = Directions.noDirection;
         }
 
@@ -108,7 +115,7 @@ public class Player : KinematicBody2D {
     }
 
     private void ExecuteMovement(Vector2 motion, float delta) {
-        KinematicCollision2D collision = MoveAndCollide(motion * delta * this.sceneVariables.playerMoveModifier);
+        KinematicCollision2D collision = MoveAndCollide(motion * delta * this.sceneVariables.playerMovementSpeed);
         if (collision != null && collision.GetCollider().GetType() == typeof(Enemy)) {
             Die();
             return;
