@@ -299,11 +299,11 @@ public class TileMap : Godot.TileMap {
         return pos;
     }
 
-    public void SpawnCoins() {
+    public void SpawnEnemy(EnemyType type) {
         int coinCount = 3;
 
         for (int i = 0; i < coinCount; ++i) {
-            SpawnEnemy(this.exitTile.positionOnTileMap, EnemyType.Coin, i);
+            SpawnEnemy(this.exitTile.positionOnTileMap, type, i);
         }
     }
 }
