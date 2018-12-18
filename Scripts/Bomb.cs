@@ -75,7 +75,7 @@ public class Bomb : StaticBody2D {
 
     private void ExplodeExitTile(Vector2 tile) {
         if (this.map.exitTile.positionOnTileMap == tile && this.map.exitTileUncovered) {
-            this.map.SpawnCoins();
+            this.map.SpawnEnemy(EnemyType.Ghost);
         }
     }
 

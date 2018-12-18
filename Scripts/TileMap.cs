@@ -50,7 +50,7 @@ public class TileMap : Godot.TileMap {
             this.generatedEnemies = true;
         }
 
-        if(this.enemies == null || this.enemies.Count == 0) {
+        if (this.enemies == null || this.enemies.Count == 0) {
             this.exitTile.active = true;
         } else {
             this.exitTile.active = false;
@@ -172,9 +172,21 @@ public class TileMap : Godot.TileMap {
         }
     }
 
-    public void GenerateEnemies() {
+    private void SpawnEnemy(Vector2 tile, EnemyType type, int count) {
         var world = GetTree().GetRoot().GetNode("World");
 
+        Enemy enemy = new Enemy();
+        enemy.currentPositionOnTileMap = tile;
+        enemy.SetEnemyType(type);
+        this.enemies.Add(enemy);
+        this.enemyOnCell[enemy] = tile;
+        enemy.currentPositionOnTileMap = this.enemyOnCell[enemy];
+        enemy.SetName("Enemy" + enemy.enemyType.ToString() + " " + count);
+
+        world.AddChild(enemy);
+    }
+
+    public void GenerateEnemies() {       
         int generatedEnemiesCount = 0;
 
         while (generatedEnemiesCount < this.sceneVariables.numberOfEnemies) {
@@ -184,15 +196,7 @@ public class TileMap : Godot.TileMap {
                 continue;
             }
 
-            Enemy enemy = new Enemy();
-            enemy.currentPositionOnTileMap = tile;
-            enemy.SetEnemyType(EnemyType.Balloon);
-            this.enemies.Add(enemy);
-            this.enemyOnCell[enemy] = tile;
-            enemy.currentPositionOnTileMap = this.enemyOnCell[enemy];
-
-            enemy.SetName("Enemy" + enemy.enemyType.ToString() + " " + generatedEnemiesCount);
-            world.AddChild(enemy);
+            SpawnEnemy(tile, EnemyType.Balloon, generatedEnemiesCount);
 
             generatedEnemiesCount++;
         }
@@ -270,8 +274,19 @@ public class TileMap : Godot.TileMap {
         return GetCellv(tile) != (int)TileType.TileType_Floor && GetCellv(tile) != (int)TileType.TileType_Floor2 && GetCellv(tile) != (int)TileType.TileType_Bricks;
     }
 
-    public bool IsTileValidForMovement(Vector2 tile) {
+    private bool IsFloor(Vector2 tile) {
         return GetCellv(tile) == (int)TileType.TileType_Floor || GetCellv(tile) == (int)TileType.TileType_Floor2;
+    }
+
+    private bool IsBricks(Vector2 tile) {
+        return GetCellv(tile) == (int)TileType.TileType_Bricks;
+    }
+
+    public bool IsTileValidForMovement(Vector2 tile, bool isCollisionDisabled) {
+        if(isCollisionDisabled) {
+            return IsFloor(tile) || IsBricks(tile);
+        }
+        return IsFloor(tile);
     }
 
     public bool IsTileNotValidForMovement(Vector2 tile) {
@@ -284,8 +299,12 @@ public class TileMap : Godot.TileMap {
         return pos;
     }
 
-    public void SpawnCoins() {
+    public void SpawnEnemy(EnemyType type) {
+        int coinCount = 3;
 
+        for (int i = 0; i < coinCount; ++i) {
+            SpawnEnemy(this.exitTile.positionOnTileMap, type, i);
+        }
     }
 }
 

@@ -87,6 +87,16 @@ public class Enemy : KinematicBody2D {
         this.enemyType = enemyType;
     }
 
+    private void CheckIfContactedPlayer() {
+        Player player = GetTree().GetRoot().GetNode("World/Player") as Player;
+        if (player == null) {
+            return;
+        }
+        if (player.GetGlobalPosition().DistanceTo(this.GetGlobalPosition()) <= 40.0f) {
+            player.Die();
+        }
+    }
+
     public override void _PhysicsProcess(float delta) {
         UpdatePositionOnTileMap();
 
@@ -98,12 +108,19 @@ public class Enemy : KinematicBody2D {
             (collision.GetCollider() as Player).Die();
             return;
         }
+        if (IsIgnoringCollisions()) {
+            CheckIfContactedPlayer();
+        }
+    }
+
+    public bool IsIgnoringCollisions() {
+        return this.enemyType == EnemyType.Ghost || this.enemyType == EnemyType.Coin;
     }
 
     private bool ShouldStepOnTile(Vector2 currentTile, Vector2 nextTile) {
         Transform2D mapTransform = this.tileMap.GetGlobalTransform();
 
-        if (!this.tileMap.IsTileValidForMovement(nextTile) && GetGlobalPosition().DistanceTo(this.tileMap.GetPositionOfTileCenter(nextTile) + mapTransform.Origin) < (this.tileMap.GetCellSize().x + 10.0f)) {
+        if (!this.tileMap.IsTileValidForMovement(nextTile, IsIgnoringCollisions()) && GetGlobalPosition().DistanceTo(this.tileMap.GetPositionOfTileCenter(nextTile) + mapTransform.Origin) < (this.tileMap.GetCellSize().x + 10.0f)) {
             return false;
         }
 
@@ -112,8 +129,8 @@ public class Enemy : KinematicBody2D {
             return false;
         }
 
-        return ((this.tileMap.IsTileValidForMovement(nextTile))
-            || (!this.tileMap.IsTileValidForMovement(nextTile) && GetGlobalPosition().DistanceTo(this.tileMap.GetPositionOfTileCenter(nextTile) + mapTransform.Origin) >= (this.tileMap.GetCellSize().x + 10.0f)))
+        return ((this.tileMap.IsTileValidForMovement(nextTile, IsIgnoringCollisions()))
+            || (!this.tileMap.IsTileValidForMovement(nextTile, IsIgnoringCollisions()) && GetGlobalPosition().DistanceTo(this.tileMap.GetPositionOfTileCenter(nextTile) + mapTransform.Origin) >= (this.tileMap.GetCellSize().x + 10.0f)))
             && this.tileMap.FindEnemyOnTile(nextTile) == null;
     }
 
@@ -209,14 +226,14 @@ public class Enemy : KinematicBody2D {
         Vector2 enemyPosition = GetGlobalPosition();
 
         if (newMotion.x != 0.0f
-            && !this.tileMap.IsTileValidForMovement(currentTilePosition + Directions.directionLeft)
-            && !this.tileMap.IsTileValidForMovement(currentTilePosition + Directions.directionRight)) {
+            && !this.tileMap.IsTileValidForMovement(currentTilePosition + Directions.directionLeft, IsIgnoringCollisions())
+            && !this.tileMap.IsTileValidForMovement(currentTilePosition + Directions.directionRight, IsIgnoringCollisions())) {
             newMotion = Directions.noDirection;
         }
 
         if (newMotion.y != 0.0f
-            && !this.tileMap.IsTileValidForMovement(currentTilePosition + Directions.directionUp)
-            && !this.tileMap.IsTileValidForMovement(currentTilePosition + Directions.directionDown)) {
+            && !this.tileMap.IsTileValidForMovement(currentTilePosition + Directions.directionUp, IsIgnoringCollisions())
+            && !this.tileMap.IsTileValidForMovement(currentTilePosition + Directions.directionDown, IsIgnoringCollisions())) {
             newMotion = Directions.noDirection;
         }
 

@@ -11,7 +11,7 @@ public class LevelTimer : Timer {
     public override void _PhysicsProcess(float delta) {
         if (this.GetTimeLeft() <= 0.0f) {
             Console.WriteLine("LOST");
-            this.map.SpawnCoins();
+            this.map.SpawnEnemy(EnemyType.Coin);
         }
     }
 }
