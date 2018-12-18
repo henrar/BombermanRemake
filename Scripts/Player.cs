@@ -42,7 +42,7 @@ public class Player : KinematicBody2D {
     }
 
     private void CheckForExit() {
-        if(this.map.exitTile != null && this.map.exitTile.positionOnTileMap != TileMap.invalidTile && GetPositionOnTileMap() == this.map.exitTile.positionOnTileMap && this.map.exitTile.active) {
+        if (this.map.exitTile != null && this.map.exitTile.positionOnTileMap != TileMap.invalidTile && GetPositionOnTileMap() == this.map.exitTile.positionOnTileMap && this.map.exitTile.active) {
             //TODO: change level, cleanup
         }
     }
@@ -72,14 +72,14 @@ public class Player : KinematicBody2D {
         Transform2D mapTransform = this.map.GetGlobalTransform();
 
         if (newMotion.x != 0.0f
-            && !this.map.IsTileValidForMovement(currentTilePosition + Directions.directionLeft)
-            && !this.map.IsTileValidForMovement(currentTilePosition + Directions.directionRight)) {
+            && !this.map.IsTileValidForMovement(currentTilePosition + Directions.directionLeft, false)
+            && !this.map.IsTileValidForMovement(currentTilePosition + Directions.directionRight, false)) {
             newMotion = Directions.noDirection;
         }
 
         if (newMotion.y != 0.0f
-            && !this.map.IsTileValidForMovement(currentTilePosition + Directions.directionUp)
-            && !this.map.IsTileValidForMovement(currentTilePosition + Directions.directionDown)) {
+            && !this.map.IsTileValidForMovement(currentTilePosition + Directions.directionUp, false)
+            && !this.map.IsTileValidForMovement(currentTilePosition + Directions.directionDown, false)) {
             newMotion = Directions.noDirection;
         }
 
