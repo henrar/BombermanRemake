@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/tło.wav-9f83995f165588d890c86032062bf2fb.sample"
+
+[deps]
+
+source_file="res://Assets/sound/tło.wav"
+dest_files=[ "res://.import/tło.wav-9f83995f165588d890c86032062bf2fb.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0
