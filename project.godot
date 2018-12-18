@@ -11,8 +11,12 @@ config_version=3
 [application]
 
 config/name="BombermanRemake"
-run/main_scene="res://Scenes/PrototypeScene.tscn"
+run/main_scene="res://Scenes/Prototype.tscn"
 config/icon="res://Assets/icon.png"
+
+[autoload]
+
+SceneVariables="*res://Scripts/SceneVariables.cs"
 
 [debug]
 
