@@ -2,13 +2,24 @@ using Godot;
 using System;
 
 public class World : Node {
-    public int numberOfEnemies;
+    private SceneVariables sceneVariables;
 
     public override void _Ready() {
-
+        this.sceneVariables = GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables;
     }
 
-    public override void _PhysicsProcess(float delta) {
+    public void Reload() {
+        GetTree().ReloadCurrentScene();
+    }
 
+    public void SwitchLevel() {
+        if (this.sceneVariables.currentLevel < 3) {
+            this.sceneVariables.currentLevel += 1;
+            GetTree().ChangeScene("res://Scenes/Level" + this.sceneVariables.currentLevel + ".tscn");
+        }
+    }
+
+    public void GoToMainMenu() {
+        GetTree().ReloadCurrentScene(); //TODO: change to go to menu
     }
 }

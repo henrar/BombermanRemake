@@ -3,6 +3,7 @@ using System;
 
 public class Player : KinematicBody2D {
     private TileMap map;
+    private World world;
     public int numberOfDroppedBombs;
 
     private SceneVariables sceneVariables;
@@ -10,6 +11,7 @@ public class Player : KinematicBody2D {
     private int dropBombCooldown;
 
     public override void _Ready() {
+        this.world = GetTree().GetRoot().GetNode("World") as World;
         this.numberOfDroppedBombs = 0;
         this.map = GetTree().GetRoot().GetNode("World/TileMap") as TileMap;
         this.sceneVariables = GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables;
@@ -23,11 +25,11 @@ public class Player : KinematicBody2D {
         if (this.sceneVariables.numberOfLives > 0) {
             this.sceneVariables.numberOfLives -= 1;
             this.sceneVariables.ResetPlayerVariablesOnDeath();
-            GetTree().ReloadCurrentScene();
+            this.world.Reload();
         } else {
             //TODO: go to menu or sth
             this.sceneVariables.ResetPlayerVariablesOnFinalDeath();
-            GetTree().ReloadCurrentScene();
+            this.world.GoToMainMenu();
         }
     }
 
@@ -43,7 +45,7 @@ public class Player : KinematicBody2D {
 
     private void CheckForExit() {
         if (this.map.exitTile != null && this.map.exitTile.positionOnTileMap != TileMap.invalidTile && GetPositionOnTileMap() == this.map.exitTile.positionOnTileMap && this.map.exitTile.active) {
-            //TODO: change level, cleanup
+            this.world.SwitchLevel();          
         }
     }
 
