@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/tło.wav-9f83995f165588d890c86032062bf2fb.sample"
+path="res://.import/background.wav-a2b3daffa83a855983738eca598640c4.sample"
 
 [deps]
 
-source_file="res://Assets/sound/tło.wav"
-dest_files=[ "res://.import/tło.wav-9f83995f165588d890c86032062bf2fb.sample" ]
+source_file="res://Assets/sound/background.wav"
+dest_files=[ "res://.import/background.wav-a2b3daffa83a855983738eca598640c4.sample" ]
 
 [params]
 

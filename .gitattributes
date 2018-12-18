@@ -5,4 +5,6 @@
 *.import text eol=crlf
 *.tres text eol=crlf
 
+*.jpg binary
 *.png binary
+*.wav binary

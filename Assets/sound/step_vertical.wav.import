@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/step_vertical.wav-4dd29f632119ef3f56e8509dda81f527.sample"
+
+[deps]
+
+source_file="res://Assets/sound/step_vertical.wav"
+dest_files=[ "res://.import/step_vertical.wav-4dd29f632119ef3f56e8509dda81f527.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0
