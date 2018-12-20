@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/loadinglevel.wav-ce67d4db5cfe0cc99b75b316b7f4b098.sample"
+
+[deps]
+
+source_file="res://Assets/sound/Finalsound16/loadinglevel.wav"
+dest_files=[ "res://.import/loadinglevel.wav-ce67d4db5cfe0cc99b75b316b7f4b098.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

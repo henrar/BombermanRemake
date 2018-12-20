@@ -24,6 +24,7 @@ public class Player : KinematicBody2D {
 
     public void Die() {
         Console.WriteLine("YOU DIED!");
+        this.soundPlayer.PlaySoundEffect(SoundEffect.Death);
         this.numberOfDroppedBombs = 0;
         this.map.FreeBombs();
         if (this.sceneVariables.numberOfLives > 0) {
@@ -49,6 +50,7 @@ public class Player : KinematicBody2D {
 
     private void CheckForExit() {
         if (this.map.exitTile != null && this.map.exitTile.positionOnTileMap != TileMap.invalidTile && GetPositionOnTileMap() == this.map.exitTile.positionOnTileMap && this.map.exitTile.active) {
+            this.soundPlayer.PlaySoundEffect(SoundEffect.Doors);
             this.world.SwitchLevel();          
         }
     }

@@ -302,5 +302,9 @@ public class TileMap : Godot.TileMap {
             SpawnEnemy(this.exitTile.positionOnTileMap, type, i);
         }
     }
+
+    public int GetRemainingEnemiesCount() {
+        return this.enemies.Count;
+    }
 }
 

@@ -9,7 +9,7 @@ public class World : Node {
         this.sceneVariables = GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables;
         this.soundPlayer = GetTree().GetRoot().GetNode("SoundPlayer") as SoundPlayer;
 
-        this.soundPlayer.PlayMusic(Music.Track0);
+        this.soundPlayer.PlayMusic(Music.Main);
     }
 
     public void Reload() {

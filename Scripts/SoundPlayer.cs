@@ -4,12 +4,19 @@ using Godot;
 public enum SoundEffect {
     Explosion,
     Step,
-    PlantBomb
+    PlantBomb,
+    Death,
+    Doors,
+    Achievement,
+    LastEnemy,
+    PushMenu
 }
 
 public enum Music {
     NoMusic,
-    Track0,
+    Main,
+    LoadingLevel,
+    Menu
 }
 
 public class SoundPlayer : Node {
@@ -46,11 +53,20 @@ public class SoundPlayer : Node {
     }
 
     private string GetPathToMusic(Music track) {
-        if (track == Music.Track0) {
-            return "res://Assets/sound/Finalsound16/main.wav";
+        switch (track) {
+            case Music.Main: {
+                    return "res://Assets/sound/Finalsound16/main.wav";
+                }
+            case Music.LoadingLevel: {
+                    return "res://Assets/sound/Finalsound16/loadinglevel.wav";
+                }
+            case Music.Menu: {
+                    return "res://Assets/sound/Finalsound16/menu.wav";
+                }
+            default: {
+                    return "";
+                }
         }
-
-        return "";
     }
 
     public void PlayMusic(Music track) {
@@ -88,21 +104,41 @@ public class SoundPlayer : Node {
 
     public void PlaySoundEffect(SoundEffect sound) {
         if (this.effectPlayers.ContainsKey(sound)) {
-            if(!this.effectPlayers[sound].IsPlaying())
-             this.effectPlayers[sound].Play();
+            if (!this.effectPlayers[sound].IsPlaying())
+                this.effectPlayers[sound].Play();
         }
     }
 
     private string GetPathToSoundEffect(SoundEffect sound) {
-        if (sound == SoundEffect.Explosion) {
-            return "res://Assets/sound/Finalsound16/boom.wav";
-        } else if (sound == SoundEffect.Step) {
-            return "res://Assets/sound/Finalsound16/steps.wav";
-        } else if (sound == SoundEffect.PlantBomb) {
-            return "res://Assets/sound/Finalsound16/podkladanie.wav";
+        switch (sound) {
+            case SoundEffect.Explosion: {
+                    return "res://Assets/sound/Finalsound16/boom.wav";
+                }
+            case SoundEffect.Step: {
+                    return "res://Assets/sound/Finalsound16/steps.wav";
+                }
+            case SoundEffect.PlantBomb: {
+                    return "res://Assets/sound/Finalsound16/podkladanie.wav";
+                }
+            case SoundEffect.Death: {
+                    return "res://Assets/sound/Finalsound16/death.wav";
+                }
+            case SoundEffect.Doors: {
+                    return "res://Assets/sound/Finalsound16/doors.wav";
+                }
+            case SoundEffect.Achievement: {
+                    return "res://Assets/sound/Finalsound16/achievement.wav";
+                }
+            case SoundEffect.LastEnemy: {
+                    return "res://Assets/sound/Finalsound16/lastenemy.wav";
+                }
+            case SoundEffect.PushMenu: {
+                    return "res://Assets/sound/Finalsound16/pushmenu.wav";
+                }
+            default: {
+                    return "";
+                }
         }
-
-        return "";
     }
 
     private AudioStreamSample CreateSoundEffectStream(SoundEffect sound) {

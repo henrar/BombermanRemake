@@ -74,6 +74,7 @@ public class Bomb : StaticBody2D {
         Enemy enemy = this.map.FindEnemyOnTile(tile);
         if (enemy != null) {
             this.map.RemoveEnemyEntry(enemy);
+            this.soundPlayer.PlaySoundEffect(SoundEffect.Achievement);
             enemy.Die();
         }
     }
@@ -96,6 +97,10 @@ public class Bomb : StaticBody2D {
         if (this.map.GetCellv(tile) == (int)TileType.TileType_Bricks) {
             this.map.SetCellv(tile, (int)TileType.TileType_Floor);
             this.map.UncoverPowerUp(tile);
+        }
+
+        if (this.map.GetRemainingEnemiesCount() == 0) {
+            this.soundPlayer.PlaySoundEffect(SoundEffect.LastEnemy);
         }
 
         return true;
