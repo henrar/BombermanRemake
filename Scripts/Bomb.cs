@@ -101,8 +101,8 @@ public class Bomb : StaticBody2D {
 
         SceneVariables sv = GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables;
 
-        AudioStreamPlayer2D soundPlayer = GetTree().GetRoot().GetNode("World/ExplosionSound") as AudioStreamPlayer2D;
-        soundPlayer.Play();
+   /*     AudioStreamPlayer2D soundPlayer = GetTree().GetRoot().GetNode("World/ExplosionSound") as AudioStreamPlayer2D;
+        soundPlayer.Play();*/
 
         Vector2 explosionPosition = this.map.WorldToMap(this.position);
         Console.WriteLine("Explosion at: " + explosionPosition);
