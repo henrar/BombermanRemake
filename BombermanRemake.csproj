@@ -59,6 +59,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scripts\Powerup.cs" />
     <Compile Include="Scripts\SceneVariables.cs" />
+    <Compile Include="Scripts\SoundPlayer.cs" />
     <Compile Include="Scripts\TileMap.cs" />
     <Compile Include="Scripts\World.cs" />
   </ItemGroup>
