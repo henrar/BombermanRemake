@@ -213,6 +213,9 @@ public class Enemy : KinematicBody2D {
     public void Die() {
         SetScore();
 
+        this.tileMap.enemies.Remove(this);
+        Console.WriteLine("Remaining enemies: " + this.tileMap.GetRemainingEnemiesCount());
+
         this.QueueFree();
     }
 

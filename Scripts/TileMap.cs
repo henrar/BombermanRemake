@@ -21,7 +21,7 @@ public class TileMap : Godot.TileMap {
 
     private Random random = new Random();
     private bool generatedEnemies;
-    private Godot.Array<Enemy> enemies;
+    public Godot.Array<Enemy> enemies;
     public Dictionary<Bomb, Vector2> droppedBombPositions;
     public static Vector2 invalidTile = new Vector2(-1, -1);
 
