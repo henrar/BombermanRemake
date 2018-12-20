@@ -37,9 +37,9 @@ public class Enemy : KinematicBody2D {
 
     private void SetMovementSpeed() {
         if (this.enemyType == EnemyType.Balloon) {
-            this.movementSpeed = this.baseMovementSpeed;
+            this.movementSpeed = this.baseMovementSpeed * 0.8f;
         } else if (this.enemyType == EnemyType.Mushroom) {
-            this.movementSpeed = this.baseMovementSpeed * 1.20f;
+            this.movementSpeed = this.baseMovementSpeed * 1.0f;
         } else if (this.enemyType == EnemyType.Barrel) {
             this.movementSpeed = this.baseMovementSpeed * 1.33f;
         } else if (this.enemyType == EnemyType.Ghost) {

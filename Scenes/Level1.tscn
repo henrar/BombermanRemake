@@ -1,25 +1,27 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://Assets/TileSetFinalv3.tres" type="TileSet" id=1]
-[ext_resource path="res://Scripts/TileMap.cs" type="Script" id=2]
-[ext_resource path="res://Scripts/Player.cs" type="Script" id=3]
-[ext_resource path="res://Assets/icon.png" type="Texture" id=4]
-[ext_resource path="res://Scripts/HUD.cs" type="Script" id=5]
-[ext_resource path="res://Assets/testy/mur.png" type="Texture" id=6]
-[ext_resource path="res://Assets/testy/murd.png" type="Texture" id=7]
-[ext_resource path="res://Assets/sound/boom.wav" type="AudioStream" id=8]
-[ext_resource path="res://Scripts/LevelTimer.cs" type="Script" id=9]
-[ext_resource path="res://Assets/assetyver2/mapbackground.png" type="Texture" id=10]
+[ext_resource path="res://Scripts/World.cs" type="Script" id=1]
+[ext_resource path="res://Assets/TileSetFinalv3.tres" type="TileSet" id=2]
+[ext_resource path="res://Scripts/TileMap.cs" type="Script" id=3]
+[ext_resource path="res://Scripts/Player.cs" type="Script" id=4]
+[ext_resource path="res://Assets/icon.png" type="Texture" id=5]
+[ext_resource path="res://Scripts/HUD.cs" type="Script" id=6]
+[ext_resource path="res://Assets/testy/mur.png" type="Texture" id=7]
+[ext_resource path="res://Assets/testy/murd.png" type="Texture" id=8]
+[ext_resource path="res://Assets/sound/boom.wav" type="AudioStream" id=9]
+[ext_resource path="res://Scripts/LevelTimer.cs" type="Script" id=10]
+[ext_resource path="res://Assets/assetyver2/mapbackground.png" type="Texture" id=11]
 
 [node name="World" type="Node2D" index="0"]
 
 position = Vector2( 1000, 250 )
+script = ExtResource( 1 )
 
 [node name="TileMap" type="TileMap" parent="." index="0"]
 
 position = Vector2( -490, -20 )
 mode = 0
-tile_set = ExtResource( 1 )
+tile_set = ExtResource( 2 )
 cell_size = Vector2( 80, 80 )
 cell_quadrant_size = 16
 cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
@@ -35,7 +37,7 @@ collision_mask = 1
 occluder_light_mask = 1
 format = 1
 tile_data = PoolIntArray( 0, 7, 0, 1, 4, 0, 2, 4, 0, 3, 4, 0, 4, 4, 0, 5, 4, 0, 6, 4, 0, 7, 4, 0, 8, 4, 0, 9, 4, 0, 10, 4, 0, 11, 4, 0, 12, 4, 0, 13, 4, 0, 14, 4, 0, 15, 4, 0, 16, 4, 0, 17, 4, 0, 18, 4, 0, 19, 4, 0, 20, 4, 0, 21, 4, 0, 22, 4, 0, 23, 4, 0, 24, 4, 0, 25, 4, 0, 26, 4, 0, 27, 4, 0, 28, 4, 0, 29, 4, 0, 30, 4, 0, 31, 4, 0, 32, 5, 0, 65536, -1610612732, 0, 65537, 2, 0, 65538, 2, 0, 65539, 2, 0, 65540, 2, 0, 65541, 2, 0, 65542, 2, 0, 65543, 2, 0, 65544, 2, 0, 65545, 2, 0, 65546, 2, 0, 65547, 2, 0, 65548, 2, 0, 65549, 2, 0, 65550, 2, 0, 65551, 2, 0, 65552, 2, 0, 65553, 2, 0, 65554, 2, 0, 65555, 2, 0, 65556, 2, 0, 65557, 2, 0, 65558, 2, 0, 65559, 2, 0, 65560, 2, 0, 65561, 2, 0, 65562, 2, 0, 65563, 2, 0, 65564, 2, 0, 65565, 2, 0, 65566, 2, 0, 65567, 2, 0, 65568, -1610612733, 0, 131072, -1610612732, 0, 131073, 2, 0, 131074, 1, 0, 131075, 2, 0, 131076, 1, 0, 131077, 2, 0, 131078, 1, 0, 131079, 2, 0, 131080, 1, 0, 131081, 2, 0, 131082, 1, 0, 131083, 2, 0, 131084, 1, 0, 131085, 2, 0, 131086, 1, 0, 131087, 2, 0, 131088, 1, 0, 131089, 2, 0, 131090, 1, 0, 131091, 2, 0, 131092, 1, 0, 131093, 2, 0, 131094, 1, 0, 131095, 2, 0, 131096, 1, 0, 131097, 2, 0, 131098, 1, 0, 131099, 2, 0, 131100, 1, 0, 131101, 2, 0, 131102, 1, 0, 131103, 2, 0, 131104, -1610612733, 0, 196608, -1610612732, 0, 196609, 2, 0, 196610, 2, 0, 196611, 2, 0, 196612, 2, 0, 196613, 2, 0, 196614, 2, 0, 196615, 2, 0, 196616, 2, 0, 196617, 2, 0, 196618, 2, 0, 196619, 2, 0, 196620, 2, 0, 196621, 2, 0, 196622, 2, 0, 196623, 2, 0, 196624, 2, 0, 196625, 2, 0, 196626, 2, 0, 196627, 2, 0, 196628, 2, 0, 196629, 2, 0, 196630, 2, 0, 196631, 2, 0, 196632, 2, 0, 196633, 2, 0, 196634, 2, 0, 196635, 2, 0, 196636, 2, 0, 196637, 2, 0, 196638, 2, 0, 196639, 2, 0, 196640, -1610612733, 0, 262144, -1610612732, 0, 262145, 2, 0, 262146, 1, 0, 262147, 2, 0, 262148, 1, 0, 262149, 2, 0, 262150, 1, 0, 262151, 2, 0, 262152, 1, 0, 262153, 2, 0, 262154, 1, 0, 262155, 2, 0, 262156, 1, 0, 262157, 2, 0, 262158, 1, 0, 262159, 2, 0, 262160, 1, 0, 262161, 2, 0, 262162, 1, 0, 262163, 2, 0, 262164, 1, 0, 262165, 2, 0, 262166, 1, 0, 262167, 2, 0, 262168, 1, 0, 262169, 2, 0, 262170, 1, 0, 262171, 2, 0, 262172, 1, 0, 262173, 2, 0, 262174, 1, 0, 262175, 2, 0, 262176, -1610612733, 0, 327680, -1610612732, 0, 327681, 2, 0, 327682, 2, 0, 327683, 2, 0, 327684, 2, 0, 327685, 2, 0, 327686, 2, 0, 327687, 2, 0, 327688, 2, 0, 327689, 2, 0, 327690, 2, 0, 327691, 2, 0, 327692, 2, 0, 327693, 2, 0, 327694, 2, 0, 327695, 2, 0, 327696, 2, 0, 327697, 2, 0, 327698, 2, 0, 327699, 2, 0, 327700, 2, 0, 327701, 2, 0, 327702, 2, 0, 327703, 2, 0, 327704, 2, 0, 327705, 2, 0, 327706, 2, 0, 327707, 2, 0, 327708, 2, 0, 327709, 2, 0, 327710, 2, 0, 327711, 2, 0, 327712, -1610612733, 0, 393216, -1610612732, 0, 393217, 2, 0, 393218, 1, 0, 393219, 2, 0, 393220, 1, 0, 393221, 2, 0, 393222, 1, 0, 393223, 2, 0, 393224, 1, 0, 393225, 2, 0, 393226, 1, 0, 393227, 2, 0, 393228, 1, 0, 393229, 2, 0, 393230, 1, 0, 393231, 2, 0, 393232, 1, 0, 393233, 2, 0, 393234, 1, 0, 393235, 2, 0, 393236, 1, 0, 393237, 2, 0, 393238, 1, 0, 393239, 2, 0, 393240, 1, 0, 393241, 2, 0, 393242, 1, 0, 393243, 2, 0, 393244, 1, 0, 393245, 2, 0, 393246, 1, 0, 393247, 2, 0, 393248, -1610612733, 0, 458752, -1610612732, 0, 458753, 2, 0, 458754, 2, 0, 458755, 2, 0, 458756, 2, 0, 458757, 2, 0, 458758, 2, 0, 458759, 2, 0, 458760, 2, 0, 458761, 2, 0, 458762, 2, 0, 458763, 2, 0, 458764, 2, 0, 458765, 2, 0, 458766, 2, 0, 458767, 2, 0, 458768, 2, 0, 458769, 2, 0, 458770, 2, 0, 458771, 2, 0, 458772, 2, 0, 458773, 2, 0, 458774, 2, 0, 458775, 2, 0, 458776, 2, 0, 458777, 2, 0, 458778, 2, 0, 458779, 2, 0, 458780, 2, 0, 458781, 2, 0, 458782, 2, 0, 458783, 2, 0, 458784, -1610612733, 0, 524288, -1610612732, 0, 524289, 2, 0, 524290, 1, 0, 524291, 2, 0, 524292, 1, 0, 524293, 2, 0, 524294, 1, 0, 524295, 2, 0, 524296, 1, 0, 524297, 2, 0, 524298, 1, 0, 524299, 2, 0, 524300, 1, 0, 524301, 2, 0, 524302, 1, 0, 524303, 2, 0, 524304, 1, 0, 524305, 2, 0, 524306, 1, 0, 524307, 2, 0, 524308, 1, 0, 524309, 2, 0, 524310, 1, 0, 524311, 2, 0, 524312, 1, 0, 524313, 2, 0, 524314, 1, 0, 524315, 2, 0, 524316, 1, 0, 524317, 2, 0, 524318, 1, 0, 524319, 2, 0, 524320, -1610612733, 0, 589824, -1610612732, 0, 589825, 2, 0, 589826, 2, 0, 589827, 2, 0, 589828, 2, 0, 589829, 2, 0, 589830, 2, 0, 589831, 2, 0, 589832, 2, 0, 589833, 2, 0, 589834, 2, 0, 589835, 2, 0, 589836, 2, 0, 589837, 2, 0, 589838, 2, 0, 589839, 2, 0, 589840, 2, 0, 589841, 2, 0, 589842, 2, 0, 589843, 2, 0, 589844, 2, 0, 589845, 2, 0, 589846, 2, 0, 589847, 2, 0, 589848, 2, 0, 589849, 2, 0, 589850, 2, 0, 589851, 2, 0, 589852, 2, 0, 589853, 2, 0, 589854, 2, 0, 589855, 2, 0, 589856, -1610612733, 0, 655360, -1610612732, 0, 655361, 2, 0, 655362, 1, 0, 655363, 2, 0, 655364, 1, 0, 655365, 2, 0, 655366, 1, 0, 655367, 2, 0, 655368, 1, 0, 655369, 2, 0, 655370, 1, 0, 655371, 2, 0, 655372, 1, 0, 655373, 2, 0, 655374, 1, 0, 655375, 2, 0, 655376, 1, 0, 655377, 2, 0, 655378, 1, 0, 655379, 2, 0, 655380, 1, 0, 655381, 2, 0, 655382, 1, 0, 655383, 2, 0, 655384, 1, 0, 655385, 2, 0, 655386, 1, 0, 655387, 2, 0, 655388, 1, 0, 655389, 2, 0, 655390, 1, 0, 655391, 2, 0, 655392, -1610612733, 0, 720896, -1610612732, 0, 720897, 2, 0, 720898, 2, 0, 720899, 2, 0, 720900, 2, 0, 720901, 2, 0, 720902, 2, 0, 720903, 2, 0, 720904, 2, 0, 720905, 2, 0, 720906, 2, 0, 720907, 2, 0, 720908, 2, 0, 720909, 2, 0, 720910, 2, 0, 720911, 2, 0, 720912, 2, 0, 720913, 2, 0, 720914, 2, 0, 720915, 2, 0, 720916, 2, 0, 720917, 2, 0, 720918, 2, 0, 720919, 2, 0, 720920, 2, 0, 720921, 2, 0, 720922, 2, 0, 720923, 2, 0, 720924, 2, 0, 720925, 2, 0, 720926, 2, 0, 720927, 2, 0, 720928, -1610612733, 0, 786432, 5, 0, 786433, 3, 0, 786434, 3, 0, 786435, 3, 0, 786436, 3, 0, 786437, 3, 0, 786438, 3, 0, 786439, 3, 0, 786440, 3, 0, 786441, 3, 0, 786442, 3, 0, 786443, 3, 0, 786444, 3, 0, 786445, 3, 0, 786446, 3, 0, 786447, 3, 0, 786448, 3, 0, 786449, 3, 0, 786450, 3, 0, 786451, 3, 0, 786452, 3, 0, 786453, 3, 0, 786454, 3, 0, 786455, 3, 0, 786456, 3, 0, 786457, 3, 0, 786458, 3, 0, 786459, 3, 0, 786460, 3, 0, 786461, 3, 0, 786462, 3, 0, 786463, 3, 0, 786464, 6, 0, 851980, 7, 0 )
-script = ExtResource( 2 )
+script = ExtResource( 3 )
 _sections_unfolded = [ "Cell", "Collision" ]
 
 [node name="Player" type="KinematicBody2D" parent="." index="1"]
@@ -46,14 +48,14 @@ input_pickable = false
 collision_layer = 1
 collision_mask = 1
 collision/safe_margin = 0.08
-script = ExtResource( 3 )
+script = ExtResource( 4 )
 _sections_unfolded = [ "Pickable" ]
 
 [node name="Sprite" type="Sprite" parent="Player" index="0"]
 
 position = Vector2( -2.19874, -2.07574 )
 scale = Vector2( 0.49271, 0.482585 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 _sections_unfolded = [ "Transform" ]
 
 [node name="PlayerCollisionPolygon" type="CollisionPolygon2D" parent="Player" index="1"]
@@ -95,7 +97,7 @@ offset = Vector2( 0, 0 )
 rotation = 0.0
 scale = Vector2( 1, 1 )
 transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-script = ExtResource( 5 )
+script = ExtResource( 6 )
 
 [node name="interface" type="Control" parent="Player/PlayerCamera/HUD" index="0"]
 
@@ -117,26 +119,26 @@ size_flags_vertical = 1
 modulate = Color( 0.746094, 0.387255, 0.171951, 1 )
 position = Vector2( 640, 45 )
 scale = Vector2( 16, 1.125 )
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 _sections_unfolded = [ "Material", "Offset", "Region", "Visibility" ]
 
 [node name="scoresprite" type="Sprite" parent="Player/PlayerCamera/HUD/interface" index="1"]
 
 position = Vector2( 165, 50 )
 scale = Vector2( 2.625, 0.75 )
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 
 [node name="lifesprite" type="Sprite" parent="Player/PlayerCamera/HUD/interface" index="2"]
 
 position = Vector2( 980, 50 )
 scale = Vector2( 1.75, 0.5 )
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 
 [node name="timesprite" type="Sprite" parent="Player/PlayerCamera/HUD/interface" index="3"]
 
 position = Vector2( 575, 50 )
 scale = Vector2( 2.625, 0.75 )
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 
 [node name="MenuButton" type="Button" parent="Player/PlayerCamera/HUD/interface" index="4"]
 
@@ -301,7 +303,7 @@ max_lines_visible = -1
 
 [node name="ExplosionSound" type="AudioStreamPlayer2D" parent="." index="2"]
 
-stream = ExtResource( 8 )
+stream = ExtResource( 9 )
 volume_db = 0.0
 pitch_scale = 1.0
 autoplay = false
@@ -316,7 +318,7 @@ process_mode = 1
 wait_time = 200.0
 one_shot = true
 autostart = true
-script = ExtResource( 9 )
+script = ExtResource( 10 )
 _sections_unfolded = [ "Pause" ]
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="." index="4"]
@@ -344,7 +346,7 @@ motion_mirroring = Vector2( 0, 0 )
 show_behind_parent = true
 position = Vector2( 1780, 730 )
 scale = Vector2( 1.13782, 1.13281 )
-texture = ExtResource( 10 )
+texture = ExtResource( 11 )
 _sections_unfolded = [ "Offset", "Visibility" ]
 
 

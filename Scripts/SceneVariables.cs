@@ -24,28 +24,28 @@ public class SceneVariables : Node {
     public override void _Ready() {
         Viewport root = GetTree().GetRoot();
         CurrentScene = root.GetChild(root.GetChildCount() - 1);
-        this.numberOfEnemies = 10; //TODO: change on level transitions
+        this.numberOfEnemies = 8; //TODO: change on level transitions
         this.numberOfPowerUps = 3;
 
         this.currentLevel = 1; //TODO: change level on level transition
 
         switch(this.currentLevel) {
             case 1: {
-                    this.powerup1DropChance = 0.9f; 
-                    this.powerup2DropChance = 0.45f;
-                    this.powerup3DropChance = 0.15f; 
+                    this.powerup1DropChance = 1.0f; 
+                    this.powerup2DropChance = 0.85f;
+                    this.powerup3DropChance = 0.55f; 
                     break;
                 }
             case 2: {
-                    this.powerup1DropChance = 0.7f;
-                    this.powerup2DropChance = 0.3f;
-                    this.powerup3DropChance = 0.1f;
+                    this.powerup1DropChance = 0.85f;
+                    this.powerup2DropChance = 0.75f;
+                    this.powerup3DropChance = 0.55f;
                     break;
                 }
             case 3: {
-                    this.powerup1DropChance = 0.5f;
-                    this.powerup2DropChance = 0.25f;
-                    this.powerup3DropChance = 0.1f;
+                    this.powerup1DropChance = 0.66f;
+                    this.powerup2DropChance = 0.66f;
+                    this.powerup3DropChance = 0.66f;
                     break;
                 }
             default: {
@@ -56,7 +56,7 @@ public class SceneVariables : Node {
                 }
         }
 
-        this.maxRandomCellsPercentage = 0.4f;
+        this.maxRandomCellsPercentage = 0.3f;
 
         this.playerMovementSpeed = 180;
 
