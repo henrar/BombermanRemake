@@ -16,7 +16,9 @@ public class Exit : Node {
         ImageTexture exitTexture = new ImageTexture();
         exitTexture.Load("res://Assets/assetyver2/door.png");
         sprite.SetTexture(exitTexture);
-        sprite.SetPosition(this.map.GetPositionOfTileCenter(this.positionOnTileMap));
+
+        Transform2D mapTransfrom = this.map.GetGlobalTransform();
+        sprite.SetGlobalPosition(this.map.GetPositionOfTileCenter(this.positionOnTileMap) + mapTransfrom.Origin);
 
         AddChild(sprite);
     }

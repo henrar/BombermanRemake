@@ -8,7 +8,12 @@ public class Bomb : StaticBody2D {
     private CollisionShape2D collision;
     private TileMap map;
 
+    private World world;
+    private SoundPlayer soundPlayer;
+
     public override void _Ready() {
+        this.world = GetTree().GetRoot().GetNode("World") as World;
+        this.soundPlayer = this.world.soundPlayer;
         this.map = GetTree().GetRoot().GetNode("World/TileMap") as TileMap;
 
         this.bombSprite = new Sprite();
@@ -101,8 +106,7 @@ public class Bomb : StaticBody2D {
 
         SceneVariables sv = GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables;
 
-   /*     AudioStreamPlayer2D soundPlayer = GetTree().GetRoot().GetNode("World/ExplosionSound") as AudioStreamPlayer2D;
-        soundPlayer.Play();*/
+        this.soundPlayer.PlaySoundEffect(SoundEffect.Explosion);
 
         Vector2 explosionPosition = this.map.WorldToMap(this.position);
         Console.WriteLine("Explosion at: " + explosionPosition);

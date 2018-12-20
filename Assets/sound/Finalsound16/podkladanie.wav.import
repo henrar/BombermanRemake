@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/podkladanie.wav-00086f08407c017f47992f0aa63be654.sample"
+
+[deps]
+
+source_file="res://Assets/sound/Finalsound16/podkladanie.wav"
+dest_files=[ "res://.import/podkladanie.wav-00086f08407c017f47992f0aa63be654.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

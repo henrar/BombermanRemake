@@ -57,6 +57,7 @@ public class TileMap : Godot.TileMap {
         }
 
         if (this.exitTile != null && this.exitTile.positionOnTileMap != invalidTile && GetCellv(this.exitTile.positionOnTileMap) == (int)TileType.TileType_Floor && !this.exitTileUncovered) {
+            Console.WriteLine("Uncovered exit!");
             this.exitTile.LoadTexture();
 
             this.exitTileUncovered = true;
@@ -215,16 +216,13 @@ public class TileMap : Godot.TileMap {
         powerup.SetType((PowerUpType)this.random.Next(0, Enum.GetNames(typeof(PowerUpType)).Length));
         this.powerups[tile] = powerup;
         AddChild(powerup);
+        Console.WriteLine("Powerup at: " + tile);
     }
 
     public void GeneratePowerups() {
         int brickTileCount = GetTileCount(TileType.TileType_Bricks);
 
         int generatedPowerUps = 0;
-
-        bool powerUp1Generated = false;
-        bool powerUp2Generated = false;
-        bool powerUp3Generated = false;
 
         while (generatedPowerUps < this.sceneVariables.numberOfPowerUps) {
             Vector2 tile = GetRandomCell(TileType.TileType_Bricks);
@@ -235,19 +233,16 @@ public class TileMap : Godot.TileMap {
 
             double result = Convert.ToDouble(this.random.Next(0, 100)) / 100.0f;
 
-            if (result < this.sceneVariables.powerup1DropChance && !powerUp1Generated && generatedPowerUps == 0) {
+            if (result < this.sceneVariables.powerup1DropChance && generatedPowerUps == 0) {
                 AddPowerUp(tile);
-                powerUp1Generated = true;
             }
 
-            if (result < this.sceneVariables.powerup2DropChance && !powerUp2Generated && generatedPowerUps == 1) {
+            if (result < this.sceneVariables.powerup2DropChance && generatedPowerUps == 1) {
                 AddPowerUp(tile);
-                powerUp2Generated = true;
             }
 
-            if (result < this.sceneVariables.powerup3DropChance && !powerUp3Generated && generatedPowerUps == 2) {
+            if (result < this.sceneVariables.powerup3DropChance && generatedPowerUps == 2) {
                 AddPowerUp(tile);
-                powerUp3Generated = true;
             }
 
             generatedPowerUps++;
@@ -264,9 +259,10 @@ public class TileMap : Godot.TileMap {
                 continue;
             }
             this.exitTile = new Exit();
-            this.exitTile.positionOnTileMap = tile;
             exitGenerated = true;
             AddChild(this.exitTile);
+            this.exitTile.positionOnTileMap = tile;
+            Console.WriteLine("Exit tile: " + this.exitTile.positionOnTileMap);
         }
     }
 

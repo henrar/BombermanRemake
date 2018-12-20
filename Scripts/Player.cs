@@ -4,6 +4,7 @@ using System;
 public class Player : KinematicBody2D {
     private TileMap map;
     private World world;
+    private SoundPlayer soundPlayer;
     public int numberOfDroppedBombs;
 
     private SceneVariables sceneVariables;
@@ -12,10 +13,13 @@ public class Player : KinematicBody2D {
 
     public override void _Ready() {
         this.world = GetTree().GetRoot().GetNode("World") as World;
+
         this.numberOfDroppedBombs = 0;
         this.map = GetTree().GetRoot().GetNode("World/TileMap") as TileMap;
         this.sceneVariables = GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables;
         this.dropBombCooldown = 10;
+
+        this.soundPlayer = GetTree().GetRoot().GetNode("SoundPlayer") as SoundPlayer;
     }
 
     public void Die() {
@@ -118,6 +122,9 @@ public class Player : KinematicBody2D {
 
     private void ExecuteMovement(Vector2 motion, float delta) {
         KinematicCollision2D collision = MoveAndCollide(motion * delta * this.sceneVariables.playerMovementSpeed);
+        if (this.soundPlayer != null && motion != Directions.noDirection) {
+            this.soundPlayer.PlaySoundEffect(SoundEffect.Step);
+        }
         if (collision != null && collision.GetCollider().GetType() == typeof(Enemy)) {
             Die();
             return;
@@ -126,6 +133,9 @@ public class Player : KinematicBody2D {
 
     private void DropBomb() {
         Console.WriteLine("Drop bomb");
+
+        this.soundPlayer.PlaySoundEffect(SoundEffect.PlantBomb);
+
         Bomb bomb = new Bomb();
 
         Vector2 pos = this.map.GetPositionOfTileCenter(GetPositionOnTileMap());
