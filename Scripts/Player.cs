@@ -20,6 +20,8 @@ public class Player : KinematicBody2D {
         this.dropBombCooldown = 10;
 
         this.soundPlayer = GetTree().GetRoot().GetNode("SoundPlayer") as SoundPlayer;
+
+        this.SetZIndex(this.map.GetZIndex() + 10);
     }
 
     public void Die() {

@@ -33,6 +33,8 @@ public class Bomb : StaticBody2D {
 
         Vector2 pos = new Vector2(0, 0);
         SetPosition(pos);
+
+        this.SetZIndex(this.map.GetZIndex() + 5);
     }
 
     public override void _PhysicsProcess(float delta) {
@@ -74,7 +76,7 @@ public class Bomb : StaticBody2D {
         Enemy enemy = this.map.FindEnemyOnTile(tile);
         if (enemy != null) {
             this.map.RemoveEnemyEntry(enemy);
-            this.soundPlayer.PlaySoundEffect(SoundEffect.Achievement);
+            this.soundPlayer.PlaySoundEffect(SoundEffect.EnemyDeath);
             enemy.Die();
         }
     }
@@ -161,7 +163,6 @@ public class Bomb : StaticBody2D {
         this.collision.SetPosition(position + this.map.GetGlobalTransform().Origin);
         this.collision.SetName("BombCollision");
         AddChild(this.collision);
-
     }
 }
 

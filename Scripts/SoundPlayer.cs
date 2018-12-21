@@ -9,7 +9,8 @@ public enum SoundEffect {
     Doors,
     Achievement,
     LastEnemy,
-    PushMenu
+    PushMenu,
+    EnemyDeath
 }
 
 public enum Music {
@@ -134,6 +135,9 @@ public class SoundPlayer : Node {
                 }
             case SoundEffect.PushMenu: {
                     return "res://Assets/sound/Finalsound16/pushmenu.wav";
+                }
+            case SoundEffect.EnemyDeath: {
+                    return "res://Assets/sound/Finalsound16/achievement.wav";
                 }
             default: {
                     return "";

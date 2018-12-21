@@ -13,10 +13,12 @@ public class Powerup : StaticBody2D {
     public PowerUpType type;
     private SceneVariables sv;
     public bool uncovered;
+    private SoundPlayer soundPlayer;
 
     public override void _Ready() {
         this.sv = GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables;
         this.uncovered = false;
+        this.soundPlayer = GetTree().GetRoot().GetNode("SoundPlayer") as SoundPlayer;
     }
 
     public void SetType(PowerUpType type) {
@@ -50,6 +52,8 @@ public class Powerup : StaticBody2D {
 
     public void ExecuteEffect() {
         this.sv.score += 1000;
+
+        this.soundPlayer.PlaySoundEffect(SoundEffect.Achievement);
 
         if (this.type == PowerUpType.AddBombRange) {
             if (this.sv.bombRange < 6) {
