@@ -50,17 +50,23 @@ public class TileMap : Godot.TileMap {
             this.generatedEnemies = true;
         }
 
-        if (this.enemies == null || this.enemies.Count == 0) {
-            this.exitTile.active = true;
-        } else {
-            this.exitTile.active = false;
-        }
+        CheckForExitActivation();
 
         if (this.exitTile != null && this.exitTile.positionOnTileMap != invalidTile && GetCellv(this.exitTile.positionOnTileMap) == (int)TileType.TileType_Floor && !this.exitTileUncovered) {
             Console.WriteLine("Uncovered exit!");
             this.exitTile.LoadTexture();
 
             this.exitTileUncovered = true;
+        }
+    }
+
+    private void CheckForExitActivation() {
+        if ((this.enemies == null || this.enemies.Count == 0) && !this.exitTile.active) {
+            this.exitTile.active = true;
+            this.exitTile.LoadTexture();
+        } else if (this.enemies != null && this.enemies.Count > 0 && this.exitTile.active) {
+            this.exitTile.active = false;
+            this.exitTile.LoadTexture();
         }
     }
 

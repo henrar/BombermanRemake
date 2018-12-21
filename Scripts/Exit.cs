@@ -13,9 +13,19 @@ public class Exit : Node2D {
     }
 
     public void LoadTexture() {
+        if (this.sprite != null) {
+            RemoveChild(this.sprite);
+        }
+
         this.sprite = new Sprite();
         ImageTexture exitTexture = new ImageTexture();
-        exitTexture.Load("res://Assets/assetyver2/door.png");
+
+        if (this.active) {
+            exitTexture.Load("res://Assets/assetyver2/opendoor.png");
+        } else {
+            exitTexture.Load("res://Assets/assetyver2/door.png");
+        }
+
         sprite.SetTexture(exitTexture);
 
         sprite.SetGlobalPosition(this.map.GetPositionOfTileCenter(this.positionOnTileMap));
