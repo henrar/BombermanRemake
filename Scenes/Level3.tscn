@@ -300,18 +300,7 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="ExplosionSound" type="AudioStreamPlayer2D" parent="." index="2"]
-
-stream = null
-volume_db = 0.0
-pitch_scale = 1.0
-autoplay = false
-max_distance = 2000.0
-attenuation = 1.0
-bus = "Master"
-area_mask = 1
-
-[node name="LevelTimer" type="Timer" parent="." index="3"]
+[node name="LevelTimer" type="Timer" parent="." index="2"]
 
 process_mode = 1
 wait_time = 200.0
@@ -320,7 +309,7 @@ autostart = true
 script = ExtResource( 9 )
 _sections_unfolded = [ "Pause" ]
 
-[node name="ParallaxBackground" type="ParallaxBackground" parent="." index="4"]
+[node name="ParallaxBackground" type="ParallaxBackground" parent="." index="3"]
 
 layer = -2
 offset = Vector2( 0, 0 )
