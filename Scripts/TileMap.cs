@@ -193,13 +193,13 @@ public class TileMap : Godot.TileMap {
         world.AddChild(enemy);
     }
 
-    public void GenerateEnemies() {       
+    public void GenerateEnemies() {
         int generatedEnemiesCount = 0;
 
         while (generatedEnemiesCount < this.sceneVariables.numberOfEnemies) {
             Vector2 tile = GetRandomCell(TileType.TileType_Floor);
 
-            if (IsNotAllowedCell(tile) && GetCellv(tile) != (int)TileType.TileType_Floor && FindEnemyOnTile(tile) != null) {
+            if (IsNotAllowedCell(tile) || GetCellv(tile) != (int)TileType.TileType_Floor || FindEnemyOnTile(tile) != null) {
                 continue;
             }
 
@@ -285,7 +285,7 @@ public class TileMap : Godot.TileMap {
     }
 
     public bool IsTileValidForMovement(Vector2 tile, bool isCollisionDisabled) {
-        if(isCollisionDisabled) {
+        if (isCollisionDisabled) {
             return IsFloor(tile) || IsBricks(tile);
         }
         return IsFloor(tile);

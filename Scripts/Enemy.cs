@@ -36,6 +36,8 @@ public class Enemy : KinematicBody2D {
         LoadSprite();
         SetCollision();
         UpdatePositionOnTileMap();
+
+        SetCollisionMask(2);
     }
 
     private void SetMovementSpeed() {
@@ -141,8 +143,7 @@ public class Enemy : KinematicBody2D {
         }
 
         return ((this.tileMap.IsTileValidForMovement(nextTile, IsIgnoringCollisions()))
-            || (!this.tileMap.IsTileValidForMovement(nextTile, IsIgnoringCollisions()) && GetGlobalPosition().DistanceTo(this.tileMap.GetPositionOfTileCenter(nextTile) + mapTransform.Origin) >= (this.tileMap.GetCellSize().x + 10.0f)))
-            && this.tileMap.FindEnemyOnTile(nextTile) == null;
+            || (!this.tileMap.IsTileValidForMovement(nextTile, IsIgnoringCollisions()) && GetGlobalPosition().DistanceTo(this.tileMap.GetPositionOfTileCenter(nextTile) + mapTransform.Origin) >= (this.tileMap.GetCellSize().x + 10.0f)));
     }
 
     private bool IsAllowedToStep(Vector2 direction) {
