@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/bomberman-right-f1.png-7ec48a5db2d659ce905c99c3d35ba046.stex"
+path="res://.import/bomberman-left-f1.png-541e3a4f274a347a0e35972831be07bd.stex"
 
 [deps]
 
-source_file="res://Assets/animacja ruchu/bomberman-right-f1.png"
-dest_files=[ "res://.import/bomberman-right-f1.png-7ec48a5db2d659ce905c99c3d35ba046.stex" ]
+source_file="res://Assets/movement_anim/bomberman-left-f1.png"
+dest_files=[ "res://.import/bomberman-left-f1.png-541e3a4f274a347a0e35972831be07bd.stex" ]
 
 [params]
 
