@@ -19,10 +19,6 @@ config/icon="res://Assets/icon.png"
 SceneVariables="*res://Scripts/SceneVariables.cs"
 SoundPlayer="*res://Scripts/SoundPlayer.cs"
 
-[debug]
-
-settings/stdout/verbose_stdout=true
-
 [display]
 
 window/size/width=1280
