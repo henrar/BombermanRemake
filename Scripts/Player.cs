@@ -11,6 +11,17 @@ public class Player : KinematicBody2D {
 
     private int dropBombCooldown;
 
+    private AnimatedSprite animatedSprite;
+
+    private readonly string frontName = "front";
+    private readonly string backName = "back";
+    private readonly string leftName = "left";
+    private readonly string rightName = "right";
+
+    private float animTimeElapsed;
+    private Vector2 previousDirection;
+    private int spriteNum;
+
     public override void _Ready() {
         this.world = GetTree().GetRoot().GetNode("World") as World;
 
@@ -22,6 +33,10 @@ public class Player : KinematicBody2D {
         this.soundPlayer = GetTree().GetRoot().GetNode("SoundPlayer") as SoundPlayer;
 
         this.SetZIndex(this.map.GetZIndex() + 10);
+
+        LoadAnimatedSprite();
+        this.animTimeElapsed = 0.0f;
+        this.previousDirection = Directions.noDirection;
     }
 
     public void Die() {
@@ -53,7 +68,7 @@ public class Player : KinematicBody2D {
     private void CheckForExit() {
         if (this.map.exitTile != null && this.map.exitTile.positionOnTileMap != TileMap.invalidTile && GetPositionOnTileMap() == this.map.exitTile.positionOnTileMap && this.map.exitTile.active) {
             this.soundPlayer.PlaySoundEffect(SoundEffect.Doors);
-            this.world.SwitchLevel();          
+            this.world.SwitchLevel();
         }
     }
 
@@ -125,7 +140,11 @@ public class Player : KinematicBody2D {
     }
 
     private void ExecuteMovement(Vector2 motion, float delta) {
+        SetSpriteBasedOnMovement(motion, delta);
         KinematicCollision2D collision = MoveAndCollide(motion * delta * this.sceneVariables.playerMovementSpeed);
+
+        this.previousDirection = motion;
+
         if (this.soundPlayer != null && motion != Directions.noDirection) {
             this.soundPlayer.PlaySoundEffect(SoundEffect.Step);
         }
@@ -163,5 +182,63 @@ public class Player : KinematicBody2D {
         }
         Transform2D mapTransform = this.map.GetGlobalTransform();
         return this.map.WorldToMap(GetGlobalPosition() - mapTransform.Origin);
+    }
+
+    private void SetSpriteBasedOnMovement(Vector2 motion, float delta) {
+        string name = "";
+
+        this.animTimeElapsed = this.animTimeElapsed + delta;
+
+        if (motion == Directions.directionUp) {
+            name = this.backName;
+        } else if (motion == Directions.directionDown) {
+            name = this.frontName;
+        } else if (motion == Directions.directionLeft) {
+            name = this.leftName;
+        } else if (motion == Directions.directionRight) {
+            name = this.rightName;
+        } else {
+            name = this.frontName;
+        }
+
+        if (this.previousDirection != motion) {
+            this.animatedSprite.SetAnimation(name);
+        }
+
+        if (motion != Directions.noDirection && this.animTimeElapsed > 0.1f) {
+            this.spriteNum = (this.spriteNum + 1) % this.animatedSprite.GetSpriteFrames().GetFrameCount(name);
+            this.animatedSprite.SetFrame(this.spriteNum);
+
+            this.animTimeElapsed = 0.0f;
+        }
+    }
+
+    private void LoadSpriteFrames(ref SpriteFrames spriteFrames, string name) {
+        for (int i = 1; i <= 5; ++i) {
+            ImageTexture tex = new ImageTexture();
+            tex.Load("res://Assets/movement_anim/bomberman-" + name + "-f" + i + ".png");
+            spriteFrames.AddFrame(name, tex);
+        }
+    }
+
+    private void LoadAnimatedSprite() {
+        this.animatedSprite = new AnimatedSprite();
+        SpriteFrames spriteFrames = new SpriteFrames();
+
+        spriteFrames.AddAnimation(this.frontName);
+        spriteFrames.AddAnimation(this.backName);
+        spriteFrames.AddAnimation(this.leftName);
+        spriteFrames.AddAnimation(this.rightName);
+
+        LoadSpriteFrames(ref spriteFrames, this.frontName);
+        LoadSpriteFrames(ref spriteFrames, this.backName);
+        LoadSpriteFrames(ref spriteFrames, this.leftName);
+        LoadSpriteFrames(ref spriteFrames, this.rightName);
+
+        this.animatedSprite.SetSpriteFrames(spriteFrames);
+
+        AddChild(this.animatedSprite);
+
+        this.animatedSprite.SetAnimation(frontName);
     }
 }
