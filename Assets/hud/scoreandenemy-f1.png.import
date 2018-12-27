@@ -2,11 +2,13 @@
 
 importer="texture"
 type="StreamTexture"
-valid=false
+path="res://.import/scoreandenemy-f1.png-480afdb6b4d532f65fb49e68d2558215.stex"
 
 [deps]
 
-source_file="res://Assets/assetyver2/main_menu.jpg"
+source_file="res://Assets/hud/scoreandenemy-f1.png"
+dest_files=[ "res://.import/scoreandenemy-f1.png-480afdb6b4d532f65fb49e68d2558215.stex" ]
+
 [params]
 
 compress/mode=0

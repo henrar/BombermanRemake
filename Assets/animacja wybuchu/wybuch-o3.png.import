@@ -2,11 +2,13 @@
 
 importer="texture"
 type="StreamTexture"
-valid=false
+path="res://.import/wybuch-o3.png-d84d63f11e55d1c35addaef7ecf6154c.stex"
 
 [deps]
 
-source_file="res://Assets/assetyver2/main_menu.jpg"
+source_file="res://Assets/animacja wybuchu/wybuch-o3.png"
+dest_files=[ "res://.import/wybuch-o3.png-d84d63f11e55d1c35addaef7ecf6154c.stex" ]
+
 [params]
 
 compress/mode=0

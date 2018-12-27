@@ -2,11 +2,13 @@
 
 importer="texture"
 type="StreamTexture"
-valid=false
+path="res://.import/time-spin.png-0a61b1f55e9e53aaa5c3f9b07cbbe584.stex"
 
 [deps]
 
-source_file="res://Assets/assetyver2/main_menu.jpg"
+source_file="res://Assets/hud/time-spin.png"
+dest_files=[ "res://.import/time-spin.png-0a61b1f55e9e53aaa5c3f9b07cbbe584.stex" ]
+
 [params]
 
 compress/mode=0

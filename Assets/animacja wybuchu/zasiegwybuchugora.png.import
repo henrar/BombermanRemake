@@ -2,11 +2,13 @@
 
 importer="texture"
 type="StreamTexture"
-valid=false
+path="res://.import/zasiegwybuchugora.png-34610d66ac44716c204250ba52b9976f.stex"
 
 [deps]
 
-source_file="res://Assets/assetyver2/main_menu.jpg"
+source_file="res://Assets/animacja wybuchu/zasiegwybuchugora.png"
+dest_files=[ "res://.import/zasiegwybuchugora.png-34610d66ac44716c204250ba52b9976f.stex" ]
+
 [params]
 
 compress/mode=0

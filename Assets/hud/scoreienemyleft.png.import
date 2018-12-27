@@ -2,11 +2,13 @@
 
 importer="texture"
 type="StreamTexture"
-valid=false
+path="res://.import/scoreienemyleft.png-59cf521b47b2b563906ac90f0df157ee.stex"
 
 [deps]
 
-source_file="res://Assets/assetyver2/main_menu.jpg"
+source_file="res://Assets/hud/scoreienemyleft.png"
+dest_files=[ "res://.import/scoreienemyleft.png-59cf521b47b2b563906ac90f0df157ee.stex" ]
+
 [params]
 
 compress/mode=0

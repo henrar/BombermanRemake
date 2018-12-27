@@ -2,11 +2,13 @@
 
 importer="texture"
 type="StreamTexture"
-valid=false
+path="res://.import/bomb-1s.png-a1256257680eb8be7a9b94f76e44b295.stex"
 
 [deps]
 
-source_file="res://Assets/assetyver2/main_menu.jpg"
+source_file="res://Assets/animacja wybuchu/bomb-1s.png"
+dest_files=[ "res://.import/bomb-1s.png-a1256257680eb8be7a9b94f76e44b295.stex" ]
+
 [params]
 
 compress/mode=0

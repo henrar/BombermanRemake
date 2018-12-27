@@ -2,11 +2,13 @@
 
 importer="texture"
 type="StreamTexture"
-valid=false
+path="res://.import/gameover.png-e1cd857214adccf4ab1bdf387908edae.stex"
 
 [deps]
 
-source_file="res://Assets/assetyver2/main_menu.jpg"
+source_file="res://Assets/hud/gameover.png"
+dest_files=[ "res://.import/gameover.png-e1cd857214adccf4ab1bdf387908edae.stex" ]
+
 [params]
 
 compress/mode=0

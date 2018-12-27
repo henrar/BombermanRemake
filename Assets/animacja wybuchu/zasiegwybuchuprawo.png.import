@@ -2,11 +2,13 @@
 
 importer="texture"
 type="StreamTexture"
-valid=false
+path="res://.import/zasiegwybuchuprawo.png-a336083c364777afdcf36be559cff234.stex"
 
 [deps]
 
-source_file="res://Assets/assetyver2/main_menu.jpg"
+source_file="res://Assets/animacja wybuchu/zasiegwybuchuprawo.png"
+dest_files=[ "res://.import/zasiegwybuchuprawo.png-a336083c364777afdcf36be559cff234.stex" ]
+
 [params]
 
 compress/mode=0

@@ -2,11 +2,13 @@
 
 importer="texture"
 type="StreamTexture"
-valid=false
+path="res://.import/MENUponajechaniumyszka.png-4250ae1a8674991ee8c38720adfb15a1.stex"
 
 [deps]
 
-source_file="res://Assets/assetyver2/main_menu.jpg"
+source_file="res://Assets/hud/MENUponajechaniumyszka.png"
+dest_files=[ "res://.import/MENUponajechaniumyszka.png-4250ae1a8674991ee8c38720adfb15a1.stex" ]
+
 [params]
 
 compress/mode=0

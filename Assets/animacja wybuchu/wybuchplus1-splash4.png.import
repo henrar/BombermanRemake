@@ -2,11 +2,13 @@
 
 importer="texture"
 type="StreamTexture"
-valid=false
+path="res://.import/wybuchplus1-splash4.png-6df53e6200fe4a2e080f9c1585538e45.stex"
 
 [deps]
 
-source_file="res://Assets/assetyver2/main_menu.jpg"
+source_file="res://Assets/animacja wybuchu/wybuchplus1-splash4.png"
+dest_files=[ "res://.import/wybuchplus1-splash4.png-6df53e6200fe4a2e080f9c1585538e45.stex" ]
+
 [params]
 
 compress/mode=0

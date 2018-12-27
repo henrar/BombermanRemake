@@ -2,11 +2,13 @@
 
 importer="texture"
 type="StreamTexture"
-valid=false
+path="res://.import/time-f7.png-12ef00108f5304b6528d3b4d9bc62eaa.stex"
 
 [deps]
 
-source_file="res://Assets/assetyver2/main_menu.jpg"
+source_file="res://Assets/hud/time-f7.png"
+dest_files=[ "res://.import/time-f7.png-12ef00108f5304b6528d3b4d9bc62eaa.stex" ]
+
 [params]
 
 compress/mode=0

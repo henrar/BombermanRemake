@@ -2,11 +2,13 @@
 
 importer="texture"
 type="StreamTexture"
-valid=false
+path="res://.import/lifex3.png-e590a756f42286441e79e9e0d44e2d44.stex"
 
 [deps]
 
-source_file="res://Assets/assetyver2/main_menu.jpg"
+source_file="res://Assets/hud/lifex3.png"
+dest_files=[ "res://.import/lifex3.png-e590a756f42286441e79e9e0d44e2d44.stex" ]
+
 [params]
 
 compress/mode=0

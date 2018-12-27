@@ -2,11 +2,13 @@
 
 importer="texture"
 type="StreamTexture"
-valid=false
+path="res://.import/zasiegwybuchulewo.png-3f4f0ebb2b5c3dd97bfb1fb03ee9b7c6.stex"
 
 [deps]
 
-source_file="res://Assets/assetyver2/main_menu.jpg"
+source_file="res://Assets/animacja wybuchu/zasiegwybuchulewo.png"
+dest_files=[ "res://.import/zasiegwybuchulewo.png-3f4f0ebb2b5c3dd97bfb1fb03ee9b7c6.stex" ]
+
 [params]
 
 compress/mode=0

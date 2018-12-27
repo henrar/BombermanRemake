@@ -2,11 +2,13 @@
 
 importer="texture"
 type="StreamTexture"
-valid=false
+path="res://.import/bomberman-left-f1.png-3c5cc43c883637f5eead099ace7ca656.stex"
 
 [deps]
 
-source_file="res://Assets/assetyver2/main_menu.jpg"
+source_file="res://Assets/animacja ruchu/bomberman-left-f1.png"
+dest_files=[ "res://.import/bomberman-left-f1.png-3c5cc43c883637f5eead099ace7ca656.stex" ]
+
 [params]
 
 compress/mode=0

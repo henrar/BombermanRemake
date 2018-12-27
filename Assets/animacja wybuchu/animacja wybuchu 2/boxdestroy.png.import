@@ -2,11 +2,13 @@
 
 importer="texture"
 type="StreamTexture"
-valid=false
+path="res://.import/boxdestroy.png-d3490c78f14ee012ddbde02375a5902c.stex"
 
 [deps]
 
-source_file="res://Assets/assetyver2/main_menu.jpg"
+source_file="res://Assets/animacja wybuchu/animacja wybuchu 2/boxdestroy.png"
+dest_files=[ "res://.import/boxdestroy.png-d3490c78f14ee012ddbde02375a5902c.stex" ]
+
 [params]
 
 compress/mode=0

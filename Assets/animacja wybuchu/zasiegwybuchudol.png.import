@@ -2,11 +2,13 @@
 
 importer="texture"
 type="StreamTexture"
-valid=false
+path="res://.import/zasiegwybuchudol.png-8bdc0c36ca8fc4210d1ef5d3b01515bf.stex"
 
 [deps]
 
-source_file="res://Assets/assetyver2/main_menu.jpg"
+source_file="res://Assets/animacja wybuchu/zasiegwybuchudol.png"
+dest_files=[ "res://.import/zasiegwybuchudol.png-8bdc0c36ca8fc4210d1ef5d3b01515bf.stex" ]
+
 [params]
 
 compress/mode=0

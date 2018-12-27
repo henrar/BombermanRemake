@@ -2,11 +2,13 @@
 
 importer="texture"
 type="StreamTexture"
-valid=false
+path="res://.import/boom-and-splash2.png-2964333f68652725887e3386346e41ab.stex"
 
 [deps]
 
-source_file="res://Assets/assetyver2/main_menu.jpg"
+source_file="res://Assets/animacja wybuchu/boom-and-splash2.png"
+dest_files=[ "res://.import/boom-and-splash2.png-2964333f68652725887e3386346e41ab.stex" ]
+
 [params]
 
 compress/mode=0

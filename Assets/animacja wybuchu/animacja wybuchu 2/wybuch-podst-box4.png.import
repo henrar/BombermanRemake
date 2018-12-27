@@ -2,11 +2,13 @@
 
 importer="texture"
 type="StreamTexture"
-valid=false
+path="res://.import/wybuch-podst-box4.png-f28ba068e39e2a53a37b2c845ec0c613.stex"
 
 [deps]
 
-source_file="res://Assets/assetyver2/main_menu.jpg"
+source_file="res://Assets/animacja wybuchu/animacja wybuchu 2/wybuch-podst-box4.png"
+dest_files=[ "res://.import/wybuch-podst-box4.png-f28ba068e39e2a53a37b2c845ec0c613.stex" ]
+
 [params]
 
 compress/mode=0

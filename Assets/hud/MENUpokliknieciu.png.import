@@ -2,11 +2,13 @@
 
 importer="texture"
 type="StreamTexture"
-valid=false
+path="res://.import/MENUpokliknieciu.png-77ee8d406798471e10d77e7951974d32.stex"
 
 [deps]
 
-source_file="res://Assets/assetyver2/main_menu.jpg"
+source_file="res://Assets/hud/MENUpokliknieciu.png"
+dest_files=[ "res://.import/MENUpokliknieciu.png-77ee8d406798471e10d77e7951974d32.stex" ]
+
 [params]
 
 compress/mode=0

@@ -2,11 +2,13 @@
 
 importer="texture"
 type="StreamTexture"
-valid=false
+path="res://.import/zyciex3.png-5c1d4af92641d23e79b59b7d410b1850.stex"
 
 [deps]
 
-source_file="res://Assets/assetyver2/main_menu.jpg"
+source_file="res://Assets/hud/zyciex3.png"
+dest_files=[ "res://.import/zyciex3.png-5c1d4af92641d23e79b59b7d410b1850.stex" ]
+
 [params]
 
 compress/mode=0

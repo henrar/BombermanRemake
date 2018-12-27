@@ -2,11 +2,13 @@
 
 importer="texture"
 type="StreamTexture"
-valid=false
+path="res://.import/examplehud.png-d20a67a708b2d3618e0989fbbdcf12ea.stex"
 
 [deps]
 
-source_file="res://Assets/assetyver2/main_menu.jpg"
+source_file="res://Assets/hud/examplehud.png"
+dest_files=[ "res://.import/examplehud.png-d20a67a708b2d3618e0989fbbdcf12ea.stex" ]
+
 [params]
 
 compress/mode=0
