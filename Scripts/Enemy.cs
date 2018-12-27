@@ -19,9 +19,12 @@ public class Enemy : KinematicBody2D {
     private Sprite sprite;
     private CollisionPolygon2D collision;
     public EnemyType enemyType;
+    private SceneVariables sceneVariables;
 
     public override void _Ready() {
         this.tileMap = GetTree().GetRoot().GetNode("World/TileMap") as TileMap;
+        this.sceneVariables = GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables;
+
         this.previousDirection = new Vector2(0, 0);
 
         SetPosition(new Vector2(0, 0));
@@ -87,12 +90,22 @@ public class Enemy : KinematicBody2D {
         this.enemyType = enemyType;
     }
 
-    private void CheckIfContactedPlayer() {
+    private void CheckIfContactedPlayer(KinematicCollision2D collision) {
+        if (this.sceneVariables.godMode) {
+            return;
+        }
+
         Player player = GetTree().GetRoot().GetNode("World/Player") as Player;
         if (player == null) {
             return;
         }
-        if (player.GetGlobalPosition().DistanceTo(this.GetGlobalPosition()) <= 40.0f) {
+
+        if (collision != null && collision.GetCollider().GetType() == typeof(Player)) {
+            (collision.GetCollider() as Player).Die();
+            return;
+        }
+
+        if (IsIgnoringCollisions() && (player.GetGlobalPosition().DistanceTo(this.GetGlobalPosition()) <= 40.0f)) {
             player.Die();
         }
     }
@@ -100,17 +113,15 @@ public class Enemy : KinematicBody2D {
     public override void _PhysicsProcess(float delta) {
         UpdatePositionOnTileMap();
 
+        if (this.sceneVariables.aiDisabled) {
+            return;
+        }
+
         Vector2 direction = GetRandomDirection();
         direction = ModifyMoveBasedOnSurrounding(direction, delta);
 
         KinematicCollision2D collision = MoveAndCollide(direction * this.movementSpeed * delta);
-        if (collision != null && collision.GetCollider().GetType() == typeof(Player)) {
-            (collision.GetCollider() as Player).Die();
-            return;
-        }
-        if (IsIgnoringCollisions()) {
-            CheckIfContactedPlayer();
-        }
+        CheckIfContactedPlayer(collision);
     }
 
     public bool IsIgnoringCollisions() {

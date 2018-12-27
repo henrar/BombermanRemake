@@ -21,6 +21,10 @@ public class SceneVariables : Node {
 
     public int currentLevel;
 
+    //CHEATS
+    public bool aiDisabled;
+    public bool godMode;
+
     public override void _Ready() {
         Viewport root = GetTree().GetRoot();
         CurrentScene = root.GetChild(root.GetChildCount() - 1);
@@ -64,6 +68,11 @@ public class SceneVariables : Node {
         this.bombRange = 1;
         this.score = 0;
         this.numberOfLives = 3;
+
+
+        //CHEATS
+        this.aiDisabled = false;
+        this.godMode = false;
 
         Console.WriteLine("Ready SV");
     }

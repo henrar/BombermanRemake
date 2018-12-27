@@ -8,3 +8,5 @@
 *.jpg binary
 *.png binary
 *.wav binary
+*.gif binary
+*.psd binary

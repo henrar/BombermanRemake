@@ -10,9 +10,11 @@ public class Bomb : StaticBody2D {
 
     private World world;
     private SoundPlayer soundPlayer;
+    private SceneVariables sceneVariables;
 
     public override void _Ready() {
         this.world = GetTree().GetRoot().GetNode("World") as World;
+        this.sceneVariables = GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables;
         this.soundPlayer = this.world.soundPlayer;
         this.map = GetTree().GetRoot().GetNode("World/TileMap") as TileMap;
 
@@ -92,7 +94,9 @@ public class Bomb : StaticBody2D {
             return false;
         }
 
-        ExplodePlayer(tile);
+        if (!this.sceneVariables.godMode) {
+            ExplodePlayer(tile);
+        }
         ExplodeEnemy(tile);
         ExplodeExitTile(tile);
 
@@ -111,8 +115,6 @@ public class Bomb : StaticBody2D {
     private void Explode() {
         Console.WriteLine("BOOM!");
 
-        SceneVariables sv = GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables;
-
         this.soundPlayer.PlaySoundEffect(SoundEffect.Explosion);
 
         Vector2 explosionPosition = this.map.WorldToMap(this.position);
@@ -123,28 +125,28 @@ public class Bomb : StaticBody2D {
             player.numberOfDroppedBombs -= 1;
         }
 
-        for (int x = (int)explosionPosition.x; x <= (int)explosionPosition.x + sv.bombRange; ++x) {
+        for (int x = (int)explosionPosition.x; x <= (int)explosionPosition.x + this.sceneVariables.bombRange; ++x) {
             Vector2 tile = new Vector2(x, explosionPosition.y);
             if (!ExecuteExplosionAtTile(tile)) {
                 break;
             }
         }
 
-        for (int x = (int)explosionPosition.x; x >= (int)explosionPosition.x - sv.bombRange; --x) {
+        for (int x = (int)explosionPosition.x; x >= (int)explosionPosition.x - this.sceneVariables.bombRange; --x) {
             Vector2 tile = new Vector2(x, explosionPosition.y);
             if (!ExecuteExplosionAtTile(tile)) {
                 break;
             }
         }
 
-        for (int y = (int)explosionPosition.y; y <= (int)explosionPosition.y + sv.bombRange; ++y) {
+        for (int y = (int)explosionPosition.y; y <= (int)explosionPosition.y + this.sceneVariables.bombRange; ++y) {
             Vector2 tile = new Vector2(explosionPosition.x, y);
             if (!ExecuteExplosionAtTile(tile)) {
                 break;
             }
         }
 
-        for (int y = (int)explosionPosition.y; y >= (int)explosionPosition.y - sv.bombRange; --y) {
+        for (int y = (int)explosionPosition.y; y >= (int)explosionPosition.y - this.sceneVariables.bombRange; --y) {
             Vector2 tile = new Vector2(explosionPosition.x, y);
             if (!ExecuteExplosionAtTile(tile)) {
                 break;

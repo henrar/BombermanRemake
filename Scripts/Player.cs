@@ -129,7 +129,7 @@ public class Player : KinematicBody2D {
         if (this.soundPlayer != null && motion != Directions.noDirection) {
             this.soundPlayer.PlaySoundEffect(SoundEffect.Step);
         }
-        if (collision != null && collision.GetCollider().GetType() == typeof(Enemy)) {
+        if (!this.sceneVariables.godMode && collision != null && collision.GetCollider().GetType() == typeof(Enemy)) {
             Die();
             return;
         }
