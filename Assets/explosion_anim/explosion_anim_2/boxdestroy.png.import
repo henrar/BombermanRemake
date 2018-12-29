@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/boxdestroy.png-8f4e6e1798fc9d5812b3f45042530292.stex"
+path="res://.import/boxdestroy.png-ee9effcd3bf9b9a5a6dae7e6b6b62381.stex"
 
 [deps]
 
-source_file="res://Assets/explosion_anim/animacja wybuchu 2/boxdestroy.png"
-dest_files=[ "res://.import/boxdestroy.png-8f4e6e1798fc9d5812b3f45042530292.stex" ]
+source_file="res://Assets/explosion_anim/explosion_anim_2/boxdestroy.png"
+dest_files=[ "res://.import/boxdestroy.png-ee9effcd3bf9b9a5a6dae7e6b6b62381.stex" ]
 
 [params]
 

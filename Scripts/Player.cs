@@ -169,8 +169,11 @@ public class Player : KinematicBody2D {
         bomb.SetGlobalPosition(pos + mapTransform.Origin);
         bomb.SetName("Bomb" + this.numberOfDroppedBombs);
 
-        Node world = GetTree().GetRoot();
+        World world = GetTree().GetRoot().GetNode("World") as World;
         world.AddChild(bomb);
+
+        bomb.SetBombSpritePosition(pos + mapTransform.Origin);
+
         this.numberOfDroppedBombs += 1;
 
         this.map.droppedBombPositions[bomb] = this.map.WorldToMap(bomb.position);

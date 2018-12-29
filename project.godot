@@ -18,7 +18,6 @@ config/icon="res://Assets/icon.png"
 
 SceneVariables="*res://Scripts/SceneVariables.cs"
 SoundPlayer="*res://Scripts/SoundPlayer.cs"
-BombAnimatedSprite="*res://Scripts/BombAnimatedSprite.cs"
 
 [display]
 

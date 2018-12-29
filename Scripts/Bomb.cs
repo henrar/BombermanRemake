@@ -3,7 +3,6 @@ using System;
 
 public class Bomb : StaticBody2D {
     private Timer timer;
-    private Sprite bombSprite;
     public Vector2 position;
     private CollisionShape2D collision;
     private TileMap map;
@@ -11,6 +10,7 @@ public class Bomb : StaticBody2D {
     private World world;
     private SoundPlayer soundPlayer;
     private SceneVariables sceneVariables;
+    private BombAnimatedSprite bombAnimatedSprite;
 
     public override void _Ready() {
         this.world = GetTree().GetRoot().GetNode("World") as World;
@@ -18,13 +18,9 @@ public class Bomb : StaticBody2D {
         this.soundPlayer = this.world.soundPlayer;
         this.map = GetTree().GetRoot().GetNode("World/TileMap") as TileMap;
 
-        this.bombSprite = new Sprite();
-        ImageTexture bombTex = new ImageTexture();
-        bombTex.Load("res://Assets/assetyver2/bomba1.png");
-        this.bombSprite.SetTexture(bombTex);
-        this.bombSprite.SetPosition(GetPosition());
-
-        AddChild(this.bombSprite);
+        this.bombAnimatedSprite = new BombAnimatedSprite();
+        AddChild(this.bombAnimatedSprite);
+        this.bombAnimatedSprite.SetBombAnimation();
 
         this.timer = new Timer();
         this.timer.SetWaitTime(2.0f);
@@ -33,10 +29,7 @@ public class Bomb : StaticBody2D {
         this.timer.Start();
         AddChild(this.timer);
 
-        Vector2 pos = new Vector2(0, 0);
-        SetPosition(pos);
-
-        this.SetZIndex(this.map.GetZIndex() + 5);
+        SetZIndex(this.map.GetZIndex() + 5);
     }
 
     public override void _PhysicsProcess(float delta) {
@@ -55,6 +48,7 @@ public class Bomb : StaticBody2D {
             && this.position.DistanceTo(player.GetGlobalPosition() - this.map.GetGlobalTransform().Origin) >= 80.0f) { //when we leave the tile that contains bomb, we should turn on collision as in the original
             AddCollision();
         }
+
 
         if (this.timer != null && this.timer.GetTimeLeft() <= 0.0f) {
             Explode();
@@ -162,9 +156,13 @@ public class Bomb : StaticBody2D {
         CircleShape2D shape = new CircleShape2D();
         shape.SetRadius(40.0f);
         this.collision.SetShape(shape);
-        this.collision.SetPosition(position + this.map.GetGlobalTransform().Origin);
+        this.collision.SetPosition(this.position + this.map.GetGlobalTransform().Origin);
         this.collision.SetName("BombCollision");
         AddChild(this.collision);
+    }
+
+    public void SetBombSpritePosition(Vector2 pos) {
+        this.bombAnimatedSprite.SetGlobalPosition(pos);
     }
 }
 
