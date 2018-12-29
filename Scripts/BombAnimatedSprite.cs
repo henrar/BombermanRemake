@@ -1,7 +1,13 @@
 ﻿using System;
 using Godot;
 
-class BombAnimatedSprite: Node2D {
+class BombAnimatedSprite : Node2D {
+    private enum BombSpriteNum {
+        JustDropped = 0,
+        FuseLit = 1,
+        BeforeExplosion = 2,
+    }
+
     private AnimatedSprite bombAnimatedSprite;
     private AnimatedSprite explosionAnimatedSprite;
 
@@ -39,13 +45,17 @@ class BombAnimatedSprite: Node2D {
         SpriteFrames spriteFrames = new SpriteFrames();
         spriteFrames.AddAnimation(this.explosionAnimName);
 
-        for(int i = 1; i <= 5; ++i) {
+        for (int i = 1; i <= 5; ++i) {
 
         }
     }
 
-    public void SwapBombTexture() {
-
+    public void SwapBombTexture(float timeLeft) {
+        if (timeLeft < 1.5f && timeLeft >= 0.7f) {
+            this.bombAnimatedSprite.SetFrame((int)BombSpriteNum.FuseLit);
+        } else if (timeLeft < 0.7f) {
+            this.bombAnimatedSprite.SetFrame((int)BombSpriteNum.BeforeExplosion);
+        }
     }
 
     public void SetBombAnimation() {
@@ -56,6 +66,8 @@ class BombAnimatedSprite: Node2D {
         this.explosionAnimatedSprite.SetZIndex(this.map.GetZIndex() + 5);
 
         this.bombAnimatedSprite.SetAnimation(this.bombTickingAnimnName);
+        this.bombAnimatedSprite.SetFrame((int)BombSpriteNum.JustDropped);
+
         this.bombAnimatedSprite.SetPosition(GetPosition());
 
         AddChild(this.bombAnimatedSprite);

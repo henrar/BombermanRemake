@@ -49,7 +49,8 @@ public class Bomb : StaticBody2D {
             AddCollision();
         }
 
-
+        this.bombAnimatedSprite.SwapBombTexture(this.timer.GetTimeLeft());
+       
         if (this.timer != null && this.timer.GetTimeLeft() <= 0.0f) {
             Explode();
         }
