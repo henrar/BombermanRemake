@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/bomb-3s.png-6e60d942e0537c3417c793d0bbf7550e.stex"
+path="res://.import/bomb-3s.png-84e12d06a5dcb6d671e82627c21fff10.stex"
 
 [deps]
 
-source_file="res://Assets/animacja wybuchu/bomb-3s.png"
-dest_files=[ "res://.import/bomb-3s.png-6e60d942e0537c3417c793d0bbf7550e.stex" ]
+source_file="res://Assets/explosion_anim/bomb-3s.png"
+dest_files=[ "res://.import/bomb-3s.png-84e12d06a5dcb6d671e82627c21fff10.stex" ]
 
 [params]
 

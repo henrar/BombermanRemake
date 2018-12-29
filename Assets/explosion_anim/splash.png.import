@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/splash.png-d5450518e74cc581254bdea0aeb51b3f.stex"
+path="res://.import/splash.png-0d05a64898fa258c3f3b5cbbae3e8ca8.stex"
 
 [deps]
 
-source_file="res://Assets/animacja wybuchu/splash.png"
-dest_files=[ "res://.import/splash.png-d5450518e74cc581254bdea0aeb51b3f.stex" ]
+source_file="res://Assets/explosion_anim/splash.png"
+dest_files=[ "res://.import/splash.png-0d05a64898fa258c3f3b5cbbae3e8ca8.stex" ]
 
 [params]
 

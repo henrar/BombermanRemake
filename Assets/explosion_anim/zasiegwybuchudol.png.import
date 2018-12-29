@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/zasiegwybuchudol.png-8bdc0c36ca8fc4210d1ef5d3b01515bf.stex"
+path="res://.import/zasiegwybuchudol.png-2da821a5da0ab2939ec117e2f8571447.stex"
 
 [deps]
 
-source_file="res://Assets/animacja wybuchu/zasiegwybuchudol.png"
-dest_files=[ "res://.import/zasiegwybuchudol.png-8bdc0c36ca8fc4210d1ef5d3b01515bf.stex" ]
+source_file="res://Assets/explosion_anim/zasiegwybuchudol.png"
+dest_files=[ "res://.import/zasiegwybuchudol.png-2da821a5da0ab2939ec117e2f8571447.stex" ]
 
 [params]
 

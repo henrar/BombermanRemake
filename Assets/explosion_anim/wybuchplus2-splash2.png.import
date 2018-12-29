@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/wybuchplus2-splash2.png-90e8b4e7c94371813063e74d7f2e64e1.stex"
+path="res://.import/wybuchplus2-splash2.png-3e544590e1bc3c503f76ba7486cc5aeb.stex"
 
 [deps]
 
-source_file="res://Assets/animacja wybuchu/wybuchplus2-splash2.png"
-dest_files=[ "res://.import/wybuchplus2-splash2.png-90e8b4e7c94371813063e74d7f2e64e1.stex" ]
+source_file="res://Assets/explosion_anim/wybuchplus2-splash2.png"
+dest_files=[ "res://.import/wybuchplus2-splash2.png-3e544590e1bc3c503f76ba7486cc5aeb.stex" ]
 
 [params]
 

@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/wybuch-podst-box1.png-c4248bbfbdad9398595b48d37a062170.stex"
+path="res://.import/boxdestroy.png-8f4e6e1798fc9d5812b3f45042530292.stex"
 
 [deps]
 
-source_file="res://Assets/animacja wybuchu/animacja wybuchu 2/wybuch-podst-box1.png"
-dest_files=[ "res://.import/wybuch-podst-box1.png-c4248bbfbdad9398595b48d37a062170.stex" ]
+source_file="res://Assets/explosion_anim/animacja wybuchu 2/boxdestroy.png"
+dest_files=[ "res://.import/boxdestroy.png-8f4e6e1798fc9d5812b3f45042530292.stex" ]
 
 [params]
 

@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/boom-and-splash4.png-57b4cc063ad4439082ed40bff3332569.stex"
+path="res://.import/boom-and-splash4.png-9d2557ba4b4881db2afcd41964e0ea12.stex"
 
 [deps]
 
-source_file="res://Assets/animacja wybuchu/boom-and-splash4.png"
-dest_files=[ "res://.import/boom-and-splash4.png-57b4cc063ad4439082ed40bff3332569.stex" ]
+source_file="res://Assets/explosion_anim/boom-and-splash4.png"
+dest_files=[ "res://.import/boom-and-splash4.png-9d2557ba4b4881db2afcd41964e0ea12.stex" ]
 
 [params]
 

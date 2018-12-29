@@ -2,12 +2,12 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/zasiegwybuchuprawo.png-a336083c364777afdcf36be559cff234.stex"
+path="res://.import/zasiegwybuchuprawo.png-3561b2c99553c1684de922afa4cbc3b5.stex"
 
 [deps]
 
-source_file="res://Assets/animacja wybuchu/zasiegwybuchuprawo.png"
-dest_files=[ "res://.import/zasiegwybuchuprawo.png-a336083c364777afdcf36be559cff234.stex" ]
+source_file="res://Assets/explosion_anim/zasiegwybuchuprawo.png"
+dest_files=[ "res://.import/zasiegwybuchuprawo.png-3561b2c99553c1684de922afa4cbc3b5.stex" ]
 
 [params]
 
