@@ -120,11 +120,14 @@ public class Bomb : StaticBody2D {
             player.numberOfDroppedBombs -= 1;
         }
 
+       // this.bombAnimatedSprite.SetExplosionSprite(this.position, Directions.noDirection, false);
+
         for (int x = (int)explosionPosition.x; x <= (int)explosionPosition.x + this.sceneVariables.bombRange; ++x) {
             Vector2 tile = new Vector2(x, explosionPosition.y);
             if (!ExecuteExplosionAtTile(tile)) {
                 break;
             }
+            //this.bombAnimatedSprite.SetExplosionSprite(this.map.GetPositionOfTileCenter(tile), Directions.directionRight, false);
         }
 
         for (int x = (int)explosionPosition.x; x >= (int)explosionPosition.x - this.sceneVariables.bombRange; --x) {
@@ -132,6 +135,7 @@ public class Bomb : StaticBody2D {
             if (!ExecuteExplosionAtTile(tile)) {
                 break;
             }
+            //this.bombAnimatedSprite.SetExplosionSprite(this.map.GetPositionOfTileCenter(tile), Directions.directionLeft, false);
         }
 
         for (int y = (int)explosionPosition.y; y <= (int)explosionPosition.y + this.sceneVariables.bombRange; ++y) {
@@ -139,6 +143,7 @@ public class Bomb : StaticBody2D {
             if (!ExecuteExplosionAtTile(tile)) {
                 break;
             }
+           // this.bombAnimatedSprite.SetExplosionSprite(this.map.GetPositionOfTileCenter(tile), Directions.directionDown, false);
         }
 
         for (int y = (int)explosionPosition.y; y >= (int)explosionPosition.y - this.sceneVariables.bombRange; --y) {
@@ -146,6 +151,7 @@ public class Bomb : StaticBody2D {
             if (!ExecuteExplosionAtTile(tile)) {
                 break;
             }
+            //this.bombAnimatedSprite.SetExplosionSprite(this.map.GetPositionOfTileCenter(tile), Directions.directionUp, false);
         }
 
         this.map.droppedBombPositions.Remove(this);
@@ -157,9 +163,10 @@ public class Bomb : StaticBody2D {
         CircleShape2D shape = new CircleShape2D();
         shape.SetRadius(40.0f);
         this.collision.SetShape(shape);
-        this.collision.SetPosition(this.position + this.map.GetGlobalTransform().Origin);
+        Console.WriteLine(this.position);
         this.collision.SetName("BombCollision");
         AddChild(this.collision);
+        this.collision.SetGlobalPosition(this.position + this.map.GetGlobalTransform().Origin);
     }
 
     public void SetBombSpritePosition(Vector2 pos) {
