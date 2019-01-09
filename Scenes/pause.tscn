@@ -6,13 +6,20 @@
 [ext_resource path="res://Assets/pause menu/leaderboard button.png" type="Texture" id=4]
 [ext_resource path="res://Assets/pause menu/exit button.png" type="Texture" id=5]
 
-[node name="World" type="Node2D" index="0"]
+[node name="World" type="Node2D"]
+
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Back" type="Sprite" parent="." index="0"]
 
 position = Vector2( 672.333, 316.416 )
 scale = Vector2( 0.468872, 0.476989 )
 texture = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Continue" type="Button" parent="." index="1"]
 
@@ -40,6 +47,9 @@ icon = ExtResource( 2 )
 flat = true
 align = 1
 _sections_unfolded = [ "Focus", "Rect" ]
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Options" type="Button" parent="." index="2"]
 
@@ -67,6 +77,9 @@ icon = ExtResource( 3 )
 flat = true
 align = 1
 _sections_unfolded = [ "Rect" ]
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Leaderborad" type="Button" parent="." index="3"]
 
@@ -94,6 +107,9 @@ icon = ExtResource( 4 )
 flat = true
 align = 1
 _sections_unfolded = [ "Rect" ]
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Exit" type="Button" parent="." index="4"]
 
@@ -121,5 +137,8 @@ icon = ExtResource( 5 )
 flat = true
 align = 1
 _sections_unfolded = [ "Rect" ]
+__meta__ = {
+"_edit_lock_": true
+}
 
 

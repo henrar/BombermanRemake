@@ -37,13 +37,13 @@ public class SceneVariables : Node {
             case 1: {
                     this.powerup1DropChance = 1.0f; 
                     this.powerup2DropChance = 0.85f;
-                    this.powerup3DropChance = 0.55f; 
+                    this.powerup3DropChance = 0.75f; 
                     break;
                 }
             case 2: {
                     this.powerup1DropChance = 0.85f;
                     this.powerup2DropChance = 0.75f;
-                    this.powerup3DropChance = 0.55f;
+                    this.powerup3DropChance = 0.65f;
                     break;
                 }
             case 3: {
@@ -60,7 +60,7 @@ public class SceneVariables : Node {
                 }
         }
 
-        this.maxRandomCellsPercentage = 0.3f;
+        this.maxRandomCellsPercentage = 0.4f;
 
         this.playerMovementSpeed = 180;
 
