@@ -49,7 +49,6 @@ public class Player : KinematicBody2D {
             this.sceneVariables.ResetPlayerVariablesOnDeath();
             this.world.Reload();
         } else {
-            //TODO: go to menu or sth
             this.sceneVariables.ResetPlayerVariablesOnFinalDeath();
             this.world.GoToMainMenu();
         }
