@@ -1,12 +1,17 @@
 ﻿using Godot;
 
+public enum SplashType {
+    Bricks,
+    Enemy
+}
+
 public class BombExplosionSprites: Node2D {
     private Timer displayTimer;
 
     public readonly string pathToSplash = "res://Assets/explosion_anim/splash.png";
     public readonly string pathToDestroyBox = "res://Assets/explosion_anim/explosion_anim_2/boxdestroy.png";
-    public readonly string pathToExplosionCenter = "res://Assets/explosion_anim/boom-cloud.png";
 
+    public readonly string pathToExplosionCenter = "res://Assets/explosion_anim/boom-cloud.png";
     public readonly string pathToExplosionLeft = "res://Assets/explosion_anim/zasiegwybuchulewo.png";
     public readonly string pathToExplosionRight = "res://Assets/explosion_anim/zasiegwybuchuprawo.png";
     public readonly string pathToExplosionUp = "res://Assets/explosion_anim/zasiegwybuchugora.png";
@@ -47,6 +52,25 @@ public class BombExplosionSprites: Node2D {
         if (this.displayTimer != null && this.displayTimer.GetTimeLeft() <= 0.0f) {
             QueueFree();
         }
+    }
+
+    public void SetSplashSprite(Vector2 position, SplashType type) {
+        Sprite sprite = new Sprite();
+
+        switch(type) {
+            case SplashType.Bricks: {
+                    sprite.SetTexture(this.destroyBox);
+                    break;
+                }
+            case SplashType.Enemy: {
+                    sprite.SetTexture(this.splash);
+                    break;
+                }
+        }
+        sprite.SetZIndex(this.map.GetZIndex() + 20);
+        Transform2D mapTransform = this.map.GetTransform();
+        sprite.SetGlobalPosition(position + mapTransform.Origin);
+        AddChild(sprite);
     }
 
     public void SetExplosionSprite(Vector2 position, Vector2 direction, bool isEnd) {

@@ -76,6 +76,7 @@ public class Bomb : StaticBody2D {
     private void ExplodeEnemy(Vector2 tile) {
         Enemy enemy = this.map.FindEnemyOnTile(tile);
         if (enemy != null) {
+            this.bombExplosionSprites.SetSplashSprite(this.map.GetPositionOfTileCenter(tile), SplashType.Enemy);
             this.map.RemoveEnemyEntry(enemy);
             this.soundPlayer.PlaySoundEffect(SoundEffect.EnemyDeath);
             enemy.Die();
@@ -101,6 +102,7 @@ public class Bomb : StaticBody2D {
 
         if (this.map.GetCellv(tile) == (int)TileType.TileType_Bricks) {
             this.map.SetCellv(tile, (int)TileType.TileType_Floor);
+            this.bombExplosionSprites.SetSplashSprite(this.map.GetPositionOfTileCenter(tile), SplashType.Bricks);
             this.map.UncoverPowerUp(tile);
         }
 
