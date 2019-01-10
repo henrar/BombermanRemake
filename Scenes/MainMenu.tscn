@@ -9,7 +9,7 @@
 [ext_resource path="res://Assets/menu/menu-credits.png" type="Texture" id=7]
 [ext_resource path="res://Assets/menu/menu-xit.png" type="Texture" id=8]
 
-[node name="MainMenu" type="Node"]
+[node name="MainMenu" type="Node" index="0"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Pause" ]

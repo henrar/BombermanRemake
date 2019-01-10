@@ -28,7 +28,7 @@ public class SceneVariables : Node {
     public override void _Ready() {
         Viewport root = GetTree().GetRoot();
         CurrentScene = root.GetChild(root.GetChildCount() - 1);
-        this.numberOfEnemies = 8; //TODO: change on level transitions
+        this.numberOfEnemies = 6; //TODO: change on level transitions
         this.numberOfPowerUps = 3;
 
         this.currentLevel = 1; //TODO: change level on level transition
@@ -60,9 +60,9 @@ public class SceneVariables : Node {
                 }
         }
 
-        this.maxRandomCellsPercentage = 0.4f;
+        this.maxRandomCellsPercentage = 0.35f;
 
-        this.playerMovementSpeed = 180;
+        this.playerMovementSpeed = 190;
 
         this.maxNumberOfDroppedBombs = 1;
         this.bombRange = 1;
