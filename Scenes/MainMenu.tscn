@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://Scripts/World.cs" type="Script" id=1]
+[ext_resource path="res://Scripts/MainMenu.cs" type="Script" id=1]
 [ext_resource path="res://Assets/menu/menu.png" type="Texture" id=2]
 [ext_resource path="res://Assets/menu/menu-new game.png" type="Texture" id=3]
 [ext_resource path="res://Assets/menu/menu-survival.png" type="Texture" id=4]
@@ -9,9 +9,10 @@
 [ext_resource path="res://Assets/menu/menu-credits.png" type="Texture" id=7]
 [ext_resource path="res://Assets/menu/menu-xit.png" type="Texture" id=8]
 
-[node name="World" type="Node"]
+[node name="MainMenu" type="Node" index="0"]
 
 script = ExtResource( 1 )
+_sections_unfolded = [ "Pause" ]
 
 [node name="Sprite" type="Sprite" parent="." index="0"]
 

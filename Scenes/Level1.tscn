@@ -13,7 +13,7 @@
 [ext_resource path="res://Scripts/LevelTimer.cs" type="Script" id=11]
 [ext_resource path="res://Assets/assetyver2/mapbackground.png" type="Texture" id=12]
 
-[node name="World" type="Node2D" index="0"]
+[node name="World" type="Node2D"]
 
 position = Vector2( 1000, 250 )
 script = ExtResource( 1 )

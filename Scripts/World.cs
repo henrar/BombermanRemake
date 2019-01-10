@@ -24,6 +24,6 @@ public class World : Node {
     }
 
     public void GoToMainMenu() {
-        GetTree().ReloadCurrentScene(); //TODO: change to go to menu
+        GetTree().ChangeScene("res://Scenes/MainMenu.tscn");
     }
 }
