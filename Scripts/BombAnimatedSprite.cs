@@ -9,13 +9,8 @@ class BombAnimatedSprite : Node2D {
     }
 
     private AnimatedSprite bombAnimatedSprite;
-    private AnimatedSprite explosionAnimatedSprite;
 
     private readonly string bombTickingAnimnName = "bomb_ticking";
-    private readonly string explosionAnimName = "explosion";
-
-    public readonly string pathToSplash = "res://Assets/explosion_anim/splash.png";
-    public readonly string pathToDestroyBox = "res://Assets/explosion_anim/explosion_anim_2/boxdestroy.png";
 
     private TileMap map;
 
@@ -39,17 +34,6 @@ class BombAnimatedSprite : Node2D {
         this.bombAnimatedSprite.SetAnimation(this.bombTickingAnimnName);
     }
 
-    private void LoadExplosionAnimatedSprite() {
-        this.explosionAnimatedSprite = new AnimatedSprite();
-
-        SpriteFrames spriteFrames = new SpriteFrames();
-        spriteFrames.AddAnimation(this.explosionAnimName);
-
-        for (int i = 1; i <= 5; ++i) {
-
-        }
-    }
-
     public void SwapBombTexture(float timeLeft) {
         if (timeLeft < 1.5f && timeLeft >= 0.7f) {
             this.bombAnimatedSprite.SetFrame((int)BombSpriteNum.FuseLit);
@@ -60,10 +44,8 @@ class BombAnimatedSprite : Node2D {
 
     public void SetBombAnimation() {
         LoadBombAnimatedSprite();
-        LoadExplosionAnimatedSprite();
 
         this.bombAnimatedSprite.SetZIndex(this.map.GetZIndex() + 5);
-        this.explosionAnimatedSprite.SetZIndex(this.map.GetZIndex() + 5);
 
         this.bombAnimatedSprite.SetAnimation(this.bombTickingAnimnName);
         this.bombAnimatedSprite.SetFrame((int)BombSpriteNum.JustDropped);
@@ -71,7 +53,5 @@ class BombAnimatedSprite : Node2D {
         this.bombAnimatedSprite.SetPosition(GetPosition());
 
         AddChild(this.bombAnimatedSprite);
-
-        this.bombAnimatedSprite.SetPosition(new Vector2(0, 0));
     }
 }

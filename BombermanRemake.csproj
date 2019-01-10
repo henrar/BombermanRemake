@@ -49,6 +49,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Scripts\BombExplosionSprites.cs" />
     <Compile Include="Scripts\Bomb.cs" />
     <Compile Include="Scripts\BombAnimatedSprite.cs" />
     <Compile Include="Scripts\Directions.cs" />

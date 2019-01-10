@@ -11,6 +11,7 @@ public class Bomb : StaticBody2D {
     private SoundPlayer soundPlayer;
     private SceneVariables sceneVariables;
     private BombAnimatedSprite bombAnimatedSprite;
+    private BombExplosionSprites bombExplosionSprites;
 
     public override void _Ready() {
         this.world = GetTree().GetRoot().GetNode("World") as World;
@@ -21,6 +22,9 @@ public class Bomb : StaticBody2D {
         this.bombAnimatedSprite = new BombAnimatedSprite();
         AddChild(this.bombAnimatedSprite);
         this.bombAnimatedSprite.SetBombAnimation();
+
+        this.bombExplosionSprites = new BombExplosionSprites();
+        this.world.AddChild(this.bombExplosionSprites);
 
         this.timer = new Timer();
         this.timer.SetWaitTime(2.0f);
@@ -115,19 +119,23 @@ public class Bomb : StaticBody2D {
         Vector2 explosionPosition = this.map.WorldToMap(this.position);
         Console.WriteLine("Explosion at: " + explosionPosition);
 
+        this.bombExplosionSprites.SetTimer();
+
         Player player = GetTree().GetRoot().GetNode("World/Player") as Player;
         if (player != null) {
             player.numberOfDroppedBombs -= 1;
         }
 
-       // this.bombAnimatedSprite.SetExplosionSprite(this.position, Directions.noDirection, false);
+        this.bombExplosionSprites.SetExplosionSprite(this.position, Directions.noDirection, false);
 
         for (int x = (int)explosionPosition.x; x <= (int)explosionPosition.x + this.sceneVariables.bombRange; ++x) {
             Vector2 tile = new Vector2(x, explosionPosition.y);
             if (!ExecuteExplosionAtTile(tile)) {
                 break;
             }
-            //this.bombAnimatedSprite.SetExplosionSprite(this.map.GetPositionOfTileCenter(tile), Directions.directionRight, false);
+            if (x != (int)explosionPosition.x) {
+                this.bombExplosionSprites.SetExplosionSprite(this.map.GetPositionOfTileCenter(tile), Directions.directionRight, false);
+            }
         }
 
         for (int x = (int)explosionPosition.x; x >= (int)explosionPosition.x - this.sceneVariables.bombRange; --x) {
@@ -135,7 +143,9 @@ public class Bomb : StaticBody2D {
             if (!ExecuteExplosionAtTile(tile)) {
                 break;
             }
-            //this.bombAnimatedSprite.SetExplosionSprite(this.map.GetPositionOfTileCenter(tile), Directions.directionLeft, false);
+            if (x != (int)explosionPosition.x) {
+                this.bombExplosionSprites.SetExplosionSprite(this.map.GetPositionOfTileCenter(tile), Directions.directionLeft, false);
+            }
         }
 
         for (int y = (int)explosionPosition.y; y <= (int)explosionPosition.y + this.sceneVariables.bombRange; ++y) {
@@ -143,7 +153,9 @@ public class Bomb : StaticBody2D {
             if (!ExecuteExplosionAtTile(tile)) {
                 break;
             }
-           // this.bombAnimatedSprite.SetExplosionSprite(this.map.GetPositionOfTileCenter(tile), Directions.directionDown, false);
+            if (y != (int)explosionPosition.y) {
+                this.bombExplosionSprites.SetExplosionSprite(this.map.GetPositionOfTileCenter(tile), Directions.directionDown, false);
+            }
         }
 
         for (int y = (int)explosionPosition.y; y >= (int)explosionPosition.y - this.sceneVariables.bombRange; --y) {
@@ -151,7 +163,9 @@ public class Bomb : StaticBody2D {
             if (!ExecuteExplosionAtTile(tile)) {
                 break;
             }
-            //this.bombAnimatedSprite.SetExplosionSprite(this.map.GetPositionOfTileCenter(tile), Directions.directionUp, false);
+            if (y != (int)explosionPosition.y) {
+                this.bombExplosionSprites.SetExplosionSprite(this.map.GetPositionOfTileCenter(tile), Directions.directionUp, false);
+            }
         }
 
         this.map.droppedBombPositions.Remove(this);
