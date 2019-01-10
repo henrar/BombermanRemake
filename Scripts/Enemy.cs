@@ -73,7 +73,7 @@ public class Enemy : KinematicBody2D {
         this.sprite = new Sprite();
         ImageTexture tex = new ImageTexture();
         if (this.enemyType == EnemyType.Balloon) {
-            tex.Load("res://Assets/assetyver2/balonver2.png");
+            tex.Load("res://Assets/assetyver2/balonver1.png");
         } else if (this.enemyType == EnemyType.Mushroom) {
             tex.Load("res://Assets/assetyver2/grzybek.png");
         } else if (this.enemyType == EnemyType.Barrel) {
