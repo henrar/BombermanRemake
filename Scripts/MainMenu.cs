@@ -24,9 +24,9 @@ public class MainMenu : Node {
         } else if (this.survivalButton.Pressed) {
 
         } else if (this.leaderboardButton.Pressed) {
-
+            GetTree().ChangeScene("res://Scenes/leaderboard.tscn");
         } else if (this.optionsButton.Pressed) {
-
+            GetTree().ChangeScene("res://Scenes/options.tscn");
         } else if (this.creditsButton.Pressed) {
 
         } else if (this.exitButton.Pressed) {
