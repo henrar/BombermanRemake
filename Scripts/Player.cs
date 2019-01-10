@@ -50,7 +50,7 @@ public class Player : KinematicBody2D {
             this.world.Reload();
         } else {
             this.sceneVariables.ResetPlayerVariablesOnFinalDeath();
-            this.world.GoToMainMenu();
+            this.world.ShowEndScreen();
         }
     }
 

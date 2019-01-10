@@ -26,4 +26,8 @@ public class World : Node {
     public void GoToMainMenu() {
         GetTree().ChangeScene("res://Scenes/MainMenu.tscn");
     }
+
+    public void ShowEndScreen() {
+        GetTree().ChangeScene("res://Scenes/End.tscn");
+    }
 }

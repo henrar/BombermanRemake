@@ -3,7 +3,7 @@
 [ext_resource path="res://Scripts/Options.cs" type="Script" id=1]
 [ext_resource path="res://Assets/options/optionsscene.png" type="Texture" id=2]
 
-[node name="World" type="Node2D" index="0"]
+[node name="World" type="Node2D"]
 
 script = ExtResource( 1 )
 
@@ -36,5 +36,6 @@ shortcut = null
 group = null
 flat = true
 align = 1
+_sections_unfolded = [ "Rect" ]
 
 
