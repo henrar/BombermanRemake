@@ -17,7 +17,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Score" type="Label" parent="back" index="0"]
+[node name="Top1" type="Label" parent="back" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -41,7 +41,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Score2" type="Label" parent="back" index="1"]
+[node name="Top2" type="Label" parent="back" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -65,7 +65,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Score3" type="Label" parent="back" index="2"]
+[node name="Top3" type="Label" parent="back" index="2"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -89,7 +89,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Score4" type="Label" parent="back" index="3"]
+[node name="Top4" type="Label" parent="back" index="3"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -113,7 +113,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Score5" type="Label" parent="back" index="4"]
+[node name="Top5" type="Label" parent="back" index="4"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -260,6 +260,131 @@ size_flags_vertical = 4
 text = "Example"
 align = 1
 valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="score1" type="Label" parent="." index="6"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 780.0
+margin_top = 120.0
+margin_right = 860.0
+margin_bottom = 134.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "1"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="score2" type="Label" parent="." index="7"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 780.0
+margin_top = 150.0
+margin_right = 860.0
+margin_bottom = 164.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "2"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="score3" type="Label" parent="." index="8"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 780.0
+margin_top = 180.0
+margin_right = 860.0
+margin_bottom = 194.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "3"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="score4" type="Label" parent="." index="9"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 780.0
+margin_top = 210.0
+margin_right = 860.0
+margin_bottom = 224.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "4"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="score5" type="Label" parent="." index="10"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 780.0
+margin_top = 240.0
+margin_right = 860.0
+margin_bottom = 254.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "5"
+align = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
