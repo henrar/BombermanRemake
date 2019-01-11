@@ -12,6 +12,7 @@ public class HUD : CanvasLayer {
 
     private Sprite timeSprite;
     private Sprite lifeSprite;
+    private Button menuButton;
 
     public override void _Ready() {
         this.sceneVariables = GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables;
@@ -24,6 +25,8 @@ public class HUD : CanvasLayer {
 
         this.lifeSprite = GetTree().GetRoot().GetNode("World/Player/PlayerCamera/HUD/interface/lifesprite") as Sprite;
         this.timeSprite = GetTree().GetRoot().GetNode("World/Player/PlayerCamera/HUD/interface/timesprite") as Sprite;
+
+        this.menuButton = GetTree().GetRoot().GetNode("World/Player/PlayerCamera/HUD/interface/MenuButton") as Button;
 
         ReplaceLifeSprite();
     }
@@ -38,6 +41,10 @@ public class HUD : CanvasLayer {
 
         if (this.lives != null) {
             this.lives.SetText(this.sceneVariables.numberOfLives.ToString());
+        }
+
+        if(menuButton.Pressed) {
+            (GetTree().GetRoot().GetNode("World") as World).GoToMainMenu();
         }
     }
 
