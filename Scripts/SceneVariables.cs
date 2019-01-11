@@ -97,7 +97,7 @@ public class SceneVariables : Node {
         this.score = 0;
         this.numberOfLives = 3;
 
-        this.coinCountToSpawn = 30;
+        this.coinCountToSpawn = 10;
         this.ghostCountToSpawnOnExitExplosion = 3;
 
         //CHEATS
