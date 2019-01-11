@@ -25,6 +25,8 @@ public class SceneVariables : Node {
     public bool aiDisabled;
     public bool godMode;
 
+    public int coinCountToSpawn;
+
     public override void _Ready() {
         Viewport root = GetTree().GetRoot();
         CurrentScene = root.GetChild(root.GetChildCount() - 1);
@@ -69,6 +71,7 @@ public class SceneVariables : Node {
         this.score = 0;
         this.numberOfLives = 3;
 
+        this.coinCountToSpawn = 30;
 
         //CHEATS
         this.aiDisabled = false;

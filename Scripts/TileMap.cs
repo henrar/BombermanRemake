@@ -312,5 +312,11 @@ public class TileMap : Godot.TileMap {
     public int GetRemainingEnemiesCount() {
         return this.enemies.Count;
     }
+
+    public void SpawnCoins() {
+        for (int i = 0; i < this.sceneVariables.coinCountToSpawn; ++i) {
+            SpawnEnemy(EnemyType.Coin);
+        }
+    }
 }
 
