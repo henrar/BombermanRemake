@@ -22,6 +22,8 @@ public class Player : KinematicBody2D {
     private Vector2 previousDirection;
     private int spriteNum;
 
+    private HUD hud;
+
     public override void _Ready() {
         this.world = GetTree().GetRoot().GetNode("World") as World;
 
@@ -37,6 +39,8 @@ public class Player : KinematicBody2D {
         LoadAnimatedSprite();
         this.animTimeElapsed = 0.0f;
         this.previousDirection = Directions.noDirection;
+
+        this.hud = GetTree().GetRoot().GetNode("World/Player/PlayerCamera/HUD") as HUD;
     }
 
     public void Die() {

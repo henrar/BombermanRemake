@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Scripts/World.cs" type="Script" id=1]
 [ext_resource path="res://Assets/TileSetFinalv3.tres" type="TileSet" id=2]
@@ -7,11 +7,10 @@
 [ext_resource path="res://Scripts/HUD.cs" type="Script" id=5]
 [ext_resource path="res://Assets/hud/hud.png" type="Texture" id=6]
 [ext_resource path="res://Assets/hud/scoreandenemy-f7v2.png" type="Texture" id=7]
-[ext_resource path="res://Assets/hud/zyciex3.png" type="Texture" id=8]
-[ext_resource path="res://Assets/hud/time-f8.png" type="Texture" id=9]
-[ext_resource path="res://Assets/hud/bomba-menu-ver2.png" type="Texture" id=10]
-[ext_resource path="res://Scripts/LevelTimer.cs" type="Script" id=11]
-[ext_resource path="res://Assets/assetyver2/mapbackground.png" type="Texture" id=12]
+[ext_resource path="res://Assets/hud/time-f8.png" type="Texture" id=8]
+[ext_resource path="res://Assets/hud/bomba-menu-ver2.png" type="Texture" id=9]
+[ext_resource path="res://Scripts/LevelTimer.cs" type="Script" id=10]
+[ext_resource path="res://Assets/assetyver2/mapbackground.png" type="Texture" id=11]
 
 [node name="World" type="Node2D" index="0"]
 
@@ -134,7 +133,6 @@ __meta__ = {
 
 position = Vector2( 983.195, 35.5746 )
 scale = Vector2( 0.524206, 0.495015 )
-texture = ExtResource( 8 )
 __meta__ = {
 "_edit_lock_": true
 }
@@ -143,7 +141,7 @@ __meta__ = {
 
 position = Vector2( 667.163, 37.3094 )
 scale = Vector2( 0.51352, 0.282447 )
-texture = ExtResource( 9 )
+texture = ExtResource( 8 )
 __meta__ = {
 "_edit_lock_": true
 }
@@ -169,7 +167,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-icon = ExtResource( 10 )
+icon = ExtResource( 9 )
 flat = true
 align = 1
 _sections_unfolded = [ "Rect" ]
@@ -333,7 +331,7 @@ process_mode = 1
 wait_time = 200.0
 one_shot = true
 autostart = true
-script = ExtResource( 11 )
+script = ExtResource( 10 )
 _sections_unfolded = [ "Pause" ]
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="." index="3"]
@@ -361,7 +359,7 @@ motion_mirroring = Vector2( 0, 0 )
 show_behind_parent = true
 position = Vector2( 1780, 730 )
 scale = Vector2( 1.13782, 1.13281 )
-texture = ExtResource( 12 )
+texture = ExtResource( 11 )
 _sections_unfolded = [ "Offset", "Visibility" ]
 
 
