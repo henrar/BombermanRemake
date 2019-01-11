@@ -196,13 +196,23 @@ public class TileMap : Godot.TileMap {
         world.AddChild(enemy);
     }
 
+    private bool isAnyCellNearbyFree(Vector2 tile) {
+        return GetCellv(tile + Directions.directionLeft) == (int)TileType.TileType_Floor
+            || GetCellv(tile + Directions.directionRight) == (int)TileType.TileType_Floor
+            || GetCellv(tile + Directions.directionUp) == (int)TileType.TileType_Floor
+            || GetCellv(tile + Directions.directionDown) == (int)TileType.TileType_Floor;
+    }
+
     private void SpawnEnemies(EnemyType type, int maxCount) {
         int enemyCount = 0;
 
         while (enemyCount < maxCount) {
             Vector2 tile = GetRandomCell(TileType.TileType_Floor);
 
-            if (IsNotAllowedCell(tile) || GetCellv(tile) != (int)TileType.TileType_Floor || FindEnemyOnTile(tile) != null) {
+            if (IsNotAllowedCell(tile) 
+                || GetCellv(tile) != (int)TileType.TileType_Floor 
+                || FindEnemyOnTile(tile) != null
+                || !isAnyCellNearbyFree(tile)) {
                 continue;
             }
 
