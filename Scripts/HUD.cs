@@ -45,13 +45,15 @@ public class HUD : CanvasLayer {
         ImageTexture tex = new ImageTexture();
 
         int lifeCount = this.sceneVariables.numberOfLives;
-        if (lifeCount == 0) {
-            lifeCount = 1;
-        } else if(lifeCount > 3) {
+        if (lifeCount > 3) {
             lifeCount = 3;
         }
 
-        tex.Load("res://Assets/hud/zyciex" + lifeCount + ".png");
+        if (lifeCount == 0) {
+            tex.Load("res://Assets/hud/gameover.png");
+        } else {
+            tex.Load("res://Assets/hud/zyciex" + lifeCount + ".png");
+        }
         this.lifeSprite.SetTexture(tex);
     }
 }
