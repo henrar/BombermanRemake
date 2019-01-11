@@ -28,7 +28,7 @@ public class MainMenu : Node {
         } else if (this.optionsButton.Pressed) {
             GetTree().ChangeScene("res://Scenes/options.tscn");
         } else if (this.creditsButton.Pressed) {
-
+            GetTree().ChangeScene("res://Scenes/credits.tscn");
         } else if (this.exitButton.Pressed) {
             GetTree().Quit();
         }

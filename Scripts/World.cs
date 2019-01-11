@@ -20,6 +20,8 @@ public class World : Node {
         if (this.sceneVariables.currentLevel < 3) {
             this.sceneVariables.currentLevel += 1;
             GetTree().ChangeScene("res://Scenes/Level" + this.sceneVariables.currentLevel + ".tscn");
+        } else {
+            ShowCredits();
         }
     }
 
@@ -29,5 +31,9 @@ public class World : Node {
 
     public void ShowEndScreen() {
         GetTree().ChangeScene("res://Scenes/End.tscn");
+    }
+
+    public void ShowCredits() {
+        GetTree().ChangeScene("res://Scenes/credits.tscn");
     }
 }

@@ -52,6 +52,7 @@
     <Compile Include="Scripts\BombExplosionSprites.cs" />
     <Compile Include="Scripts\Bomb.cs" />
     <Compile Include="Scripts\BombAnimatedSprite.cs" />
+    <Compile Include="Scripts\Credits.cs" />
     <Compile Include="Scripts\Directions.cs" />
     <Compile Include="Scripts\EndScreen.cs" />
     <Compile Include="Scripts\Enemy.cs" />
