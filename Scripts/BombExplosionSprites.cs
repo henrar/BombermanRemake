@@ -92,7 +92,7 @@ public class BombExplosionSprites: Node2D {
             sprite.SetScale(new Vector2(1.25f, 1.25f));
         }
 
-        sprite.SetZIndex(this.map.GetZIndex() + 20);
+        sprite.SetZIndex(this.map.GetZIndex() + 15);
         Transform2D mapTransform = this.map.GetTransform();
         sprite.SetGlobalPosition(position + mapTransform.Origin);
         AddChild(sprite);
