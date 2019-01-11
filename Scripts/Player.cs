@@ -1,6 +1,11 @@
 using Godot;
 using System;
 
+public enum DeathType {
+    ByEnemy,
+    ByBomb
+}
+
 public class Player : KinematicBody2D {
     private TileMap map;
     private World world;
@@ -25,6 +30,7 @@ public class Player : KinematicBody2D {
     private HUD hud;
 
     private Timer deathTimer;
+    public bool dying;
 
     public override void _Ready() {
         this.world = GetTree().GetRoot().GetNode("World") as World;
@@ -45,26 +51,45 @@ public class Player : KinematicBody2D {
         this.hud = GetTree().GetRoot().GetNode("World/Player/PlayerCamera/HUD") as HUD;
 
         this.deathTimer = null;
+        this.dying = false;
     }
 
-    private void SetDeathTimer() {
+    private void SetDeathTimer(float time) {
         this.deathTimer = new Timer();
-        this.deathTimer.SetWaitTime(0.2f);
+        this.deathTimer.SetWaitTime(time);
         this.deathTimer.SetOneShot(true);
         this.deathTimer.SetAutostart(false);
         this.deathTimer.Start();
         AddChild(this.deathTimer);
     }
 
-    public void Die(bool fromBomb) {
-        Console.WriteLine("YOU DIED!");
-        this.soundPlayer.PlaySoundEffect(SoundEffect.Death);
-        this.numberOfDroppedBombs = 0;
-        this.map.FreeBombs();
-        if (fromBomb) {
-            SetDeathTimer();
-        } else {
-            FinallyDie();
+    public void Die(bool withTimer, DeathType type) {
+        if (!this.dying) {
+            Console.WriteLine("YOU DIED!");
+            this.soundPlayer.PlaySoundEffect(SoundEffect.Death);
+            this.numberOfDroppedBombs = 0;
+            this.dying = true;
+            if (withTimer) {
+                if (type == DeathType.ByBomb) {
+                    Sprite sprite = new Sprite();
+                    ImageTexture tex = new ImageTexture();
+                    tex.Load("res://Assets/explosion_anim/splash.png");
+                    sprite.SetTexture(tex);
+                    sprite.SetZIndex(GetZIndex() + 40);
+                    AddChild(sprite);
+                    SetDeathTimer(0.2f);
+                } else if (type == DeathType.ByEnemy) {
+                    Sprite sprite = new Sprite();
+                    ImageTexture tex = new ImageTexture();
+                    tex.Load("res://Assets/smierc/bohatera/crash/crash.png");
+                    sprite.SetTexture(tex);
+                    sprite.SetZIndex(GetZIndex() + 10);
+                    AddChild(sprite);
+                    SetDeathTimer(0.2f);
+                }
+            } else {
+                FinallyDie();
+            }
         }
     }
 
@@ -104,6 +129,10 @@ public class Player : KinematicBody2D {
 
     public override void _PhysicsProcess(float delta) {
         ExecuteDeathOnBomb();
+
+        if(this.dying) {
+            return;
+        }
 
         Vector2 motion = Move();
         motion = ModifyMoveBasedOnSurrounding(motion, delta);
@@ -181,7 +210,7 @@ public class Player : KinematicBody2D {
             this.soundPlayer.PlaySoundEffect(SoundEffect.Step);
         }
         if (!this.sceneVariables.godMode && collision != null && collision.GetCollider().GetType() == typeof(Enemy)) {
-            Die(false);
+            Die(true, DeathType.ByEnemy);
             return;
         }
     }

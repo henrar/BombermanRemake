@@ -75,12 +75,6 @@ public class TileMap : Godot.TileMap {
         }
     }
 
-    public void FreeBombs() {
-        foreach (var entry in this.droppedBombPositions) {
-            entry.Key.QueueFree();
-        }
-    }
-
     public Vector2 FindPowerUpPosition(Powerup powerup) {
         foreach (var entry in this.powerups) {
             if (entry.Value == powerup) {
@@ -328,7 +322,6 @@ public class TileMap : Godot.TileMap {
 
     private int GetEnemyCountByType(EnemyType type) {
         int count = this.enemies.Where(enemy => enemy.enemyType == type).Count();
-        Console.WriteLine(count);
         return count;
     }
 }
