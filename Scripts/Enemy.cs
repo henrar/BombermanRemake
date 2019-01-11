@@ -15,17 +15,25 @@ public class Enemy : KinematicBody2D {
     private readonly float baseMovementSpeed = 180.0f;
     private float movementSpeed;
     private TileMap tileMap;
+
+
+    private float animTimeElapsed;
+    private int spriteNum;
+
     private Vector2 previousDirection;
-    private Sprite sprite;
+    private AnimatedSprite animatedSprite;
     private CollisionPolygon2D collision;
     public EnemyType enemyType;
     private SceneVariables sceneVariables;
 
+    private readonly string frontName = "front";
+    private readonly string backName = "back";
+    private readonly string leftName = "left";
+    private readonly string rightName = "right";
+
     public override void _Ready() {
         this.tileMap = GetTree().GetRoot().GetNode("World/TileMap") as TileMap;
         this.sceneVariables = GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables;
-
-        this.previousDirection = new Vector2(0, 0);
 
         SetPosition(new Vector2(0, 0));
 
@@ -33,7 +41,10 @@ public class Enemy : KinematicBody2D {
         SetGlobalPosition(this.tileMap.GetPositionOfTileCenter(this.currentPositionOnTileMap) + mapTransfrom.Origin);
 
         SetMovementSpeed();
-        LoadSprite();
+        LoadAnimatedSprite();
+        this.animTimeElapsed = 0.0f;
+        this.previousDirection = Directions.noDirection;
+
         SetCollision();
         UpdatePositionOnTileMap();
 
@@ -69,23 +80,125 @@ public class Enemy : KinematicBody2D {
         }
     }
 
-    private void LoadSprite() {
-        this.sprite = new Sprite();
-        ImageTexture tex = new ImageTexture();
-        if (this.enemyType == EnemyType.Balloon) {
-            tex.Load("res://Assets/assetyver2/balonver1.png");
-        } else if (this.enemyType == EnemyType.Mushroom) {
-            tex.Load("res://Assets/assetyver2/grzybek.png");
-        } else if (this.enemyType == EnemyType.Barrel) {
-            tex.Load("res://Assets/assetyver2/beczkaver2.png");
-        } else if (this.enemyType == EnemyType.Ghost) {
-            tex.Load("res://Assets/assetyver2/duch2.png");
-        } else if (this.enemyType == EnemyType.Coin) {
-            tex.Load("res://Assets/assetyver2/moneta.png");
+    private string GetEnemyName() {
+        switch (this.enemyType) {
+            case EnemyType.Balloon: {
+                    return "balon";
+                }
+            case EnemyType.Barrel: {
+                    return "beczka";
+                }
+            case EnemyType.Coin: {
+                    return "moneta";
+                }
+            case EnemyType.Mushroom: {
+                    return "grzyb";
+                }
+            case EnemyType.Ghost: {
+                    return "duch";
+                }
+            default: {
+                    return "";
+                }
         }
-        this.sprite.SetTexture(tex);
-        this.sprite.SetScale(new Vector2(0.75f, 0.75f));
-        AddChild(this.sprite);
+    }
+
+    private void SetSpriteBasedOnMovement(Vector2 motion, float delta) {
+        string name = "";
+
+        this.animTimeElapsed = this.animTimeElapsed + delta;
+
+        if (motion == Directions.directionUp) {
+            name = this.backName;
+        } else if (motion == Directions.directionDown) {
+            name = this.frontName;
+        } else if (motion == Directions.directionLeft) {
+            name = this.leftName;
+        } else if (motion == Directions.directionRight) {
+            name = this.rightName;
+        } else {
+            name = this.frontName;
+        }
+
+        this.animatedSprite.SetAnimation(name);
+
+        if (motion != Directions.noDirection && this.animTimeElapsed > 0.1f) {
+         //   Console.WriteLine("Type: " + this.enemyType);
+           // Console.WriteLine("Name: " + name);
+            this.spriteNum = (this.spriteNum + 1) % this.animatedSprite.GetSpriteFrames().GetFrameCount(name);
+            this.animatedSprite.SetFrame(this.spriteNum);
+
+            this.animTimeElapsed = 0.0f;
+        }
+    }
+
+    private void LoadSpriteFrames(ref SpriteFrames spriteFrames, string name) {
+        int count = 0;
+
+        if (this.enemyType == EnemyType.Balloon) {
+            count = 2;
+        } else if(this.enemyType == EnemyType.Barrel) {
+            if(name == this.frontName) {
+                count = 6;
+            } else if (name == this.backName) {
+                count = 6;
+            } else if(name == this.leftName) {
+                count = 6;
+            } else if(name == this.rightName) {
+                count = 6;
+            }
+        } else if(this.enemyType == EnemyType.Coin) {
+            if (name == this.frontName) {
+                count = 2;
+            } else if (name == this.backName) {
+                count = 2;
+            } else if (name == this.leftName) {
+                count = 12;
+            } else if (name == this.rightName) {
+                count = 12;
+            }
+        } else if(this.enemyType == EnemyType.Ghost) {
+            count = 2;
+        } else if(this.enemyType == EnemyType.Mushroom) {
+            if (name == this.frontName) {
+                count = 4;
+            } else if (name == this.backName) {
+                count = 4;
+            } else if (name == this.leftName) {
+                count = 5;
+            } else if (name == this.rightName) {
+                count = 5;
+            }
+        }
+
+        for (int i = 1; i <= count; ++i) {
+            ImageTexture tex = new ImageTexture();
+            tex.Load("res://Assets/enemy_anim/" + GetEnemyName() + "/" + GetEnemyName() + "-" + name + "-f" + i + ".png");
+            spriteFrames.AddFrame(name, tex);
+        }
+    }
+
+    private void LoadAnimatedSprite() {
+        this.animatedSprite = new AnimatedSprite();
+        SpriteFrames spriteFrames = new SpriteFrames();
+
+        spriteFrames.AddAnimation(this.frontName);
+        spriteFrames.AddAnimation(this.backName);
+        spriteFrames.AddAnimation(this.leftName);
+        spriteFrames.AddAnimation(this.rightName);
+
+        LoadSpriteFrames(ref spriteFrames, this.frontName);
+        LoadSpriteFrames(ref spriteFrames, this.backName);
+        LoadSpriteFrames(ref spriteFrames, this.leftName);
+        LoadSpriteFrames(ref spriteFrames, this.rightName);
+
+        this.animatedSprite.SetScale(new Vector2(0.75f, 0.75f));
+
+        this.animatedSprite.SetSpriteFrames(spriteFrames);
+
+        this.animatedSprite.SetZIndex(this.tileMap.GetZIndex() + 1);
+
+        AddChild(this.animatedSprite);
     }
 
     public void SetEnemyType(EnemyType enemyType) {
@@ -121,6 +234,8 @@ public class Enemy : KinematicBody2D {
 
         Vector2 direction = GetRandomDirection();
         direction = ModifyMoveBasedOnSurrounding(direction, delta);
+
+        SetSpriteBasedOnMovement(direction, delta);
 
         KinematicCollision2D collision = MoveAndCollide(direction * this.movementSpeed * delta);
         CheckIfContactedPlayer(collision);

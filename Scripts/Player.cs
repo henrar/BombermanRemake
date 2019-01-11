@@ -104,7 +104,10 @@ public class Player : KinematicBody2D {
     }
 
     private void CheckForExit() {
-        if (this.map.exitTile != null && this.map.exitTile.positionOnTileMap != TileMap.invalidTile && GetPositionOnTileMap() == this.map.exitTile.positionOnTileMap && this.map.exitTile.active) {
+        if (this.map.exitTile != null 
+            && this.map.exitTile.positionOnTileMap != TileMap.invalidTile 
+            && GetPositionOnTileMap() == this.map.exitTile.positionOnTileMap 
+            && this.map.exitTile.active) {
             this.soundPlayer.PlaySoundEffect(SoundEffect.Doors);
             this.world.SwitchLevel();
         }
