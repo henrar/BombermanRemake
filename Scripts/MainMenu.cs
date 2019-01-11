@@ -9,6 +9,7 @@ public class MainMenu : Node {
     private Button creditsButton;
     private Button exitButton;
     private SceneVariables sceneVariables;
+    private SoundPlayer soundPlayer;
 
     public override void _Ready() {
         this.newGameButton = GetTree().GetRoot().GetNode("MainMenu/newgame") as Button;
@@ -19,6 +20,10 @@ public class MainMenu : Node {
         this.exitButton = GetTree().GetRoot().GetNode("MainMenu/exit") as Button;
 
         this.sceneVariables = GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables;
+
+        this.soundPlayer = new SoundPlayer();
+        AddChild(this.soundPlayer);
+        this.soundPlayer.PlayMusic(Music.Menu);
     }
 
     public override void _PhysicsProcess(float delta) {
