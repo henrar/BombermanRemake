@@ -5,10 +5,16 @@ public class Exit : Node2D {
     private TileMap map;
     public Vector2 positionOnTileMap;
     public bool active;
+    public bool exploded;
+
+    private readonly string pathToOpenDoorTexture = "res://Assets/assetyver2/opendoor.png";
+    private readonly string pathToClosedDoorTexture = "res://Assets/assetyver2/door.png";
+    private readonly string pathToOpenDoorWithGhostsTexture = "res://Assets/assetyver2/opendoorwithghost.png";
 
     public override void _Ready() {
         this.map = GetTree().GetRoot().GetNode("World/TileMap") as TileMap;
         this.active = false;
+        this.exploded = true;
         this.SetZIndex(this.map.GetZIndex() + 2);
     }
 
@@ -20,10 +26,12 @@ public class Exit : Node2D {
         this.sprite = new Sprite();
         ImageTexture exitTexture = new ImageTexture();
 
-        if (this.active) {
-            exitTexture.Load("res://Assets/assetyver2/opendoor.png");
+        if (this.exploded) {
+            exitTexture.Load(this.pathToOpenDoorWithGhostsTexture);
+        } else if (this.active) {
+            exitTexture.Load(this.pathToOpenDoorTexture);
         } else {
-            exitTexture.Load("res://Assets/assetyver2/door.png");
+            exitTexture.Load(this.pathToClosedDoorTexture);
         }
 
         sprite.SetTexture(exitTexture);

@@ -91,6 +91,8 @@ public class Bomb : StaticBody2D {
 
     private void ExplodeExitTile(Vector2 tile) {
         if (this.map.exitTile.positionOnTileMap == tile && this.map.exitTileUncovered) {
+            this.map.exitTile.exploded = true;
+            this.map.exitTile.LoadTexture();
             this.map.SpawnEnemyAtLocation(EnemyType.Ghost, this.map.exitTile.positionOnTileMap, this.sceneVariables.ghostCountToSpawnOnExitExplosion);
         }
     }
