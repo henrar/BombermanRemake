@@ -299,6 +299,8 @@ public class Player : KinematicBody2D {
         LoadSpriteFrames(ref spriteFrames, this.leftName);
         LoadSpriteFrames(ref spriteFrames, this.rightName);
 
+
+        this.animatedSprite.SetScale(new Vector2(0.9f, 0.9f));
         this.animatedSprite.SetZIndex(this.map.GetZIndex() + 10);
 
         this.animatedSprite.SetSpriteFrames(spriteFrames);
