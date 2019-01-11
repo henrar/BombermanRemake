@@ -53,8 +53,9 @@ public class TileMap : Godot.TileMap {
 
         CheckForExitActivation();
 
-        if (GetEnemyCountByType(EnemyType.Ghost) < 0) {
+        if (GetEnemyCountByType(EnemyType.Ghost) <= 0) {
             this.exitTile.exploded = false;
+            this.exitTile.LoadTexture();
         }
 
         if (this.exitTile != null && this.exitTile.positionOnTileMap != invalidTile && GetCellv(this.exitTile.positionOnTileMap) == (int)TileType.TileType_Floor && !this.exitTileUncovered) {

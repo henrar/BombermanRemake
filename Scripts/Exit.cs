@@ -14,7 +14,7 @@ public class Exit : Node2D {
     public override void _Ready() {
         this.map = GetTree().GetRoot().GetNode("World/TileMap") as TileMap;
         this.active = false;
-        this.exploded = true;
+        this.exploded = false;
         this.SetZIndex(this.map.GetZIndex() + 2);
     }
 
