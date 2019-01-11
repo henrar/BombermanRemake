@@ -21,24 +21,28 @@ public class MainMenu : Node {
 
         this.sceneVariables = GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables;
 
-        this.soundPlayer = new SoundPlayer();
-        AddChild(this.soundPlayer);
+        this.soundPlayer = GetTree().GetRoot().GetNode("SoundPlayer") as SoundPlayer;
         this.soundPlayer.PlayMusic(Music.Menu);
     }
 
     public override void _PhysicsProcess(float delta) {
         if (this.newGameButton.Pressed) {
+            this.soundPlayer.PlaySoundEffect(SoundEffect.PushMenu);
             this.sceneVariables.currentLevel = 1;
             GetTree().ChangeScene("res://Scenes/Level1.tscn");
         } else if (this.survivalButton.Pressed) {
-
+            this.soundPlayer.PlaySoundEffect(SoundEffect.PushMenu);
         } else if (this.leaderboardButton.Pressed) {
+            this.soundPlayer.PlaySoundEffect(SoundEffect.PushMenu);
             GetTree().ChangeScene("res://Scenes/leaderboard.tscn");
         } else if (this.optionsButton.Pressed) {
+            this.soundPlayer.PlaySoundEffect(SoundEffect.PushMenu);
             GetTree().ChangeScene("res://Scenes/options.tscn");
         } else if (this.creditsButton.Pressed) {
+            this.soundPlayer.PlaySoundEffect(SoundEffect.PushMenu);
             GetTree().ChangeScene("res://Scenes/credits.tscn");
         } else if (this.exitButton.Pressed) {
+            this.soundPlayer.PlaySoundEffect(SoundEffect.PushMenu);
             GetTree().Quit();
         }
     }
