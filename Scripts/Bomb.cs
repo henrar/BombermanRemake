@@ -34,6 +34,7 @@ public class Bomb : StaticBody2D {
         AddChild(this.timer);
 
         SetZIndex(this.map.GetZIndex() + 5);
+        this.bombAnimatedSprite.SetZIndex(this.map.GetZIndex() + 5);
     }
 
     public override void _PhysicsProcess(float delta) {
