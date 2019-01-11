@@ -1,4 +1,5 @@
 ﻿using Godot;
+using System;
 
 public class Exit : Node2D {
     private Sprite sprite;

@@ -39,6 +39,7 @@ public class TileMap : Godot.TileMap {
         this.droppedBombPositions = new Dictionary<Bomb, Vector2>();
 
         this.exitTile = null;
+        this.exitTileUncovered = false;
 
         this.powerups = new Dictionary<Vector2, Powerup>();
         GeneratePowerups();
@@ -53,7 +54,7 @@ public class TileMap : Godot.TileMap {
 
         CheckForExitActivation();
 
-        if (GetEnemyCountByType(EnemyType.Ghost) <= 0) {
+        if (GetEnemyCountByType(EnemyType.Ghost) <= 0 && this.exitTileUncovered) {
             this.exitTile.exploded = false;
             this.exitTile.LoadTexture();
         }
@@ -67,12 +68,14 @@ public class TileMap : Godot.TileMap {
     }
 
     private void CheckForExitActivation() {
-        if ((this.enemies == null || this.enemies.Count == 0) && !this.exitTile.active) {
-            this.exitTile.active = true;
-            this.exitTile.LoadTexture();
-        } else if (this.enemies != null && this.enemies.Count > 0 && this.exitTile.active) {
-            this.exitTile.active = false;
-            this.exitTile.LoadTexture();
+        if (this.exitTileUncovered) {
+            if ((this.enemies == null || this.enemies.Count == 0) && !this.exitTile.active) {
+                this.exitTile.active = true;
+                this.exitTile.LoadTexture();
+            } else if (this.enemies != null && this.enemies.Count > 0 && this.exitTile.active) {
+                this.exitTile.active = false;
+                this.exitTile.LoadTexture();
+            }
         }
     }
 
