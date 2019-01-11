@@ -28,8 +28,8 @@ public class MainMenu : Node {
     public override void _PhysicsProcess(float delta) {
         if (this.newGameButton.Pressed) {
             this.soundPlayer.PlaySoundEffect(SoundEffect.PushMenu);
-            this.sceneVariables.currentLevel = 3;
-            GetTree().ChangeScene("res://Scenes/Level3.tscn");
+            this.sceneVariables.currentLevel = 1;
+            GetTree().ChangeScene("res://Scenes/Level1.tscn");
         } else if (this.survivalButton.Pressed) {
             this.soundPlayer.PlaySoundEffect(SoundEffect.PushMenu);
         } else if (this.leaderboardButton.Pressed) {
