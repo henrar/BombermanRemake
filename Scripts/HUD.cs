@@ -21,8 +21,15 @@ public class HUD : CanvasLayer {
     }
 
     public override void _PhysicsProcess(float delta) {
-        this.timeLeft.SetText(Convert.ToInt32(this.levelTimer.GetTimeLeft()).ToString());
-        this.score.SetText(this.sceneVariables.score.ToString());
-        this.lives.SetText(this.sceneVariables.numberOfLives.ToString());
+        if (this.timeLeft != null) {
+            this.timeLeft.SetText(Convert.ToInt32(this.levelTimer.GetTimeLeft()).ToString());
+        }
+        if (this.score != null) {
+            this.score.SetText(this.sceneVariables.score.ToString());
+        }
+
+        if (this.lives != null) {
+            this.lives.SetText(this.sceneVariables.numberOfLives.ToString());
+        }
     }
 }

@@ -5,15 +5,15 @@
 [ext_resource path="res://Scripts/TileMap.cs" type="Script" id=3]
 [ext_resource path="res://Scripts/Player.cs" type="Script" id=4]
 [ext_resource path="res://Scripts/HUD.cs" type="Script" id=5]
-[ext_resource path="res://Scripts/LevelTimer.cs" type="Script" id=6]
-[ext_resource path="res://Assets/assetyver2/mapbackground.png" type="Texture" id=7]
-[ext_resource path="res://Assets/hud/hud.png" type="Texture" id=8]
-[ext_resource path="res://Assets/hud/scoreandenemy-f7v2.png" type="Texture" id=9]
-[ext_resource path="res://Assets/hud/zyciex3.png" type="Texture" id=10]
-[ext_resource path="res://Assets/hud/time-f8.png" type="Texture" id=11]
-[ext_resource path="res://Assets/hud/bomba-menu-ver2.png" type="Texture" id=12]
+[ext_resource path="res://Assets/hud/hud.png" type="Texture" id=6]
+[ext_resource path="res://Assets/hud/scoreandenemy-f7v2.png" type="Texture" id=7]
+[ext_resource path="res://Assets/hud/zyciex3.png" type="Texture" id=8]
+[ext_resource path="res://Assets/hud/time-f8.png" type="Texture" id=9]
+[ext_resource path="res://Assets/hud/bomba-menu-ver2.png" type="Texture" id=10]
+[ext_resource path="res://Scripts/LevelTimer.cs" type="Script" id=11]
+[ext_resource path="res://Assets/assetyver2/mapbackground.png" type="Texture" id=12]
 
-[node name="World" type="Node2D"]
+[node name="World" type="Node2D" index="0"]
 
 position = Vector2( 1000, 250 )
 script = ExtResource( 1 )
@@ -93,53 +93,14 @@ scale = Vector2( 1, 1 )
 transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 script = ExtResource( 5 )
 
-[node name="LevelTimer" type="Timer" parent="." index="2"]
-
-process_mode = 1
-wait_time = 200.0
-one_shot = true
-autostart = true
-script = ExtResource( 6 )
-_sections_unfolded = [ "Pause" ]
-
-[node name="ParallaxBackground" type="ParallaxBackground" parent="." index="3"]
-
-layer = -2
-offset = Vector2( 0, 0 )
-rotation = 0.0
-scale = Vector2( 1, 1 )
-transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-scroll_offset = Vector2( 0, 0 )
-scroll_base_offset = Vector2( 0, 0 )
-scroll_base_scale = Vector2( 1, 1 )
-scroll_limit_begin = Vector2( 0, 0 )
-scroll_limit_end = Vector2( 0, 0 )
-scroll_ignore_camera_zoom = false
-
-[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground" index="0"]
-
-motion_scale = Vector2( 1, 1 )
-motion_offset = Vector2( 0, 0 )
-motion_mirroring = Vector2( 0, 0 )
-
-[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer" index="0"]
-
-show_behind_parent = true
-position = Vector2( 1780, 730 )
-scale = Vector2( 1.13782, 1.13281 )
-texture = ExtResource( 7 )
-_sections_unfolded = [ "Offset", "Visibility" ]
-
-[node name="interface" type="Control" parent="." index="4"]
+[node name="interface" type="Control" parent="Player/PlayerCamera/HUD" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = -1000.0
-margin_top = -250.0
-margin_right = 280.0
-margin_bottom = 470.0
+margin_right = 1280.0
+margin_bottom = 720.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -150,44 +111,44 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="back" type="Sprite" parent="interface" index="0"]
+[node name="back" type="Sprite" parent="Player/PlayerCamera/HUD/interface" index="0"]
 
 position = Vector2( 640, 35.8708 )
 scale = Vector2( 1.82857, 0.398565 )
-texture = ExtResource( 8 )
+texture = ExtResource( 6 )
 _sections_unfolded = [ "Material", "Offset", "Region", "Visibility" ]
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="scoresprite" type="Sprite" parent="interface" index="1"]
+[node name="scoresprite" type="Sprite" parent="Player/PlayerCamera/HUD/interface" index="1"]
 
 position = Vector2( 207.277, 35.9 )
 scale = Vector2( 0.819406, 0.415909 )
+texture = ExtResource( 7 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="lifesprite" type="Sprite" parent="Player/PlayerCamera/HUD/interface" index="2"]
+
+position = Vector2( 983.195, 35.5746 )
+scale = Vector2( 0.524206, 0.495015 )
+texture = ExtResource( 8 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="timesprite" type="Sprite" parent="Player/PlayerCamera/HUD/interface" index="3"]
+
+position = Vector2( 667.163, 37.3094 )
+scale = Vector2( 0.51352, 0.282447 )
 texture = ExtResource( 9 )
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="lifesprite" type="Sprite" parent="interface" index="2"]
-
-position = Vector2( 983.195, 35.5746 )
-scale = Vector2( 0.524206, 0.495015 )
-texture = ExtResource( 10 )
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="timesprite" type="Sprite" parent="interface" index="3"]
-
-position = Vector2( 667.163, 37.3094 )
-scale = Vector2( 0.51352, 0.282447 )
-texture = ExtResource( 11 )
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="MenuButton" type="Button" parent="interface" index="4"]
+[node name="MenuButton" type="Button" parent="Player/PlayerCamera/HUD/interface" index="4"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -208,7 +169,7 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-icon = ExtResource( 12 )
+icon = ExtResource( 10 )
 flat = true
 align = 1
 _sections_unfolded = [ "Rect" ]
@@ -216,7 +177,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="ScoreLabel" type="Label" parent="interface" index="5"]
+[node name="ScoreLabel" type="Label" parent="Player/PlayerCamera/HUD/interface" index="5"]
 
 visible = false
 anchor_left = 0.0
@@ -242,7 +203,7 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "Material", "Visibility" ]
 
-[node name="CurrentScore" type="Label" parent="interface" index="6"]
+[node name="CurrentScore" type="Label" parent="Player/PlayerCamera/HUD/interface" index="6"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -265,7 +226,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="LifeLabel" type="Label" parent="interface" index="7"]
+[node name="LifeLabel" type="Label" parent="Player/PlayerCamera/HUD/interface" index="7"]
 
 visible = false
 anchor_left = 0.0
@@ -291,7 +252,7 @@ lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "Visibility" ]
 
-[node name="LivesLeft" type="Label" parent="interface" index="8"]
+[node name="LivesLeft" type="Label" parent="Player/PlayerCamera/HUD/interface" index="8"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -314,7 +275,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="TimeLabel" type="Label" parent="interface" index="9"]
+[node name="TimeLabel" type="Label" parent="Player/PlayerCamera/HUD/interface" index="9"]
 
 visible = false
 self_modulate = Color( 0.851563, 0.851563, 0.851563, 1 )
@@ -343,7 +304,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="TimeLeft" type="Label" parent="interface" index="10"]
+[node name="TimeLeft" type="Label" parent="Player/PlayerCamera/HUD/interface" index="10"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -365,5 +326,42 @@ max_lines_visible = -1
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="LevelTimer" type="Timer" parent="." index="2"]
+
+process_mode = 1
+wait_time = 200.0
+one_shot = true
+autostart = true
+script = ExtResource( 11 )
+_sections_unfolded = [ "Pause" ]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="." index="3"]
+
+layer = -2
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+scroll_offset = Vector2( 0, 0 )
+scroll_base_offset = Vector2( 0, 0 )
+scroll_base_scale = Vector2( 1, 1 )
+scroll_limit_begin = Vector2( 0, 0 )
+scroll_limit_end = Vector2( 0, 0 )
+scroll_ignore_camera_zoom = false
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground" index="0"]
+
+motion_scale = Vector2( 1, 1 )
+motion_offset = Vector2( 0, 0 )
+motion_mirroring = Vector2( 0, 0 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer" index="0"]
+
+show_behind_parent = true
+position = Vector2( 1780, 730 )
+scale = Vector2( 1.13782, 1.13281 )
+texture = ExtResource( 12 )
+_sections_unfolded = [ "Offset", "Visibility" ]
 
 
