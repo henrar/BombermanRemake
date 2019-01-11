@@ -115,10 +115,6 @@ public class Bomb : StaticBody2D {
             this.map.UncoverPowerUp(tile);
         }
 
-        if (this.map.GetRemainingEnemiesCount() == 0) {
-            this.soundPlayer.PlaySoundEffect(SoundEffect.LastEnemy);
-        }
-
         return true;
     }
 

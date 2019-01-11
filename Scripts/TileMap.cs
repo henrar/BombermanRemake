@@ -27,11 +27,15 @@ public class TileMap : Godot.TileMap {
     public static Vector2 invalidTile = new Vector2(-1, -1);
 
     private SceneVariables sceneVariables;
+    private SoundPlayer soundPlayer;
+
+    private bool lastEnemyPlayed;
 
     public override void _Ready() {
-        this.enemyOnCell = new Dictionary<Enemy, Vector2>();
-
+        this.soundPlayer = GetTree().GetRoot().GetNode("SoundPlayer") as SoundPlayer;
         this.sceneVariables = GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables;
+
+        this.enemyOnCell = new Dictionary<Enemy, Vector2>();
 
         GenerateBricks();
         this.generatedEnemies = false;
@@ -44,6 +48,8 @@ public class TileMap : Godot.TileMap {
         this.powerups = new Dictionary<Vector2, Powerup>();
         GeneratePowerups();
         GenerateExit();
+
+        this.lastEnemyPlayed = false;
     }
 
     public override void _PhysicsProcess(float delta) {
@@ -57,6 +63,11 @@ public class TileMap : Godot.TileMap {
         if (GetEnemyCountByType(EnemyType.Ghost) <= 0 && this.exitTileUncovered) {
             this.exitTile.exploded = false;
             this.exitTile.LoadTexture();
+        }
+
+        if (GetRemainingEnemiesCount() == 0 && this.lastEnemyPlayed) {
+            this.soundPlayer.PlaySoundEffect(SoundEffect.LastEnemy);
+            this.lastEnemyPlayed = true;
         }
 
         if (this.exitTile != null && this.exitTile.positionOnTileMap != invalidTile && GetCellv(this.exitTile.positionOnTileMap) == (int)TileType.TileType_Floor && !this.exitTileUncovered) {
@@ -326,12 +337,14 @@ public class TileMap : Godot.TileMap {
 
     public void SpawnCoins() {
         SpawnEnemyAtLocation(EnemyType.Coin, this.exitTile.positionOnTileMap, this.sceneVariables.coinCountToSpawn);
+        this.lastEnemyPlayed = false;
     }
 
     public void SpawnEnemyAtLocation(EnemyType type, Vector2 tile, int count) {
         for (int i = 0; i < count; ++i) {
             SpawnEnemy(tile, type, i);
         }
+        this.lastEnemyPlayed = false;
     }
 
     private int GetEnemyCountByType(EnemyType type) {
