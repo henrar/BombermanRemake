@@ -29,11 +29,11 @@ public class SceneVariables : Node {
 
     public override void _Ready() {
         Viewport root = GetTree().GetRoot();
-        CurrentScene = root.GetChild(root.GetChildCount() - 1);
+        this.CurrentScene = root.GetChild(root.GetChildCount() - 1);
         this.numberOfEnemies = 6; //TODO: change on level transitions
         this.numberOfPowerUps = 3;
 
-        this.currentLevel = 1; //TODO: change level on level transition
+        this.currentLevel = 1; 
 
         switch(this.currentLevel) {
             case 1: {

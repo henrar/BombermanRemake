@@ -161,7 +161,7 @@ public class TileMap : Godot.TileMap {
     }
 
     private bool IsNotAllowedCell(Vector2 cell) {
-        return (cell.x == 1 && cell.y == 1) || (cell.x == 1 && cell.y == 2) || (cell.x == 2 && cell.y == 1);
+        return (cell.x == 1 && cell.y >= 1 && cell.y <= 5) || (cell.x >= 1 && cell.x <= 5 && cell.y == 1);
     }
 
     private void GenerateBricks() {

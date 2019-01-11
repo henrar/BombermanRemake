@@ -13,6 +13,8 @@ public class Bomb : StaticBody2D {
     private BombAnimatedSprite bombAnimatedSprite;
     private BombExplosionSprites bombExplosionSprites;
 
+    private bool killedPlayer;
+
     public override void _Ready() {
         this.world = GetTree().GetRoot().GetNode("World") as World;
         this.sceneVariables = GetTree().GetRoot().GetNode("SceneVariables") as SceneVariables;
@@ -35,6 +37,8 @@ public class Bomb : StaticBody2D {
 
         SetZIndex(this.map.GetZIndex() + 5);
         this.bombAnimatedSprite.SetZIndex(this.map.GetZIndex() + 5);
+
+        this.killedPlayer = false;
     }
 
     public override void _PhysicsProcess(float delta) {
@@ -68,8 +72,9 @@ public class Bomb : StaticBody2D {
         }
 
         Vector2 playerPosition = player.GetPositionOnTileMap();
-        if (playerPosition == tile) {
+        if (playerPosition == tile && !this.killedPlayer) {
             Console.WriteLine("Player exploded!");
+            this.killedPlayer = true;
             player.Die();
         }
     }
