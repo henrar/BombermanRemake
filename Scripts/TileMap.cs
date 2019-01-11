@@ -193,20 +193,26 @@ public class TileMap : Godot.TileMap {
         world.AddChild(enemy);
     }
 
-    public void GenerateEnemies() {
-        int generatedEnemiesCount = 0;
+    private void SpawnEnemies(EnemyType type, int maxCount) {
+        int enemyCount = 0;
 
-        while (generatedEnemiesCount < this.sceneVariables.numberOfEnemies) {
+        while (enemyCount < maxCount) {
             Vector2 tile = GetRandomCell(TileType.TileType_Floor);
 
             if (IsNotAllowedCell(tile) || GetCellv(tile) != (int)TileType.TileType_Floor || FindEnemyOnTile(tile) != null) {
                 continue;
             }
 
-            SpawnEnemy(tile, EnemyType.Balloon, generatedEnemiesCount);
+            SpawnEnemy(tile, type, enemyCount);
 
-            generatedEnemiesCount++;
+            enemyCount++;
         }
+    }
+
+    public void GenerateEnemies() {
+        SpawnEnemies(EnemyType.Balloon, this.sceneVariables.GetEnemyConfig().numberOfBalloons);
+        SpawnEnemies(EnemyType.Mushroom, this.sceneVariables.GetEnemyConfig().numberOfShrooms);
+        SpawnEnemies(EnemyType.Barrel, this.sceneVariables.GetEnemyConfig().numberOfBarrels);
     }
 
     public void UncoverPowerUp(Vector2 tile) {
@@ -301,21 +307,17 @@ public class TileMap : Godot.TileMap {
         return pos;
     }
 
-    public void SpawnEnemy(EnemyType type) {
-        int coinCount = 3;
-
-        for (int i = 0; i < coinCount; ++i) {
-            SpawnEnemy(this.exitTile.positionOnTileMap, type, i);
-        }
-    }
-
     public int GetRemainingEnemiesCount() {
         return this.enemies.Count;
     }
 
     public void SpawnCoins() {
-        for (int i = 0; i < this.sceneVariables.coinCountToSpawn; ++i) {
-            SpawnEnemy(EnemyType.Coin);
+        SpawnEnemyAtLocation(EnemyType.Coin, this.exitTile.positionOnTileMap, this.sceneVariables.coinCountToSpawn);
+    }
+
+    public void SpawnEnemyAtLocation(EnemyType type, Vector2 tile, int count) {
+        for (int i = 0; i < count; ++i) {
+            SpawnEnemy(tile, type, i);
         }
     }
 }
