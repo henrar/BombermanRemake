@@ -74,7 +74,7 @@ public class Bomb : StaticBody2D {
         Vector2 playerPosition = player.GetPositionOnTileMap();
         if (playerPosition == tile && !this.killedPlayer) {
             Console.WriteLine("Player exploded!");
-            this.bombExplosionSprites.SetSplashSprite(this.map.GetPositionOfTileCenter(tile), SplashType.Player);
+            this.bombExplosionSprites.SetSplashSprite(this.map.GetPositionOfTileCenter(tile), SplashType.Enemy);
             this.killedPlayer = true;
             player.Die(true);
         }
