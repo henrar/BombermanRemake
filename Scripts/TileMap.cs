@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Linq;
 
 public enum TileType {
     TileType_Bricks = 0,
@@ -51,6 +52,10 @@ public class TileMap : Godot.TileMap {
         }
 
         CheckForExitActivation();
+
+        if (GetEnemyCountByType(EnemyType.Ghost) < 0) {
+            this.exitTile.exploded = false;
+        }
 
         if (this.exitTile != null && this.exitTile.positionOnTileMap != invalidTile && GetCellv(this.exitTile.positionOnTileMap) == (int)TileType.TileType_Floor && !this.exitTileUncovered) {
             Console.WriteLine("Uncovered exit!");
@@ -319,6 +324,12 @@ public class TileMap : Godot.TileMap {
         for (int i = 0; i < count; ++i) {
             SpawnEnemy(tile, type, i);
         }
+    }
+
+    private int GetEnemyCountByType(EnemyType type) {
+        int count = this.enemies.Where(enemy => enemy.enemyType == type).Count();
+        Console.WriteLine(count);
+        return count;
     }
 }
 
