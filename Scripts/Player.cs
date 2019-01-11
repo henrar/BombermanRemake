@@ -24,6 +24,8 @@ public class Player : KinematicBody2D {
 
     private HUD hud;
 
+    private Timer deathTimer;
+
     public override void _Ready() {
         this.world = GetTree().GetRoot().GetNode("World") as World;
 
@@ -41,20 +43,28 @@ public class Player : KinematicBody2D {
         this.previousDirection = Directions.noDirection;
 
         this.hud = GetTree().GetRoot().GetNode("World/Player/PlayerCamera/HUD") as HUD;
+
+        this.deathTimer = null;
     }
 
-    public void Die() {
+    private void SetDeathTimer() {
+        this.deathTimer = new Timer();
+        this.deathTimer.SetWaitTime(0.2f);
+        this.deathTimer.SetOneShot(true);
+        this.deathTimer.SetAutostart(false);
+        this.deathTimer.Start();
+        AddChild(this.deathTimer);
+    }
+
+    public void Die(bool fromBomb) {
         Console.WriteLine("YOU DIED!");
         this.soundPlayer.PlaySoundEffect(SoundEffect.Death);
         this.numberOfDroppedBombs = 0;
         this.map.FreeBombs();
-        if (this.sceneVariables.numberOfLives > 0) {
-            this.sceneVariables.numberOfLives -= 1;
-            this.sceneVariables.ResetPlayerVariablesOnDeath();
-            this.world.Reload();
+        if (fromBomb) {
+            SetDeathTimer();
         } else {
-            this.sceneVariables.ResetPlayerVariablesOnFinalDeath();
-            this.world.ShowEndScreen();
+            FinallyDie();
         }
     }
 
@@ -75,7 +85,26 @@ public class Player : KinematicBody2D {
         }
     }
 
+    private void FinallyDie() {
+        if (this.sceneVariables.numberOfLives > 0) {
+            this.sceneVariables.numberOfLives -= 1;
+            this.sceneVariables.ResetPlayerVariablesOnDeath();
+            this.world.Reload();
+        } else {
+            this.sceneVariables.ResetPlayerVariablesOnFinalDeath();
+            this.world.ShowEndScreen();
+        }
+    }
+
+    private void ExecuteDeathOnBomb() {
+        if (this.deathTimer != null && this.deathTimer.GetTimeLeft() == 0.0f) {
+            FinallyDie();
+        }
+    }
+
     public override void _PhysicsProcess(float delta) {
+        ExecuteDeathOnBomb();
+
         Vector2 motion = Move();
         motion = ModifyMoveBasedOnSurrounding(motion, delta);
         ExecuteMovement(motion, delta);
@@ -152,7 +181,7 @@ public class Player : KinematicBody2D {
             this.soundPlayer.PlaySoundEffect(SoundEffect.Step);
         }
         if (!this.sceneVariables.godMode && collision != null && collision.GetCollider().GetType() == typeof(Enemy)) {
-            Die();
+            Die(false);
             return;
         }
     }

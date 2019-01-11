@@ -103,12 +103,12 @@ public class Enemy : KinematicBody2D {
         }
 
         if (collision != null && collision.GetCollider().GetType() == typeof(Player)) {
-            (collision.GetCollider() as Player).Die();
+            (collision.GetCollider() as Player).Die(false);
             return;
         }
 
         if (IsIgnoringCollisions() && (player.GetGlobalPosition().DistanceTo(this.GetGlobalPosition()) <= 40.0f)) {
-            player.Die();
+            player.Die(false);
         }
     }
 

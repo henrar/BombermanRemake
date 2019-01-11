@@ -2,14 +2,16 @@
 
 public enum SplashType {
     Bricks,
-    Enemy
+    Enemy,
+    Player
 }
 
-public class BombExplosionSprites: Node2D {
+public class BombExplosionSprites : Node2D {
     private Timer displayTimer;
 
     public readonly string pathToSplash = "res://Assets/explosion_anim/splash.png";
     public readonly string pathToDestroyBox = "res://Assets/explosion_anim/explosion_anim_2/boxdestroy.png";
+    public readonly string pathToCrash = "res://Assets/smierc/bohatera/crash/crash.png";
 
     public readonly string pathToExplosionCenter = "res://Assets/explosion_anim/boom-cloud.png";
     public readonly string pathToExplosionLeft = "res://Assets/explosion_anim/zasiegwybuchulewo.png";
@@ -19,6 +21,8 @@ public class BombExplosionSprites: Node2D {
 
     private ImageTexture splash;
     private ImageTexture destroyBox;
+    private ImageTexture crashBomb;
+
     private ImageTexture explosionCenter;
     private ImageTexture explosionLeft;
     private ImageTexture explosionRight;
@@ -35,6 +39,9 @@ public class BombExplosionSprites: Node2D {
 
         this.destroyBox = new ImageTexture();
         this.destroyBox.Load(this.pathToDestroyBox);
+
+        this.crashBomb = new ImageTexture();
+        this.crashBomb.Load(this.pathToCrash);
 
         this.explosionCenter = new ImageTexture();
         this.explosionCenter.Load(this.pathToExplosionCenter);
@@ -57,13 +64,17 @@ public class BombExplosionSprites: Node2D {
     public void SetSplashSprite(Vector2 position, SplashType type) {
         Sprite sprite = new Sprite();
 
-        switch(type) {
+        switch (type) {
             case SplashType.Bricks: {
                     sprite.SetTexture(this.destroyBox);
                     break;
                 }
             case SplashType.Enemy: {
                     sprite.SetTexture(this.splash);
+                    break;
+                }
+            case SplashType.Player: {
+                    sprite.SetTexture(this.crashBomb);
                     break;
                 }
         }
